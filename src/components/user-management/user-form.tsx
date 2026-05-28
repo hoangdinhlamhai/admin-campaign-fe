@@ -1,7 +1,7 @@
 import type { FormEvent } from "react";
 import { Save, RotateCcw } from "lucide-react";
 import type { UserRole, UserStatus, Permission } from "@/lib/user-management-data";
-import { permissionGroups, roleLabels, statusLabels } from "@/lib/user-management-data";
+import { roleLabels, statusLabels } from "@/lib/user-management-data";
 
 export type UserFormState = {
   name: string;
@@ -21,17 +21,6 @@ type UserFormProps = {
 };
 
 export function UserForm({ form, isEditing, onChange, onSubmit, onCancel }: UserFormProps) {
-  const isAdmin = form.role === "admin";
-
-  const togglePermission = (key: Permission) => {
-    if (isAdmin) return;
-    const has = form.permissions.includes(key);
-    onChange({
-      ...form,
-      permissions: has ? form.permissions.filter((p) => p !== key) : [...form.permissions, key],
-    });
-  };
-
   const handleRoleChange = (role: UserRole) => {
     onChange({ ...form, role });
   };
@@ -115,40 +104,10 @@ export function UserForm({ form, isEditing, onChange, onSubmit, onCancel }: User
         </div>
       </section>
 
-      {/* Section 3: Permissions — hidden for admin role (admin always has all perms) */}
-      {!isAdmin && (
-        <section className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl sm:p-5">
-          <div className="mb-4">
-            <h3 className="text-lg font-semibold text-white">Phân quyền</h3>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {permissionGroups.map((group) => (
-              <div key={group.module} className="rounded-xl border border-white/[0.07] bg-zinc-950/30 p-3">
-                <p className="mb-2 text-xs font-bold uppercase tracking-widest text-zinc-500">{group.module}</p>
-                <div className="flex flex-col gap-2">
-                  {group.permissions.map((perm) => {
-                    const checked = form.permissions.includes(perm.key);
-                    return (
-                      <label
-                        key={perm.key}
-                        className="flex cursor-pointer items-center gap-2 text-sm"
-                      >
-                        <input
-                          checked={checked}
-                          className="accent-emerald-400"
-                          onChange={() => togglePermission(perm.key)}
-                          type="checkbox"
-                        />
-                        <span className="text-zinc-300">{perm.label}</span>
-                      </label>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
+      {/* Permissions section removed per user request 260528. Field-level
+          permission UI not surfaced to admins; admin role still has all perms,
+          employee gets default-empty permissions on create. Git history holds
+          the previous block if it ever needs restoring. */}
 
       {/* Actions */}
       <div className="flex flex-col gap-2 sm:flex-row">
