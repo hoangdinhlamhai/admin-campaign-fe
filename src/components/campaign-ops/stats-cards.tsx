@@ -1,4 +1,4 @@
-import { Activity, AlertTriangle, BarChart3, ShieldCheck, Target } from "lucide-react";
+import { AlertTriangle, BarChart3, PauseCircle, ShieldCheck, Target } from "lucide-react";
 
 export type DashboardStats = {
   totalTarget: number;
@@ -6,6 +6,7 @@ export type DashboardStats = {
   totalMissing: number;
   totalDisplays: number;
   totalWrong: number;
+  totalPausedCampaigns: number;
 };
 
 type StatsCardsProps = {
@@ -32,10 +33,10 @@ const cards = [
     Icon: AlertTriangle,
   },
   {
-    key: "totalDisplays" as const,
-    label: "Lượt hiển thị hôm nay",
-    tone: "text-sky-200",
-    Icon: Activity,
+    key: "totalPausedCampaigns" as const,
+    label: "Chiến dịch tạm dừng",
+    tone: "text-rose-200",
+    Icon: PauseCircle,
   },
   {
     key: "totalWrong" as const,

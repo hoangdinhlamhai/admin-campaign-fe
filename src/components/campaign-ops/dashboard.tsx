@@ -19,6 +19,7 @@ const EMPTY_STATS: DashboardStats = {
   totalMissing: 0,
   totalDisplays: 0,
   totalWrong: 0,
+  totalPausedCampaigns: 0,
 };
 
 type DashboardApiResponse = {
@@ -28,6 +29,7 @@ type DashboardApiResponse = {
     totalMissing: number;
     totalDisplays: number;
     totalWrong: number;
+    totalPausedCampaigns: number;
   };
 };
 
@@ -44,6 +46,7 @@ function useDashboardStats() {
             totalMissing: res.stats.totalMissing ?? 0,
             totalDisplays: res.stats.totalDisplays ?? 0,
             totalWrong: res.stats.totalWrong ?? 0,
+            totalPausedCampaigns: res.stats.totalPausedCampaigns ?? 0,
           });
         }
       })
