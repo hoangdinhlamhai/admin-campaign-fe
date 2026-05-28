@@ -5,7 +5,6 @@ import {
   BarChart3,
   Bell,
   ClipboardList,
-  FileClock,
   LayoutDashboard,
   Megaphone,
   Settings,
