@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { useNavigate } from "react-router";
 import { automationRules } from "@/lib/campaign-ops-data";
-import { apiFetch } from "@/lib/api/config";
+import { dateToISO } from "@/lib/format-date";
+import type { DateRangeValue } from "@/components/common/date-range-picker";
 import { useCampaignsApi } from "./use-campaigns-api";
 import { AdminShell } from "./admin-shell";
 import { AutomationRules } from "./automation-rules";
@@ -9,61 +10,29 @@ import { CampaignHealth } from "./campaign-health";
 import { CampaignTable } from "./campaign-table";
 import { DashboardHeader } from "./dashboard-header";
 import { StatsCards } from "./stats-cards";
-import type { DashboardStats } from "./stats-cards";
 import { SystemAlerts } from "./system-alerts";
 import { Toast } from "./toast";
 
-const EMPTY_STATS: DashboardStats = {
-  totalTarget: 0,
-  totalCompleted: 0,
-  totalMissing: 0,
-  totalDisplays: 0,
-  totalWrong: 0,
-  totalPausedCampaigns: 0,
-};
-
-type DashboardApiResponse = {
-  stats: {
-    totalTarget: number;
-    totalCompleted: number;
-    totalMissing: number;
-    totalDisplays: number;
-    totalWrong: number;
-  };
-  totalPausedCampaigns: number;
-};
-
-function useDashboardStats() {
-  const [stats, setStats] = useState<DashboardStats>(EMPTY_STATS);
-
-  useEffect(() => {
-    apiFetch<DashboardApiResponse>("/api/stats/dashboard")
-      .then((res) => {
-        if (res?.stats) {
-          setStats({
-            totalTarget: res.stats.totalTarget ?? 0,
-            totalCompleted: res.stats.totalCompleted ?? 0,
-            totalMissing: res.stats.totalMissing ?? 0,
-            totalDisplays: res.stats.totalDisplays ?? 0,
-            totalWrong: res.stats.totalWrong ?? 0,
-            totalPausedCampaigns: res.totalPausedCampaigns ?? 0,
-          });
-        }
-      })
-      .catch(() => {
-        // stats endpoint unavailable — keep zeros
-      });
-  }, []);
-
-  return stats;
+function getToday(): Date {
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  return now;
 }
 
 export function CampaignOpsDashboard() {
   const navigate = useNavigate();
-  const today = new Date().toISOString().slice(0, 10);
-  const [dateFilter, setDateFilter] = useState<string>(today);
+  const today = getToday();
+
+  const [dateRange, setDateRange] = useState<DateRangeValue>({ from: today, to: today });
+  const dateFrom = dateToISO(dateRange.from);
+  const dateTo = dateToISO(dateRange.to);
+
+  const [dateFilter, setDateFilter] = useState<string>(dateFrom);
   const { campaigns, loading, error, publishCampaign, pauseCampaign, deleteCampaign } = useCampaignsApi(dateFilter);
-  const stats = useDashboardStats();
+
+  const [statsRefetchTrigger, setStatsRefetchTrigger] = useState(0);
+  const bumpStats = useCallback(() => setStatsRefetchTrigger((n) => n + 1), []);
+
   const [toast, setToast] = useState<string | null>(null);
 
   const showToast = (message: string) => {
@@ -74,16 +43,19 @@ export function CampaignOpsDashboard() {
   const handlePublish = async (id: string) => {
     const ok = await publishCampaign(id);
     showToast(ok ? "Đã xuất bản chiến dịch." : "Lỗi xuất bản chiến dịch.");
+    if (ok) bumpStats();
   };
 
   const handlePause = async (id: string) => {
     const ok = await pauseCampaign(id);
     showToast(ok ? "Đã tạm dừng chiến dịch." : "Lỗi tạm dừng chiến dịch.");
+    if (ok) bumpStats();
   };
 
   const handleDelete = async (id: string) => {
     await deleteCampaign(id);
     showToast("Đã xóa chiến dịch.");
+    bumpStats();
   };
 
   const handleEdit = (id: string) => {
@@ -97,7 +69,7 @@ export function CampaignOpsDashboard() {
   return (
     <div>
       <AdminShell activeLabel="Chiến dịch">
-        <DashboardHeader />
+        <DashboardHeader dateRange={dateRange} onDateRangeChange={setDateRange} />
         {error ? (
           <div className="mb-4 rounded-xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-300">
             Lỗi tải dữ liệu: {error}
@@ -109,10 +81,12 @@ export function CampaignOpsDashboard() {
           </div>
         ) : (
           <>
-            <StatsCards stats={stats} />
+            <StatsCards from={dateFrom} to={dateTo} refetchTrigger={statsRefetchTrigger} />
             <CampaignTable
               campaigns={campaigns}
               dateFilter={dateFilter}
+              dateFrom={dateFrom}
+              dateTo={dateTo}
               onDateFilterChange={setDateFilter}
               onDelete={handleDelete}
               onEdit={handleEdit}

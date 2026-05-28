@@ -5,6 +5,7 @@ import { navItems } from "@/lib/campaign-ops-data";
 import { useAlertOpenCount } from "@/components/alert-management/use-alert-open-count";
 import { useAuth } from "@/lib/auth/auth-context";
 import { computeInitials } from "@/lib/initials";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 const SIDEBAR_COLLAPSED_KEY = "senlyzer-sidebar-collapsed";
 
@@ -184,6 +185,9 @@ export function Sidebar({ activeLabel = "Chiến dịch" }: SidebarProps) {
         </nav>
 
         <div className="ml-auto shrink-0 lg:mt-auto lg:ml-0">
+          <div className={`mb-2 ${collapsed ? "flex justify-center" : ""}`}>
+            <ThemeToggle collapsed={collapsed} />
+          </div>
           <div className={`flex items-center rounded-[1.1rem] border border-white/10 bg-white/[0.055] ${collapsed ? "justify-center p-1.5" : "gap-3 p-2.5"}`}>
             <div className="grid size-10 place-items-center rounded-xl bg-zinc-100 text-sm font-bold text-zinc-900">{initials}</div>
             {!collapsed && (

@@ -95,3 +95,23 @@ export function fetchOverviewTable(
     `/api/stats/overview-table?${params.toString()}`
   );
 }
+
+export type CampaignsSummaryResponse = {
+  from: string;
+  to: string;
+  totalUserTarget: number;
+  totalCompleted: number;
+  totalMissing: number;
+  pausedCount: number;
+  totalWrongEntries: number;
+};
+
+export function fetchCampaignsSummary(
+  from: string,
+  to: string
+): Promise<CampaignsSummaryResponse> {
+  const params = new URLSearchParams({ from, to });
+  return apiFetch<CampaignsSummaryResponse>(
+    `/api/stats/campaigns-summary?${params.toString()}`
+  );
+}

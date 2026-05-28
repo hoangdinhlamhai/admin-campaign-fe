@@ -1,6 +1,6 @@
 import { BellRing, RotateCcw, ShieldAlert, TimerReset } from "lucide-react";
 import { Link } from "react-router";
-import type { CampaignAdvancedSettings } from "@/lib/campaign-create-data";
+import { type CampaignAdvancedSettings, getCampaignWizardBase } from "@/lib/campaign-create-data";
 import { ReviewCard } from "./review-card";
 
 type AdvancedRulesReviewProps = {
@@ -38,7 +38,7 @@ export function AdvancedRulesReview({ settings }: AdvancedRulesReviewProps) {
 
   return (
     <ReviewCard
-      action={<Link className="text-sm font-semibold text-emerald-200 hover:text-emerald-100" to="/campaigns/new/advanced">Sửa</Link>}
+      action={<Link className="text-sm font-semibold text-emerald-200 hover:text-emerald-100" to={`${getCampaignWizardBase()}/advanced`}>Sửa</Link>}
       title="Rule nâng cao"
     >
       <div className="space-y-3">

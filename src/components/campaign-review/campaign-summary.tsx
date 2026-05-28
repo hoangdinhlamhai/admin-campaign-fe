@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import type { CampaignCategory } from "@/lib/campaign-categories-data";
-import type { CampaignCreateForm } from "@/lib/campaign-create-data";
+import { type CampaignCreateForm, getCampaignWizardBase } from "@/lib/campaign-create-data";
 import { ReviewCard } from "./review-card";
 
 type CampaignSummaryProps = {
@@ -28,7 +28,7 @@ export function CampaignSummary({ category, form }: CampaignSummaryProps) {
 
   return (
     <ReviewCard
-      action={<Link className="text-sm font-semibold text-emerald-200 hover:text-emerald-100" to="/campaigns/new">Sửa</Link>}
+      action={<Link className="text-sm font-semibold text-emerald-200 hover:text-emerald-100" to={getCampaignWizardBase()}>Sửa</Link>}
       description="Kiểm tra thông tin chính của chiến dịch trước khi tạo."
       title="Thông tin chiến dịch"
     >
