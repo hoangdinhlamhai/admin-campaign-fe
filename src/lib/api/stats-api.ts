@@ -1,6 +1,7 @@
 import { apiFetch } from "./config";
 
 export type RangeKey = "today" | "7d" | "30d";
+export type CategoryScope = "parent" | "child";
 
 export type DashboardStats = {
   totalTarget: number;
@@ -12,6 +13,15 @@ export type DashboardStats = {
   conversionRate: number;
 };
 
+export type CategoryStats = {
+  totalCategoryCount: number;
+  totalCampaignCount: number;
+  pausedCampaignCount: number;
+  todayTarget: number;
+  todayCompleted: number;
+  todayMissing: number;
+};
+
 export type DashboardResponse = {
   range: RangeKey;
   from: string;
@@ -20,6 +30,8 @@ export type DashboardResponse = {
   previous: { from: string; to: string; stats: DashboardStats };
   campaignsByStatus: { status: string; count: number }[];
   activeCategoryCount: number;
+  totalPausedCampaigns: number;
+  categoryStats?: CategoryStats;
 };
 
 export type OverviewTableItem = {
@@ -54,6 +66,15 @@ export type OverviewTableResponse = {
 
 export function fetchDashboard(range: RangeKey): Promise<DashboardResponse> {
   return apiFetch<DashboardResponse>(`/api/stats/dashboard?range=${range}`);
+}
+
+export function fetchDashboardScoped(
+  range: RangeKey,
+  scope: CategoryScope
+): Promise<DashboardResponse> {
+  return apiFetch<DashboardResponse>(
+    `/api/stats/dashboard?range=${range}&categoryScope=${scope}`
+  );
 }
 
 export function fetchOverviewTable(

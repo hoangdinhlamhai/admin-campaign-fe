@@ -66,7 +66,7 @@ export const navItems: NavItem[] = [
     ],
   },
   { label: "Chiến dịch", icon: Megaphone, href: "/campaigns", active: true },
-  { label: "Nhiệm vụ", icon: ShieldCheck, href: "#" },
+  // { label: "Nhiệm vụ", icon: ShieldCheck, href: "#" },
   { label: "Người dùng", icon: Users, href: "/users" },
   { label: "Cảnh báo", icon: Bell, href: "/alerts" },
   // { label: "Báo cáo", icon: BarChart3, href: "#" },
