@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   fetchSettings,
   updateSettings,
@@ -50,12 +50,8 @@ export function useGlobalSettings(): UseGlobalSettingsReturn {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const mountedRef = useRef(false);
 
   useEffect(() => {
-    if (mountedRef.current) return;
-    mountedRef.current = true;
-
     let cancelled = false;
     async function init() {
       try {
