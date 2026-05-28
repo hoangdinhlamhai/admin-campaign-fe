@@ -121,7 +121,7 @@ export function CampaignOpsDashboard() {
         )}
         <section className="grid gap-4 pb-8 xl:grid-cols-[1.08fr_0.92fr_1fr]">
           <SystemAlerts />
-          <CampaignHealth />
+          <CampaignHealth campaigns={campaigns} />
           <AutomationRules rules={automationRules} />
         </section>
       </AdminShell>
