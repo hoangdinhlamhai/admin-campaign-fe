@@ -1,6 +1,8 @@
-import { ArrowLeft, Pause, Pencil, Play, Trash2 } from "lucide-react";
+import { ArrowLeft, Pause, Pencil, Play, Trash2, UserCog } from "lucide-react";
 import { Link } from "react-router";
 import type { fetchFullCampaign } from "@/lib/api/campaigns-api";
+import { Tooltip } from "@/components/common/tooltip";
+import { useAuth } from "@/lib/auth/auth-context";
 
 type FullCampaign = Awaited<ReturnType<typeof fetchFullCampaign>>;
 
@@ -33,11 +35,29 @@ type Props = {
   onPublish: () => void;
   onPause: () => void;
   onDelete: () => void;
+  onReassignClick: () => void;
+  isAdmin: boolean;
 };
 
-export function CampaignDetailHeader({ campaign, onEdit, onPublish, onPause, onDelete }: Props) {
+export function CampaignDetailHeader({ campaign, onEdit, onPublish, onPause, onDelete, onReassignClick, isAdmin }: Props) {
+  const { hasPermission } = useAuth();
   const canPublish = campaign.status === "draft" || campaign.status === "paused";
   const canPause = campaign.status === "active";
+  const isOwner = campaign.isOwner;
+
+  const canEdit = isOwner && hasPermission("campaigns.edit");
+  const canDelete = isOwner && hasPermission("campaigns.delete");
+  const canToggle = isOwner && hasPermission("campaigns.edit");
+
+  const editTooltip = !isOwner
+    ? "Chỉ người phụ trách hoặc admin mới sửa được"
+    : "Bạn không có quyền sửa chiến dịch";
+  const deleteTooltip = !isOwner
+    ? "Chỉ người phụ trách hoặc admin mới xóa được"
+    : "Bạn không có quyền xóa chiến dịch";
+  const toggleTooltip = !isOwner
+    ? "Chỉ người phụ trách hoặc admin mới thao tác được"
+    : "Bạn không có quyền sửa chiến dịch";
 
   return (
     <header className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl sm:p-5">
@@ -67,42 +87,105 @@ export function CampaignDetailHeader({ campaign, onEdit, onPublish, onPause, onD
         </div>
 
         <div className="flex flex-wrap gap-2">
-          <button
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[hsl(var(--brand))] px-5 text-sm font-bold text-zinc-950 shadow-lg shadow-emerald-950/30 transition hover:-translate-y-0.5 hover:bg-emerald-200"
-            onClick={onEdit}
-            type="button"
-          >
-            <Pencil className="size-4" />
-            Chỉnh sửa
-          </button>
-          {canPublish && (
+          {isAdmin && (
             <button
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 text-sm font-semibold text-emerald-300 transition hover:bg-emerald-400/20"
-              onClick={onPublish}
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-indigo-400/30 bg-indigo-400/10 px-4 text-sm font-semibold text-indigo-300 transition hover:bg-indigo-400/20"
+              onClick={onReassignClick}
+              type="button"
+              aria-label="Đổi người phụ trách"
+            >
+              <UserCog className="size-4" />
+              Đổi người phụ trách
+            </button>
+          )}
+          {canEdit ? (
+            <button
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[hsl(var(--brand))] px-5 text-sm font-bold text-zinc-950 shadow-lg shadow-emerald-950/30 transition hover:-translate-y-0.5 hover:bg-emerald-200"
+              onClick={onEdit}
               type="button"
             >
-              <Play className="size-4" />
-              Xuất bản
+              <Pencil className="size-4" />
+              Chỉnh sửa
             </button>
+          ) : (
+            <Tooltip content={editTooltip}>
+              <button
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[hsl(var(--brand))] px-5 text-sm font-bold text-zinc-950 opacity-50 shadow-lg shadow-emerald-950/30 cursor-not-allowed"
+                disabled
+                type="button"
+              >
+                <Pencil className="size-4" />
+                Chỉnh sửa
+              </button>
+            </Tooltip>
+          )}
+          {canPublish && (
+            canToggle ? (
+              <button
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 text-sm font-semibold text-emerald-300 transition hover:bg-emerald-400/20"
+                onClick={onPublish}
+                type="button"
+              >
+                <Play className="size-4" />
+                Xuất bản
+              </button>
+            ) : (
+              <Tooltip content={toggleTooltip}>
+                <button
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 text-sm font-semibold text-emerald-300 opacity-50 cursor-not-allowed"
+                  disabled
+                  type="button"
+                >
+                  <Play className="size-4" />
+                  Xuất bản
+                </button>
+              </Tooltip>
+            )
           )}
           {canPause && (
+            canToggle ? (
+              <button
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-amber-400/30 bg-amber-400/10 px-4 text-sm font-semibold text-amber-300 transition hover:bg-amber-400/20"
+                onClick={onPause}
+                type="button"
+              >
+                <Pause className="size-4" />
+                Tạm dừng
+              </button>
+            ) : (
+              <Tooltip content={toggleTooltip}>
+                <button
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-amber-400/30 bg-amber-400/10 px-4 text-sm font-semibold text-amber-300 opacity-50 cursor-not-allowed"
+                  disabled
+                  type="button"
+                >
+                  <Pause className="size-4" />
+                  Tạm dừng
+                </button>
+              </Tooltip>
+            )
+          )}
+          {canDelete ? (
             <button
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-amber-400/30 bg-amber-400/10 px-4 text-sm font-semibold text-amber-300 transition hover:bg-amber-400/20"
-              onClick={onPause}
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-rose-400/30 bg-rose-400/10 px-4 text-sm font-semibold text-rose-300 transition hover:bg-rose-400/20"
+              onClick={onDelete}
               type="button"
             >
-              <Pause className="size-4" />
-              Tạm dừng
+              <Trash2 className="size-4" />
+              Xóa
             </button>
+          ) : (
+            <Tooltip content={deleteTooltip}>
+              <button
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-rose-400/30 bg-rose-400/10 px-4 text-sm font-semibold text-rose-300 opacity-50 cursor-not-allowed"
+                disabled
+                type="button"
+              >
+                <Trash2 className="size-4" />
+                Xóa
+              </button>
+            </Tooltip>
           )}
-          <button
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-rose-400/30 bg-rose-400/10 px-4 text-sm font-semibold text-rose-300 transition hover:bg-rose-400/20"
-            onClick={onDelete}
-            type="button"
-          >
-            <Trash2 className="size-4" />
-            Xóa
-          </button>
         </div>
       </div>
     </header>

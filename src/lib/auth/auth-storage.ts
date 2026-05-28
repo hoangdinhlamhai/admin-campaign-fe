@@ -5,6 +5,7 @@ export type AuthUser = {
   role: "admin" | "employee";
   phone: string;
   status?: string;
+  permissions?: string[];
 };
 
 const TOKEN_KEY = "senlyzer-auth-token";

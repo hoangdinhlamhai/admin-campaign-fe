@@ -1,13 +1,14 @@
 import { useState, useMemo, type ReactNode } from "react";
 import { ChevronLeft, ChevronRight, Edit3, Search, Trash2 } from "lucide-react";
-import type { User, UserRole, UserStatus } from "@/lib/user-management-data";
+import type { UserRole, UserStatus } from "@/lib/user-management-data";
 import { roleLabels, statusLabels } from "@/lib/user-management-data";
+import type { UserWithInitials } from "./use-users";
 
 type UserTableProps = {
-  users: User[];
+  users: UserWithInitials[];
   query: string;
   onQueryChange: (q: string) => void;
-  onEdit: (user: User) => void;
+  onEdit: (user: UserWithInitials) => void;
   onDelete: (id: string) => void;
 };
 
@@ -142,7 +143,7 @@ export function UserTable({ users, query, onQueryChange, onEdit, onDelete }: Use
   );
 }
 
-function UserRow({ user, index, onEdit, onDelete }: { user: User; index: number; onEdit: () => void; onDelete: () => void }) {
+function UserRow({ user, index, onEdit, onDelete }: { user: UserWithInitials; index: number; onEdit: () => void; onDelete: () => void }) {
   return (
     <tr className="border-b border-white/[0.06] text-zinc-200 transition hover:bg-white/[0.035]">
       <BodyCell>
@@ -168,7 +169,7 @@ function UserRow({ user, index, onEdit, onDelete }: { user: User; index: number;
         <StatusBadge status={user.status} />
       </BodyCell>
       <BodyCell className="text-center">
-        <span className="font-mono font-semibold text-zinc-300">{user.permissions.length}</span>
+        <span className="font-mono font-semibold text-zinc-300">{user.permissions?.length ?? 0}</span>
       </BodyCell>
       <BodyCell>
         <span className="text-zinc-400">

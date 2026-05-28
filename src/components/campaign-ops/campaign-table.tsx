@@ -17,6 +17,9 @@ import type { Campaign, CampaignPriority, CampaignStatus } from "@/lib/campaign-
 import { filterCampaigns, formatPercent } from "@/lib/campaign-ops-utils";
 import { useParentCategoriesApi } from "@/components/campaign-categories/use-parent-categories-api";
 import { useChildCategoriesApi } from "@/components/campaign-categories/use-child-categories-api";
+import { Tooltip } from "@/components/common/tooltip";
+import { AssigneeCell } from "@/components/common/assignee-cell";
+import { useAuth } from "@/lib/auth/auth-context";
 
 type CampaignTableProps = {
   campaigns: Campaign[];
@@ -206,6 +209,7 @@ export function CampaignTable({
                   <HeaderCell className="w-12">#</HeaderCell>
                   <HeaderCell className="w-24">Mã</HeaderCell>
                   <HeaderCell>Tên chiến dịch</HeaderCell>
+                  <HeaderCell className="w-40">Người phụ trách</HeaderCell>
                   <HeaderCell className="w-28">Mật khẩu</HeaderCell>
                   <HeaderCell className="w-28 text-center">Mục tiêu</HeaderCell>
                   <HeaderCell className="w-28 text-center">Đã xong</HeaderCell>
@@ -233,7 +237,7 @@ export function CampaignTable({
                 ))}
                 {filtered.length === 0 && (
                   <tr>
-                    <td className="px-4 py-10 text-center text-zinc-400" colSpan={13}>
+                    <td className="px-4 py-10 text-center text-zinc-400" colSpan={14}>
                       Không tìm thấy chiến dịch phù hợp.
                     </td>
                   </tr>
@@ -273,8 +277,23 @@ type RowProps = {
 };
 
 function CampaignRow({ campaign, index, onEdit, onPublish, onPause, onDelete, onViewDetail }: RowProps) {
+  const { hasPermission } = useAuth();
   const canPublish = campaign.status === "draft" || campaign.status === "paused";
   const canPause = campaign.status === "active";
+
+  const canEdit = campaign.isOwner && hasPermission("campaigns.edit");
+  const canDelete = campaign.isOwner && hasPermission("campaigns.delete");
+  const canToggle = campaign.isOwner && hasPermission("campaigns.edit");
+
+  const editTooltip = !campaign.isOwner
+    ? "Chỉ người phụ trách hoặc admin mới sửa được"
+    : "Bạn không có quyền sửa chiến dịch";
+  const deleteTooltip = !campaign.isOwner
+    ? "Chỉ người phụ trách hoặc admin mới xóa được"
+    : "Bạn không có quyền xóa chiến dịch";
+  const toggleTooltip = !campaign.isOwner
+    ? "Chỉ người phụ trách hoặc admin mới thao tác được"
+    : "Bạn không có quyền sửa chiến dịch";
 
   const target = campaign.dailyUserTarget || 0;
   const completed = campaign.completedCount || 0;
@@ -304,6 +323,9 @@ function CampaignRow({ campaign, index, onEdit, onPublish, onPause, onDelete, on
         {campaign.keyword && (
           <p className="mt-0.5 text-xs text-zinc-500">{campaign.keyword}</p>
         )}
+      </BodyCell>
+      <BodyCell>
+        <AssigneeCell assignedTo={campaign.assignedTo} assignedToName={campaign.assignedToName} />
       </BodyCell>
       <BodyCell onClick={(e) => e.stopPropagation()}>
         <PassCodeCell value={campaign.passCode} />
@@ -347,42 +369,94 @@ function CampaignRow({ campaign, index, onEdit, onPublish, onPause, onDelete, on
       </BodyCell>
       <BodyCell onClick={(e) => e.stopPropagation()}>
         <div className="flex justify-end gap-1">
-          <button
-            aria-label={`Chỉnh sửa ${campaign.name}`}
-            className="grid size-8 place-items-center rounded-lg text-zinc-400 transition hover:bg-white/[0.08] hover:text-white"
-            onClick={onEdit}
-            type="button"
-          >
-            <Pencil className="size-4" />
-          </button>
-          {canPublish && (
+          {canEdit ? (
             <button
-              aria-label={`Xuất bản ${campaign.name}`}
-              className="grid size-8 place-items-center rounded-lg text-zinc-400 transition hover:bg-emerald-400/15 hover:text-emerald-400"
-              onClick={onPublish}
+              aria-label={`Chỉnh sửa ${campaign.name}`}
+              className="grid size-8 place-items-center rounded-lg text-zinc-400 transition hover:bg-white/[0.08] hover:text-white"
+              onClick={onEdit}
               type="button"
             >
-              <Play className="size-4" />
+              <Pencil className="size-4" />
             </button>
+          ) : (
+            <Tooltip content={editTooltip}>
+              <button
+                aria-label={`Chỉnh sửa ${campaign.name} (không có quyền)`}
+                className="grid size-8 place-items-center rounded-lg text-zinc-400 cursor-not-allowed opacity-40"
+                disabled
+                type="button"
+              >
+                <Pencil className="size-4" />
+              </button>
+            </Tooltip>
+          )}
+          {canPublish && (
+            canToggle ? (
+              <button
+                aria-label={`Xuất bản ${campaign.name}`}
+                className="grid size-8 place-items-center rounded-lg text-zinc-400 transition hover:bg-emerald-400/15 hover:text-emerald-400"
+                onClick={onPublish}
+                type="button"
+              >
+                <Play className="size-4" />
+              </button>
+            ) : (
+              <Tooltip content={toggleTooltip}>
+                <button
+                  aria-label={`Xuất bản ${campaign.name} (không có quyền)`}
+                  className="grid size-8 place-items-center rounded-lg text-zinc-400 cursor-not-allowed opacity-40"
+                  disabled
+                  type="button"
+                >
+                  <Play className="size-4" />
+                </button>
+              </Tooltip>
+            )
           )}
           {canPause && (
+            canToggle ? (
+              <button
+                aria-label={`Tạm dừng ${campaign.name}`}
+                className="grid size-8 place-items-center rounded-lg text-zinc-400 transition hover:bg-amber-400/15 hover:text-amber-400"
+                onClick={onPause}
+                type="button"
+              >
+                <Pause className="size-4" />
+              </button>
+            ) : (
+              <Tooltip content={toggleTooltip}>
+                <button
+                  aria-label={`Tạm dừng ${campaign.name} (không có quyền)`}
+                  className="grid size-8 place-items-center rounded-lg text-zinc-400 cursor-not-allowed opacity-40"
+                  disabled
+                  type="button"
+                >
+                  <Pause className="size-4" />
+                </button>
+              </Tooltip>
+            )
+          )}
+          {canDelete ? (
             <button
-              aria-label={`Tạm dừng ${campaign.name}`}
-              className="grid size-8 place-items-center rounded-lg text-zinc-400 transition hover:bg-amber-400/15 hover:text-amber-400"
-              onClick={onPause}
+              aria-label={`Xóa ${campaign.name}`}
+              className="grid size-8 place-items-center rounded-lg text-zinc-400 transition hover:bg-rose-400/15 hover:text-rose-400"
+              onClick={onDelete}
               type="button"
             >
-              <Pause className="size-4" />
+              <Trash2 className="size-4" />
             </button>
+          ) : (
+            <Tooltip content={deleteTooltip}>
+              <button
+                aria-label={`Xóa ${campaign.name} (không có quyền)`}
+                className="grid size-8 place-items-center rounded-lg text-zinc-400 cursor-not-allowed opacity-40"
+                disabled
+                type="button"
+              >
+                <Trash2 className="size-4" />
+              </button>
+            </Tooltip>
           )}
-          <button
-            aria-label={`Xóa ${campaign.name}`}
-            className="grid size-8 place-items-center rounded-lg text-zinc-400 transition hover:bg-rose-400/15 hover:text-rose-400"
-            onClick={onDelete}
-            type="button"
-          >
-            <Trash2 className="size-4" />
-          </button>
         </div>
       </BodyCell>
     </tr>

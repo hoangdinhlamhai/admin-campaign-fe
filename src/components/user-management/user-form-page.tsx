@@ -1,11 +1,13 @@
-import { useMemo, useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { AdminShell } from "@/components/campaign-ops/admin-shell";
 import { Toast } from "@/components/campaign-ops/toast";
 import { type Permission, allPermissions } from "@/lib/user-management-data";
+import { getUser, type UserApi } from "@/lib/api/users-api";
 import { useUsers } from "./use-users";
 import { UserForm, type UserFormState } from "./user-form";
+import { UserCampaignsSection } from "./user-campaigns-section";
 
 const emptyForm: UserFormState = {
   name: "",
@@ -22,42 +24,62 @@ type UserFormPageProps = {
 
 export function UserFormPage({ userId }: UserFormPageProps) {
   const navigate = useNavigate();
-  const { users, addUser, updateUser } = useUsers();
+  const { addUser, updateUser } = useUsers();
 
-  const editingUser = useMemo(
-    () => (userId ? (users.find((u) => u.id === userId) ?? null) : null),
-    [users, userId],
-  );
-
-  const [form, setForm] = useState<UserFormState>(() => {
-    if (!editingUser) return emptyForm;
-    return {
-      name: editingUser.name,
-      email: editingUser.email,
-      phone: editingUser.phone,
-      role: editingUser.role,
-      status: editingUser.status,
-      permissions: editingUser.role === "admin" ? allPermissions : (editingUser.permissions as Permission[]),
-    };
-  });
-
+  const [editingUser, setEditingUser] = useState<UserApi | null>(null);
+  const [loadingUser, setLoadingUser] = useState(Boolean(userId));
+  const [form, setForm] = useState<UserFormState>(emptyForm);
   const [toast, setToast] = useState<string | null>(null);
 
-  const showToast = (message: string) => {
+  // Fetch user detail (with permissions) when editing
+  useEffect(() => {
+    if (!userId) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setLoadingUser(true);
+    getUser(userId)
+      .then((u) => {
+        setEditingUser(u);
+      })
+      .catch(() => {
+        setEditingUser(null);
+      })
+      .finally(() => {
+        setLoadingUser(false);
+      });
+  }, [userId]);
+
+  // Populate form when user data arrives
+  useEffect(() => {
+    if (!editingUser) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setForm({
+      name: editingUser.name,
+      email: editingUser.email,
+      phone: editingUser.phone ?? "",
+      role: editingUser.role,
+      status: editingUser.status,
+      permissions:
+        editingUser.role === "admin"
+          ? allPermissions
+          : ((editingUser.permissions ?? []) as Permission[]),
+    });
+  }, [editingUser]);
+
+  const showToast = useCallback((message: string) => {
     setToast(message);
     window.setTimeout(() => setToast(null), 2200);
-  };
+  }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (userId) {
-      const ok = updateUser(userId, form);
+      const ok = await updateUser(userId, form);
       if (!ok) {
         showToast("Không tìm thấy người dùng cần cập nhật.");
         return;
       }
       showToast("Đã cập nhật người dùng.");
     } else {
-      const ok = addUser(form);
+      const ok = await addUser(form);
       if (!ok) {
         showToast("Vui lòng nhập đầy đủ tên và email.");
         return;
@@ -67,7 +89,7 @@ export function UserFormPage({ userId }: UserFormPageProps) {
     window.setTimeout(() => navigate("/users"), 450);
   };
 
-  const isEditingMissing = Boolean(userId) && !editingUser;
+  const isEditingMissing = Boolean(userId) && !loadingUser && !editingUser;
 
   return (
     <div>
@@ -97,20 +119,38 @@ export function UserFormPage({ userId }: UserFormPageProps) {
           </p>
         </header>
 
-        {isEditingMissing ? (
+        {loadingUser ? (
+          <section className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-5 text-zinc-300 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl">
+            <div className="flex items-center gap-3">
+              <div className="size-5 animate-spin rounded-full border-2 border-emerald-400 border-t-transparent" />
+              <span>Đang tải thông tin...</span>
+            </div>
+          </section>
+        ) : isEditingMissing ? (
           <section className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-5 text-zinc-300 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl">
             Không tìm thấy người dùng cần sửa.
           </section>
         ) : (
-          <div className="w-full pb-8">
-            <UserForm
-              form={form}
-              isEditing={Boolean(userId)}
-              onChange={setForm}
-              onSubmit={handleSubmit}
-              onCancel={() => navigate("/users")}
-            />
-          </div>
+          <>
+            <div className="w-full pb-8">
+              <UserForm
+                form={form}
+                isEditing={Boolean(userId)}
+                onChange={setForm}
+                onSubmit={handleSubmit}
+                onCancel={() => navigate("/users")}
+              />
+            </div>
+
+            {userId && (
+              <section className="mb-8 rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl sm:p-5">
+                <h3 className="mb-4 text-lg font-semibold text-white">
+                  Chiến dịch đang phụ trách
+                </h3>
+                <UserCampaignsSection userId={userId} />
+              </section>
+            )}
+          </>
         )}
       </AdminShell>
       <Toast message={toast} />

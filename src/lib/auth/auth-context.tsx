@@ -21,6 +21,7 @@ type AuthContextValue = {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   isAdmin: boolean;
+  hasPermission: (perm: string) => boolean;
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -85,12 +86,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUserState(null);
   };
 
+  const hasPermission = (perm: string): boolean => {
+    if (!user) return false;
+    if (user.role === "admin") return true;
+    return user.permissions?.includes(perm) ?? false;
+  };
+
   const value: AuthContextValue = {
     user,
     loading,
     login,
     logout,
     isAdmin: user?.role === "admin",
+    hasPermission,
   };
 
   return (
