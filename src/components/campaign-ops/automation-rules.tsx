@@ -1,11 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router";
 import { ArrowRight, Bot } from "lucide-react";
 import type { AutomationRule } from "@/lib/campaign-ops-data";
+import { apiFetch } from "@/lib/api/config";
+
+type TriggerCount = {
+  alert_type: string;
+  count: number;
+};
+
+const RULE_TRIGGER_MAP: Record<string, string> = {
+  "rule-wrong-pass-3": "wrong_pass_exceeded",
+  "rule-no-valid-entry": "no_valid_entry_pause",
+};
+
+function useTriggerCounts() {
+  const [counts, setCounts] = useState<Record<string, number>>({});
+
+  useEffect(() => {
+    apiFetch<TriggerCount[]>("/api/settings/triggers?days=7")
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const map: Record<string, number> = {};
+          for (const item of data) {
+            map[item.alert_type] = item.count;
+          }
+          setCounts(map);
+        }
+      })
+      .catch(() => {
+        // triggers endpoint unavailable — show dashes
+      });
+  }, []);
+
+  return counts;
+}
 
 export function AutomationRules({ rules }: { rules: AutomationRule[] }) {
-  const [states, setStates] = useState<Record<string, boolean>>(
-    Object.fromEntries(rules.map((rule) => [rule.id, rule.enabled])),
-  );
+  const triggerCounts = useTriggerCounts();
 
   return (
     <article className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-5 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl">
@@ -20,38 +52,29 @@ export function AutomationRules({ rules }: { rules: AutomationRule[] }) {
       </div>
       <div className="space-y-3">
         {rules.map((rule) => {
-          const enabled = states[rule.id];
+          const alertType = RULE_TRIGGER_MAP[rule.id];
+          const count = alertType ? triggerCounts[alertType] : undefined;
 
           return (
             <div className="rounded-2xl border border-white/10 bg-zinc-950/28 p-3.5" key={rule.id}>
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="font-semibold text-white">{rule.trigger}</p>
-                  <p className="mt-1 text-sm text-zinc-400">{rule.action}</p>
-                </div>
-                <button
-                  aria-label={`${enabled ? "Tắt" : "Bật"} quy tắc ${rule.trigger}`}
-                  aria-pressed={enabled}
-                  className={`relative h-7 w-12 shrink-0 rounded-full transition ${enabled ? "bg-emerald-300" : "bg-zinc-700"}`}
-                  onClick={() => setStates((current) => ({ ...current, [rule.id]: !enabled }))}
-                  type="button"
-                >
-                  <span
-                    className={`absolute top-1 size-5 rounded-full bg-zinc-950 shadow transition ${enabled ? "left-6" : "left-1"}`}
-                  />
-                </button>
+              <div>
+                <p className="font-semibold text-white">{rule.trigger}</p>
+                <p className="mt-1 text-sm text-zinc-400">{rule.action}</p>
               </div>
-              <p className={`mt-3 text-xs font-bold ${enabled ? "text-emerald-200" : "text-zinc-500"}`}>
-                {enabled ? "Đang bật" : "Đang tắt"}
+              <p className="mt-3 text-xs font-bold text-zinc-400">
+                {`Đã trigger ${count !== undefined ? count : "—"} lần / 7 ngày`}
               </p>
             </div>
           );
         })}
       </div>
-      <button className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-lime-200 transition hover:text-lime-100" type="button">
+      <Link
+        className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-lime-200 transition hover:text-lime-100"
+        to="/settings"
+      >
         Quản lý quy tắc
         <ArrowRight className="size-4" />
-      </button>
+      </Link>
     </article>
   );
 }
