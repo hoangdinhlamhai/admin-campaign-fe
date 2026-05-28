@@ -32,6 +32,9 @@ function apiToCampaign(api: CampaignApi): Campaign {
     displayCount: api.displayCount ?? 0,
     wrongEntryCount: api.wrongEntryCount ?? 0,
     validEntryCount: api.validEntryCount ?? 0,
+    assignedTo: api.assignedTo,
+    assignedToName: api.assignedToName,
+    isOwner: api.isOwner,
   };
 }
 

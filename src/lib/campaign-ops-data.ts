@@ -34,6 +34,9 @@ export type Campaign = {
   displayCount: number;
   wrongEntryCount: number;
   validEntryCount: number;
+  assignedTo: string | null;
+  assignedToName: string | null;
+  isOwner: boolean;
 };
 
 

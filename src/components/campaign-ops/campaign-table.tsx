@@ -19,7 +19,6 @@ import { useParentCategoriesApi } from "@/components/campaign-categories/use-par
 import { useChildCategoriesApi } from "@/components/campaign-categories/use-child-categories-api";
 import { Tooltip } from "@/components/common/tooltip";
 import { AssigneeCell } from "@/components/common/assignee-cell";
-import { useAuth } from "@/lib/auth/auth-context";
 
 type CampaignTableProps = {
   campaigns: Campaign[];
@@ -277,23 +276,18 @@ type RowProps = {
 };
 
 function CampaignRow({ campaign, index, onEdit, onPublish, onPause, onDelete, onViewDetail }: RowProps) {
-  const { hasPermission } = useAuth();
   const canPublish = campaign.status === "draft" || campaign.status === "paused";
   const canPause = campaign.status === "active";
 
-  const canEdit = campaign.isOwner && hasPermission("campaigns.edit");
-  const canDelete = campaign.isOwner && hasPermission("campaigns.delete");
-  const canToggle = campaign.isOwner && hasPermission("campaigns.edit");
+  // Permission-level gating disabled per user request 260528 — only ownership matters now.
+  // To re-enable: import useAuth + hasPermission; canEdit = isOwner && hasPermission('campaigns.edit') etc.
+  const canEdit = campaign.isOwner;
+  const canDelete = campaign.isOwner;
+  const canToggle = campaign.isOwner;
 
-  const editTooltip = !campaign.isOwner
-    ? "Chỉ người phụ trách hoặc admin mới sửa được"
-    : "Bạn không có quyền sửa chiến dịch";
-  const deleteTooltip = !campaign.isOwner
-    ? "Chỉ người phụ trách hoặc admin mới xóa được"
-    : "Bạn không có quyền xóa chiến dịch";
-  const toggleTooltip = !campaign.isOwner
-    ? "Chỉ người phụ trách hoặc admin mới thao tác được"
-    : "Bạn không có quyền sửa chiến dịch";
+  const editTooltip = "Chỉ người phụ trách hoặc admin mới sửa được";
+  const deleteTooltip = "Chỉ người phụ trách hoặc admin mới xóa được";
+  const toggleTooltip = "Chỉ người phụ trách hoặc admin mới thao tác được";
 
   const target = campaign.dailyUserTarget || 0;
   const completed = campaign.completedCount || 0;

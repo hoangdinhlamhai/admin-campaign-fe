@@ -2,7 +2,6 @@ import { ArrowLeft, Pause, Pencil, Play, Trash2, UserCog } from "lucide-react";
 import { Link } from "react-router";
 import type { fetchFullCampaign } from "@/lib/api/campaigns-api";
 import { Tooltip } from "@/components/common/tooltip";
-import { useAuth } from "@/lib/auth/auth-context";
 
 type FullCampaign = Awaited<ReturnType<typeof fetchFullCampaign>>;
 
@@ -40,24 +39,19 @@ type Props = {
 };
 
 export function CampaignDetailHeader({ campaign, onEdit, onPublish, onPause, onDelete, onReassignClick, isAdmin }: Props) {
-  const { hasPermission } = useAuth();
   const canPublish = campaign.status === "draft" || campaign.status === "paused";
   const canPause = campaign.status === "active";
   const isOwner = campaign.isOwner;
 
-  const canEdit = isOwner && hasPermission("campaigns.edit");
-  const canDelete = isOwner && hasPermission("campaigns.delete");
-  const canToggle = isOwner && hasPermission("campaigns.edit");
+  // Permission-level gating disabled per user request 260528 — only ownership matters now.
+  // To re-enable: import useAuth + hasPermission; canEdit = isOwner && hasPermission('campaigns.edit') etc.
+  const canEdit = isOwner;
+  const canDelete = isOwner;
+  const canToggle = isOwner;
 
-  const editTooltip = !isOwner
-    ? "Chỉ người phụ trách hoặc admin mới sửa được"
-    : "Bạn không có quyền sửa chiến dịch";
-  const deleteTooltip = !isOwner
-    ? "Chỉ người phụ trách hoặc admin mới xóa được"
-    : "Bạn không có quyền xóa chiến dịch";
-  const toggleTooltip = !isOwner
-    ? "Chỉ người phụ trách hoặc admin mới thao tác được"
-    : "Bạn không có quyền sửa chiến dịch";
+  const editTooltip = "Chỉ người phụ trách hoặc admin mới sửa được";
+  const deleteTooltip = "Chỉ người phụ trách hoặc admin mới xóa được";
+  const toggleTooltip = "Chỉ người phụ trách hoặc admin mới thao tác được";
 
   return (
     <header className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl sm:p-5">

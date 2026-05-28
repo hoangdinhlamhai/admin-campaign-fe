@@ -58,6 +58,7 @@ export function useLoadCampaignDraft(campaignId: string | undefined): LoadFullCa
           pass: res.passCode ?? "",
           priority: (res.priority ?? "medium") as CampaignCreateForm["priority"],
           maxWrongAttempts: res.maxWrongAttempts != null ? String(res.maxWrongAttempts) : "3",
+          assigneeId: res.assignedTo ?? null,
         };
         window.localStorage.setItem(campaignBasicDraftStorageKey, JSON.stringify(basic));
 

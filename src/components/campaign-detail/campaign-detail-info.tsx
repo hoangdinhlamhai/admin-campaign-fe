@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
 import type { fetchFullCampaign } from "@/lib/api/campaigns-api";
+import { AssigneeCell } from "@/components/common/assignee-cell";
 
 type FullCampaign = Awaited<ReturnType<typeof fetchFullCampaign>>;
 
@@ -19,6 +20,7 @@ export function CampaignDetailInfo({ campaign }: Props) {
         <Row label="Nhập sai tối đa" value={<span className="font-mono">{campaign.maxWrongAttempts ?? "—"}</span>} />
         <Row label="Ngày tạo" value={<span className="text-zinc-300">{formatDate(campaign.createdAt)}</span>} />
         {campaign.publishedAt && <Row label="Ngày xuất bản" value={<span className="text-zinc-300">{formatDate(campaign.publishedAt)}</span>} />}
+        <Row label="Người phụ trách" value={<AssigneeCell assignedTo={campaign.assignedTo} assignedToName={campaign.assignedToName} />} />
       </dl>
     </section>
   );

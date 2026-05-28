@@ -143,6 +143,7 @@ export function CampaignReviewPage() {
       priority: form.priority,
       maxWrongAttempts: Number(form.maxWrongAttempts) || null,
       status: form.active ? "active" : "draft",
+      assignedTo: form.assigneeId ?? null,
       instructions: { contentHtml: instruction },
       settings: {
         notifyLowUsers: settings.notifyLowUsers,

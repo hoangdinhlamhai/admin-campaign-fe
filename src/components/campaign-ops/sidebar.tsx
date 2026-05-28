@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { navItems } from "@/lib/campaign-ops-data";
 import { useAlertOpenCount } from "@/components/alert-management/use-alert-open-count";
 import { useAuth } from "@/lib/auth/auth-context";
+import { computeInitials } from "@/lib/initials";
 
 const SIDEBAR_COLLAPSED_KEY = "senlyzer-sidebar-collapsed";
 
@@ -220,9 +221,3 @@ export function Sidebar({ activeLabel = "Chiến dịch" }: SidebarProps) {
   );
 }
 
-function computeInitials(name: string): string {
-  const parts = name.trim().split(/\s+/);
-  if (parts.length === 0 || parts[0] === "") return "?";
-  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
-  return (parts[parts.length - 2][0] + parts[parts.length - 1][0]).toUpperCase();
-}

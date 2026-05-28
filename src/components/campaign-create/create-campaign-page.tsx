@@ -12,6 +12,8 @@ import {
   type CampaignCreateForm,
 } from "@/lib/campaign-create-data";
 import { fetchFullCampaign } from "@/lib/api/campaigns-api";
+import { listUsers, type UserApi } from "@/lib/api/users-api";
+import { useAuth } from "@/lib/auth/auth-context";
 import { AdminShell } from "@/components/campaign-ops/admin-shell";
 import { Toast } from "@/components/campaign-ops/toast";
 import { useChildCategoriesApi } from "@/components/campaign-categories/use-child-categories-api";
@@ -42,7 +44,9 @@ function loadInstructionFromStorage(): string {
 }
 
 export function CreateCampaignPage({ campaignId }: CreateCampaignPageProps = {}) {
+  const { user: currentUser, isAdmin } = useAuth();
   const { categories: childCategories } = useChildCategoriesApi();
+  const [users, setUsers] = useState<UserApi[]>([]);
   const [form, setForm] = useState<CampaignCreateForm>(() =>
     campaignId ? defaultCampaignCreateForm : loadFormFromStorage(),
   );
@@ -51,6 +55,24 @@ export function CreateCampaignPage({ campaignId }: CreateCampaignPageProps = {})
   );
   const [loading, setLoading] = useState(Boolean(campaignId));
   const [toast, setToast] = useState<string | null>(null);
+
+  // Load users list for admin assignee dropdown
+  useEffect(() => {
+    if (!isAdmin) return;
+    listUsers().then(setUsers).catch(() => { /* swallow — dropdown will be empty */ });
+  }, [isAdmin]);
+
+  // Auto-assign employee to self when creating new campaign
+  useEffect(() => {
+    if (campaignId) return; // editing — don't override
+    if (!currentUser) return;
+    if (!isAdmin && !form.assigneeId) {
+      const updated = { ...form, assigneeId: currentUser.id };
+      setForm(updated);
+      window.localStorage.setItem(campaignBasicDraftStorageKey, JSON.stringify(updated));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser, isAdmin, campaignId]);
 
   // Fetch campaign data when editing — always re-fetch when id changes
   useEffect(() => {
@@ -77,6 +99,7 @@ export function CreateCampaignPage({ campaignId }: CreateCampaignPageProps = {})
           pass: res.passCode ?? "",
           priority: (res.priority ?? "medium") as CampaignCreateForm["priority"],
           maxWrongAttempts: res.maxWrongAttempts != null ? String(res.maxWrongAttempts) : "3",
+          assigneeId: res.assignedTo ?? null,
         };
         setForm(basic);
         window.localStorage.setItem(campaignBasicDraftStorageKey, JSON.stringify(basic));
@@ -159,7 +182,7 @@ export function CreateCampaignPage({ campaignId }: CreateCampaignPageProps = {})
           </div>
         ) : (
           <div className="grid gap-5 pb-8 xl:grid-cols-[minmax(0,1fr)_minmax(420px,0.95fr)]">
-            <CampaignBasicForm categories={childCategories} form={form} onChange={updateForm} onGeneratePass={generatePass} />
+            <CampaignBasicForm categories={childCategories} form={form} onChange={updateForm} onGeneratePass={generatePass} users={users} currentUser={currentUser} isAdmin={isAdmin} />
             <CampaignGuidePreview form={form} instructionHtml={instructionHtml} />
           </div>
         )}

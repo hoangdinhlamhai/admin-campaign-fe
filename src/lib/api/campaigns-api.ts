@@ -27,6 +27,9 @@ export type CampaignApi = {
   displayCount?: number;
   wrongEntryCount?: number;
   validEntryCount?: number;
+  assignedTo: string | null;
+  assignedToName: string | null;
+  isOwner: boolean;
 };
 
 type ListResponse = CampaignApi[] | { value: CampaignApi[]; Count: number };
@@ -58,6 +61,7 @@ export type CreateFullCampaignDto = {
   status?: "draft" | "active";
   startsAt?: string | null;
   endsAt?: string | null;
+  assignedTo?: string | null;
   instructions: {
     contentHtml: string;
     contentJson?: object;
@@ -128,4 +132,11 @@ export function updateFullCampaign(id: string, data: UpdateFullCampaignDto): Pro
 
 export function fetchFullCampaign(id: string): Promise<CampaignApi & { instructions: { contentHtml: string; contentJson: object | null } | null; settings: object | null; passCode: string | null }> {
   return apiFetch(`${BASE}/${id}/full`);
+}
+
+export async function assignCampaign(id: string, assignedTo: string | null): Promise<void> {
+  await apiFetch(`${BASE}/${id}/assignee`, {
+    method: "PATCH",
+    body: JSON.stringify({ assignedTo }),
+  });
 }

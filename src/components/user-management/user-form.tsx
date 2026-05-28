@@ -115,42 +115,40 @@ export function UserForm({ form, isEditing, onChange, onSubmit, onCancel }: User
         </div>
       </section>
 
-      {/* Section 3: Permissions */}
-      <section className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl sm:p-5">
-        <div className="mb-4">
-          <h3 className="text-lg font-semibold text-white">Phân quyền</h3>
-          {isAdmin && (
-            <p className="mt-1 text-sm text-zinc-400">Admin có toàn bộ quyền hệ thống, không thể chỉnh sửa.</p>
-          )}
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {permissionGroups.map((group) => (
-            <div key={group.module} className="rounded-xl border border-white/[0.07] bg-zinc-950/30 p-3">
-              <p className="mb-2 text-xs font-bold uppercase tracking-widest text-zinc-500">{group.module}</p>
-              <div className="flex flex-col gap-2">
-                {group.permissions.map((perm) => {
-                  const checked = isAdmin || form.permissions.includes(perm.key);
-                  return (
-                    <label
-                      key={perm.key}
-                      className={`flex cursor-pointer items-center gap-2 text-sm ${isAdmin ? "cursor-not-allowed opacity-60" : ""}`}
-                    >
-                      <input
-                        checked={checked}
-                        className="accent-emerald-400"
-                        disabled={isAdmin}
-                        onChange={() => togglePermission(perm.key)}
-                        type="checkbox"
-                      />
-                      <span className="text-zinc-300">{perm.label}</span>
-                    </label>
-                  );
-                })}
+      {/* Section 3: Permissions — hidden for admin role (admin always has all perms) */}
+      {!isAdmin && (
+        <section className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl sm:p-5">
+          <div className="mb-4">
+            <h3 className="text-lg font-semibold text-white">Phân quyền</h3>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {permissionGroups.map((group) => (
+              <div key={group.module} className="rounded-xl border border-white/[0.07] bg-zinc-950/30 p-3">
+                <p className="mb-2 text-xs font-bold uppercase tracking-widest text-zinc-500">{group.module}</p>
+                <div className="flex flex-col gap-2">
+                  {group.permissions.map((perm) => {
+                    const checked = form.permissions.includes(perm.key);
+                    return (
+                      <label
+                        key={perm.key}
+                        className="flex cursor-pointer items-center gap-2 text-sm"
+                      >
+                        <input
+                          checked={checked}
+                          className="accent-emerald-400"
+                          onChange={() => togglePermission(perm.key)}
+                          type="checkbox"
+                        />
+                        <span className="text-zinc-300">{perm.label}</span>
+                      </label>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Actions */}
       <div className="flex flex-col gap-2 sm:flex-row">
