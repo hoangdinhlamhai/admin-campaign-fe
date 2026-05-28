@@ -69,9 +69,9 @@ export const navItems: NavItem[] = [
   { label: "Nhiệm vụ", icon: ShieldCheck, href: "#" },
   { label: "Người dùng", icon: Users, href: "/users" },
   { label: "Cảnh báo", icon: Bell, href: "/alerts" },
-  { label: "Báo cáo", icon: BarChart3, href: "#" },
+  // { label: "Báo cáo", icon: BarChart3, href: "#" },
   { label: "Cài đặt", icon: Settings, href: "/settings" },
-  { label: "Nhật ký hoạt động", icon: FileClock, href: "#" },
+  // { label: "Nhật ký hoạt động", icon: FileClock, href: "#" },
 ];
 
 
