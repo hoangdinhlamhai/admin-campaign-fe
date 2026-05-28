@@ -1,6 +1,20 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 :root {
+  --background: 0 0% 100%;
+  --foreground: 222 47% 11%;
+  --brand: 141 74% 42%;
+  --accent: 72 88% 40%;
+  --success: 151 72% 40%;
+  --warning: 39 93% 48%;
+  --danger: 348 83% 50%;
+  --surface: 220 14% 96%;
+  --muted: 217 18% 45%;
+}
+
+.dark {
   --background: 150 24% 8%;
   --foreground: 210 40% 96%;
   --brand: 141 74% 56%;

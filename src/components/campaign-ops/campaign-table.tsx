@@ -10,15 +10,15 @@ import {
   Pencil,
   Play,
   Search,
-  Settings2,
   Trash2,
 } from "lucide-react";
-import type { Campaign, CampaignPriority, CampaignStatus } from "@/lib/campaign-ops-data";
+import type { Campaign, CampaignStatus } from "@/lib/campaign-ops-data";
 import { filterCampaigns, formatPercent } from "@/lib/campaign-ops-utils";
 import { useParentCategoriesApi } from "@/components/campaign-categories/use-parent-categories-api";
 import { useChildCategoriesApi } from "@/components/campaign-categories/use-child-categories-api";
 import { Tooltip } from "@/components/common/tooltip";
 import { AssigneeCell } from "@/components/common/assignee-cell";
+import { exportCampaignsCsv } from "./export-campaigns-csv";
 
 type CampaignTableProps = {
   campaigns: Campaign[];
@@ -29,6 +29,8 @@ type CampaignTableProps = {
   onDelete: (id: string) => void;
   onEdit: (id: string) => void;
   onViewDetail: (id: string) => void;
+  dateFrom: string;
+  dateTo: string;
 };
 
 const STATUS_LABELS: Record<CampaignStatus, string> = {
@@ -45,18 +47,6 @@ const STATUS_CLASS: Record<CampaignStatus, string> = {
   paused: "bg-amber-500/15 text-amber-400",
   stopped: "bg-rose-500/15 text-rose-400",
   archived: "bg-zinc-500/15 text-zinc-500 line-through",
-};
-
-const PRIORITY_LABELS: Record<CampaignPriority, string> = {
-  high: "Cao",
-  medium: "Trung bình",
-  low: "Thấp",
-};
-
-const PRIORITY_CLASS: Record<CampaignPriority, string> = {
-  high: "bg-rose-500/15 text-rose-400",
-  medium: "bg-amber-500/15 text-amber-400",
-  low: "bg-zinc-500/15 text-zinc-400",
 };
 
 const STATUS_FILTER_OPTIONS: { value: "all" | CampaignStatus; label: string }[] = [
@@ -77,6 +67,8 @@ export function CampaignTable({
   onDelete,
   onEdit,
   onViewDetail,
+  dateFrom,
+  dateTo,
 }: CampaignTableProps) {
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | CampaignStatus>("all");
@@ -101,6 +93,10 @@ export function CampaignTable({
 
   const isAllTime = dateFilter === "all";
 
+  const handleExport = () => {
+    exportCampaignsCsv(filtered, dateFrom, dateTo);
+  };
+
   return (
     <section className="mb-5 rounded-[1.1rem] border border-white/10 bg-zinc-900/58 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl">
       <div className="flex flex-col gap-4 border-b border-white/10 p-4 lg:p-5">
@@ -124,7 +120,7 @@ export function CampaignTable({
         </div>
 
         {activeTab === "campaigns" && (
-          <div className="grid gap-2 xl:grid-cols-[minmax(15rem,1fr)_auto_auto_auto_auto_auto_auto_auto]">
+          <div className="grid gap-2 xl:grid-cols-[minmax(15rem,1fr)_auto_auto_auto_auto_auto_auto]">
             <label className="relative min-w-0">
               <span className="sr-only">Tìm kiếm chiến dịch</span>
               <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-zinc-500" />
@@ -185,13 +181,13 @@ export function CampaignTable({
             >
               {isAllTime ? "Theo ngày" : "Tổng tất cả"}
             </button>
-            <button className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.07] px-3 text-sm font-semibold text-zinc-100 transition hover:bg-white/[0.11]" type="button">
+            <button
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.07] px-3 text-sm font-semibold text-zinc-100 transition hover:bg-white/[0.11]"
+              onClick={handleExport}
+              type="button"
+            >
               <Download className="size-4" />
               Xuất Excel
-            </button>
-            <button className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.07] px-3 text-sm font-semibold text-zinc-100 transition hover:bg-white/[0.11]" type="button">
-              <Settings2 className="size-4" />
-              Cài đặt cột
             </button>
           </div>
         )}
@@ -202,7 +198,7 @@ export function CampaignTable({
       ) : (
         <>
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[1400px] border-separate border-spacing-0 text-left text-sm">
+            <table className="w-full min-w-[1200px] border-separate border-spacing-0 text-left text-sm">
               <thead className="text-xs uppercase tracking-[0.08em] text-zinc-500">
                 <tr>
                   <HeaderCell className="w-12">#</HeaderCell>
@@ -216,7 +212,6 @@ export function CampaignTable({
                   <HeaderCell className="w-32 text-center">Tiến độ</HeaderCell>
                   <HeaderCell className="w-24 text-center">Nhập sai</HeaderCell>
                   <HeaderCell className="w-24 text-center">Tỷ lệ sai</HeaderCell>
-                  <HeaderCell className="w-28">Ưu tiên</HeaderCell>
                   <HeaderCell className="w-28">Trạng thái</HeaderCell>
                   <HeaderCell className="w-28 text-right">Thao tác</HeaderCell>
                 </tr>
@@ -236,7 +231,7 @@ export function CampaignTable({
                 ))}
                 {filtered.length === 0 && (
                   <tr>
-                    <td className="px-4 py-10 text-center text-zinc-400" colSpan={14}>
+                    <td className="px-4 py-10 text-center text-zinc-400" colSpan={13}>
                       Không tìm thấy chiến dịch phù hợp.
                     </td>
                   </tr>
@@ -279,8 +274,6 @@ function CampaignRow({ campaign, index, onEdit, onPublish, onPause, onDelete, on
   const canPublish = campaign.status === "draft" || campaign.status === "paused";
   const canPause = campaign.status === "active";
 
-  // Permission-level gating disabled per user request 260528 — only ownership matters now.
-  // To re-enable: import useAuth + hasPermission; canEdit = isOwner && hasPermission('campaigns.edit') etc.
   const canEdit = campaign.isOwner;
   const canDelete = campaign.isOwner;
   const canToggle = campaign.isOwner;
@@ -349,11 +342,6 @@ function CampaignRow({ campaign, index, onEdit, onPublish, onPause, onDelete, on
       <BodyCell className="text-center">
         <span className={`font-mono text-xs font-bold ${wrongRateColor}`}>
           {totalEntries > 0 ? formatPercent(wrongRate / 100) : "-"}
-        </span>
-      </BodyCell>
-      <BodyCell>
-        <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold ${PRIORITY_CLASS[campaign.priority]}`}>
-          {PRIORITY_LABELS[campaign.priority]}
         </span>
       </BodyCell>
       <BodyCell>

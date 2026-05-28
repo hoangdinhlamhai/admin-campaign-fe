@@ -6,6 +6,7 @@ import {
   campaignEditingIdStorageKey,
   campaignInstructionDraftStorageKey,
 } from "@/lib/campaign-create-data";
+import { DateRangePicker, type DateRangeValue } from "@/components/common/date-range-picker";
 
 function clearCampaignDrafts() {
   window.localStorage.removeItem(campaignBasicDraftStorageKey);
@@ -14,7 +15,12 @@ function clearCampaignDrafts() {
   window.localStorage.removeItem(campaignEditingIdStorageKey);
 }
 
-export function DashboardHeader() {
+type DashboardHeaderProps = {
+  dateRange: DateRangeValue;
+  onDateRangeChange: (range: DateRangeValue) => void;
+};
+
+export function DashboardHeader({ dateRange, onDateRangeChange }: DashboardHeaderProps) {
   return (
     <header className="mb-5 flex flex-col gap-4 rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl sm:p-5 xl:flex-row xl:items-center xl:justify-between">
       <div className="min-w-0">
@@ -30,6 +36,7 @@ export function DashboardHeader() {
       </div>
 
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+        <DateRangePicker value={dateRange} onChange={onDateRangeChange} />
         <Link
           className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[hsl(var(--brand))] px-4 text-sm font-bold text-zinc-950 shadow-lg shadow-emerald-950/30 transition hover:-translate-y-0.5 hover:bg-emerald-200"
           onClick={clearCampaignDrafts}

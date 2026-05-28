@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import { DEFAULT_PREVIEW_DEVICE_ID, getPreviewDevice } from "@/lib/preview-devices";
+import { getCampaignWizardBase } from "@/lib/campaign-create-data";
 import { DevicePreviewToggle } from "@/components/campaign-instructions/device-preview-toggle";
 import { InstructionRenderer } from "@/components/campaign-instructions/instruction-renderer";
 import { ReviewCard } from "./review-card";
@@ -15,7 +16,7 @@ export function InstructionReviewPreview({ content }: InstructionReviewPreviewPr
 
   return (
     <ReviewCard
-      action={<Link className="text-sm font-semibold text-emerald-200 hover:text-emerald-100" to="/campaigns/new/instructions">Sửa</Link>}
+      action={<Link className="text-sm font-semibold text-emerald-200 hover:text-emerald-100" to={`${getCampaignWizardBase()}/instructions`}>Sửa</Link>}
       description="Preview readonly nội dung user sẽ nhìn thấy khi làm nhiệm vụ."
       title="Preview hướng dẫn user"
     >
