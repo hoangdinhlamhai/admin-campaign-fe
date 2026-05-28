@@ -1,22 +1,43 @@
-import { useState, type FormEvent } from 'react'
-import { useNavigate } from 'react-router'
-import { Orbit, LogIn } from 'lucide-react'
+import { useState, type FormEvent } from "react";
+import { Navigate, useNavigate, useSearchParams } from "react-router";
+import { Orbit, LogIn, Loader2 } from "lucide-react";
+import { useAuth } from "@/lib/auth/auth-context";
 
 export default function LoginPage() {
-  const navigate = useNavigate()
-  const [email, setEmail] = useState('admin@senlyzer.io')
-  const [password, setPassword] = useState('123456')
-  const [error, setError] = useState('')
+  const navigate = useNavigate();
+  const { user, login } = useAuth();
+  const [params] = useSearchParams();
+  const [email, setEmail] = useState("admin@senlyzer.io");
+  const [password, setPassword] = useState("123456");
+  const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault()
-    if (!email.trim() || !password.trim()) {
-      setError('Vui lòng nhập đầy đủ thông tin')
-      return
-    }
-    setError('')
-    navigate('/overview')
+  if (user) {
+    return <Navigate to="/overview" replace />;
   }
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!email.trim() || !password.trim()) {
+      setError("Vui lòng nhập đầy đủ thông tin");
+      return;
+    }
+    setSubmitting(true);
+    setError("");
+    try {
+      await login(email, password);
+      const fromRaw = params.get("from");
+      const from = fromRaw ? decodeURIComponent(fromRaw) : "/overview";
+      const safe = from.startsWith("/") && !from.startsWith("//") ? from : "/overview";
+      navigate(safe, { replace: true });
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Đăng nhập thất bại";
+      setError(message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="relative flex min-h-dvh items-center justify-center overflow-hidden bg-[hsl(var(--background))]">
@@ -47,7 +68,8 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@senlyzer.io"
-                className="w-full rounded-xl border border-white/10 bg-zinc-950/55 px-4 py-3 text-sm text-white placeholder:text-zinc-500 focus:border-emerald-300/60 focus:outline-none"
+                disabled={submitting}
+                className="w-full rounded-xl border border-white/10 bg-zinc-950/55 px-4 py-3 text-sm text-white placeholder:text-zinc-500 focus:border-emerald-300/60 focus:outline-none disabled:opacity-50"
               />
             </div>
 
@@ -61,7 +83,8 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full rounded-xl border border-white/10 bg-zinc-950/55 px-4 py-3 text-sm text-white placeholder:text-zinc-500 focus:border-emerald-300/60 focus:outline-none"
+                disabled={submitting}
+                className="w-full rounded-xl border border-white/10 bg-zinc-950/55 px-4 py-3 text-sm text-white placeholder:text-zinc-500 focus:border-emerald-300/60 focus:outline-none disabled:opacity-50"
               />
             </div>
 
@@ -71,14 +94,19 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="mt-2 flex h-12 items-center justify-center gap-2 rounded-xl bg-[hsl(var(--brand))] font-semibold text-zinc-950 shadow-lg shadow-emerald-950/30 transition hover:brightness-110"
+              disabled={submitting}
+              className="mt-2 flex h-12 items-center justify-center gap-2 rounded-xl bg-[hsl(var(--brand))] font-semibold text-zinc-950 shadow-lg shadow-emerald-950/30 transition hover:brightness-110 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <LogIn className="size-4" />
-              Đăng nhập
+              {submitting ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                <LogIn className="size-4" />
+              )}
+              {submitting ? "Đang đăng nhập..." : "Đăng nhập"}
             </button>
           </form>
         </div>
       </div>
     </div>
-  )
+  );
 }

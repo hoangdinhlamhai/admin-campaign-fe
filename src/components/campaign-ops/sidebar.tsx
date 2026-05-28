@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { ChevronDown, ChevronLeft, ChevronRight, Orbit } from "lucide-react";
-import { Link, useLocation } from "react-router";
+import { ChevronDown, ChevronLeft, ChevronRight, LogOut, Orbit } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router";
 import { navItems } from "@/lib/campaign-ops-data";
 import { useAlertOpenCount } from "@/components/alert-management/use-alert-open-count";
+import { useAuth } from "@/lib/auth/auth-context";
 
 const SIDEBAR_COLLAPSED_KEY = "senlyzer-sidebar-collapsed";
 
@@ -12,6 +13,8 @@ type SidebarProps = {
 
 export function Sidebar({ activeLabel = "Chiến dịch" }: SidebarProps) {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const alertOpenCount = useAlertOpenCount();
   const [collapsed, setCollapsed] = useState<boolean>(() => {
     if (typeof window === "undefined") return false;
@@ -38,6 +41,13 @@ export function Sidebar({ activeLabel = "Chiến dịch" }: SidebarProps) {
       else next.add(label);
       return next;
     });
+  };
+
+  const initials = user ? computeInitials(user.name) : "?";
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login", { replace: true });
   };
 
   return (
@@ -173,27 +183,46 @@ export function Sidebar({ activeLabel = "Chiến dịch" }: SidebarProps) {
         </nav>
 
         <div className="ml-auto shrink-0 lg:mt-auto lg:ml-0">
-          <button
-            type="button"
-            title={collapsed ? "Admin" : undefined}
-            className={`flex w-full items-center rounded-[1.1rem] border border-white/10 bg-white/[0.055] text-left transition hover:bg-white/[0.09] ${
-              collapsed ? "justify-center p-1.5" : "gap-3 p-2.5"
-            }`}
-            aria-label="Mở menu tài khoản Admin"
-          >
-            <div className="grid size-10 place-items-center rounded-xl bg-zinc-100 text-sm font-bold text-zinc-900">AD</div>
+          <div className={`flex items-center rounded-[1.1rem] border border-white/10 bg-white/[0.055] ${collapsed ? "justify-center p-1.5" : "gap-3 p-2.5"}`}>
+            <div className="grid size-10 place-items-center rounded-xl bg-zinc-100 text-sm font-bold text-zinc-900">{initials}</div>
             {!collapsed && (
               <>
                 <div className="hidden min-w-0 flex-1 lg:block">
-                  <p className="truncate text-sm font-semibold text-white">Admin</p>
-                  <p className="truncate text-xs text-zinc-400">admin@senlyzer.io</p>
+                  <p className="truncate text-sm font-semibold text-white">{user?.name ?? "—"}</p>
+                  <p className="truncate text-xs text-zinc-400">{user?.email ?? ""}</p>
                 </div>
-                <ChevronDown className="hidden size-4 text-zinc-400 lg:block" />
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  aria-label="Đăng xuất"
+                  title="Đăng xuất"
+                  className="hidden size-8 cursor-pointer place-items-center rounded-lg text-zinc-400 transition hover:bg-white/[0.08] hover:text-white lg:grid"
+                >
+                  <LogOut className="size-4" />
+                </button>
               </>
             )}
-          </button>
+          </div>
+          {collapsed && (
+            <button
+              type="button"
+              onClick={handleLogout}
+              aria-label="Đăng xuất"
+              title="Đăng xuất"
+              className="mt-2 hidden size-10 w-full cursor-pointer place-items-center rounded-xl text-zinc-400 transition hover:bg-white/[0.08] hover:text-white lg:grid"
+            >
+              <LogOut className="size-4" />
+            </button>
+          )}
         </div>
       </div>
     </aside>
   );
+}
+
+function computeInitials(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 0 || parts[0] === "") return "?";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[parts.length - 2][0] + parts[parts.length - 1][0]).toUpperCase();
 }
