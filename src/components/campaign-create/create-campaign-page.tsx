@@ -1,0 +1,174 @@
+import { useEffect, useState } from "react";
+import {
+  campaignBasicDraftStorageKey,
+  campaignAdvancedSettingsStorageKey,
+  campaignEditingIdStorageKey,
+  campaignInstructionDraftStorageKey,
+  defaultAdvancedSettings,
+  defaultCampaignCreateForm,
+  getCampaignWizardBase,
+  replaceKeywordInHtml,
+  type CampaignAdvancedSettings,
+  type CampaignCreateForm,
+} from "@/lib/campaign-create-data";
+import { fetchFullCampaign } from "@/lib/api/campaigns-api";
+import { AdminShell } from "@/components/campaign-ops/admin-shell";
+import { Toast } from "@/components/campaign-ops/toast";
+import { useChildCategoriesApi } from "@/components/campaign-categories/use-child-categories-api";
+import { CampaignBasicForm } from "./campaign-basic-form";
+import { CampaignCreateHeader } from "./campaign-create-header";
+import { CampaignCreateStepper } from "./campaign-create-stepper";
+import { CampaignGuidePreview } from "./campaign-guide-preview";
+import { WizardFooter } from "./wizard-footer";
+
+type CreateCampaignPageProps = {
+  campaignId?: string;
+};
+
+function loadFormFromStorage(): CampaignCreateForm {
+  if (typeof window === "undefined") return defaultCampaignCreateForm;
+  const stored = window.localStorage.getItem(campaignBasicDraftStorageKey);
+  if (!stored) return defaultCampaignCreateForm;
+  try {
+    return { ...defaultCampaignCreateForm, ...(JSON.parse(stored) as Partial<CampaignCreateForm>) };
+  } catch {
+    return defaultCampaignCreateForm;
+  }
+}
+
+function loadInstructionFromStorage(): string {
+  if (typeof window === "undefined") return "";
+  return window.localStorage.getItem(campaignInstructionDraftStorageKey) ?? "";
+}
+
+export function CreateCampaignPage({ campaignId }: CreateCampaignPageProps = {}) {
+  const { categories: childCategories } = useChildCategoriesApi();
+  const [form, setForm] = useState<CampaignCreateForm>(() =>
+    campaignId ? defaultCampaignCreateForm : loadFormFromStorage(),
+  );
+  const [instructionHtml, setInstructionHtml] = useState<string>(() =>
+    campaignId ? "" : loadInstructionFromStorage(),
+  );
+  const [loading, setLoading] = useState(Boolean(campaignId));
+  const [toast, setToast] = useState<string | null>(null);
+
+  // Fetch campaign data when editing — always re-fetch when id changes
+  useEffect(() => {
+    if (!campaignId) {
+      window.localStorage.removeItem(campaignEditingIdStorageKey);
+      return;
+    }
+
+    let cancelled = false;
+    setLoading(true);
+    window.localStorage.setItem(campaignEditingIdStorageKey, campaignId);
+
+    fetchFullCampaign(campaignId)
+      .then((res) => {
+        if (cancelled) return;
+
+        const basic: CampaignCreateForm = {
+          categoryId: res.childCategoryId ?? "",
+          active: res.status === "active",
+          name: res.name ?? "",
+          url: res.targetUrl ?? "",
+          keyword: res.keyword ?? "",
+          dailyUsers: String(res.dailyUserTarget ?? ""),
+          pass: res.passCode ?? "",
+          priority: (res.priority ?? "medium") as CampaignCreateForm["priority"],
+          maxWrongAttempts: res.maxWrongAttempts != null ? String(res.maxWrongAttempts) : "3",
+        };
+        setForm(basic);
+        window.localStorage.setItem(campaignBasicDraftStorageKey, JSON.stringify(basic));
+
+        const html = res.instructions?.contentHtml ?? "";
+        if (html) {
+          window.localStorage.setItem(campaignInstructionDraftStorageKey, html);
+          setInstructionHtml(html);
+        } else {
+          window.localStorage.removeItem(campaignInstructionDraftStorageKey);
+          setInstructionHtml("");
+        }
+
+        const s = (res.settings as Partial<CampaignAdvancedSettings & { lowUsersThreshold: number; maxWrongPassAttempts: number; noValidEntryDisplays: number }>) ?? {};
+        const advanced: CampaignAdvancedSettings = {
+          notifyLowUsers: Boolean(s.notifyLowUsers ?? defaultAdvancedSettings.notifyLowUsers),
+          lowUsersThreshold: s.lowUsersThreshold != null ? String(s.lowUsersThreshold) : defaultAdvancedSettings.lowUsersThreshold,
+          notifyCampaignPaused: Boolean(s.notifyCampaignPaused ?? defaultAdvancedSettings.notifyCampaignPaused),
+          autoReactivateNextDay: Boolean(s.autoReactivateNextDay ?? defaultAdvancedSettings.autoReactivateNextDay),
+          limitWrongPass: Boolean(s.limitWrongPass ?? defaultAdvancedSettings.limitWrongPass),
+          maxWrongPassAttempts: s.maxWrongPassAttempts != null ? String(s.maxWrongPassAttempts) : defaultAdvancedSettings.maxWrongPassAttempts,
+          pauseOnNoValidEntry: Boolean(s.pauseOnNoValidEntry ?? defaultAdvancedSettings.pauseOnNoValidEntry),
+          noValidEntryDisplays: s.noValidEntryDisplays != null ? String(s.noValidEntryDisplays) : defaultAdvancedSettings.noValidEntryDisplays,
+        };
+        window.localStorage.setItem(campaignAdvancedSettingsStorageKey, JSON.stringify(advanced));
+
+        setLoading(false);
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        showToast(err instanceof Error ? err.message : "Lỗi tải chiến dịch");
+        setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [campaignId]);
+
+  const showToast = (message: string) => {
+    setToast(message);
+    window.setTimeout(() => setToast(null), 2200);
+  };
+
+  const updateForm = (nextForm: CampaignCreateForm) => {
+    if (nextForm.keyword !== form.keyword) {
+      setInstructionHtml((current) => {
+        if (!current) return current;
+        const updated = replaceKeywordInHtml(current, nextForm.keyword, form.keyword);
+        if (updated !== current) {
+          window.localStorage.setItem(campaignInstructionDraftStorageKey, updated);
+        }
+        return updated;
+      });
+    }
+    setForm(nextForm);
+    window.localStorage.setItem(campaignBasicDraftStorageKey, JSON.stringify(nextForm));
+  };
+
+  const generatePass = () => {
+    setForm((current) => {
+      const nextForm = {
+        ...current,
+        pass: String(Math.floor(1000 + Math.random() * 9000)),
+      };
+      window.localStorage.setItem(campaignBasicDraftStorageKey, JSON.stringify(nextForm));
+      return nextForm;
+    });
+  };
+
+  return (
+    <div>
+      <AdminShell activeLabel="Chiến dịch">
+        <CampaignCreateHeader isEditing={Boolean(campaignId)} />
+        <CampaignCreateStepper />
+        {loading ? (
+          <div className="rounded-xl border border-white/10 bg-zinc-900/50 px-4 py-12 text-center text-sm text-zinc-400">
+            Đang tải dữ liệu chiến dịch...
+          </div>
+        ) : (
+          <div className="grid gap-5 pb-8 xl:grid-cols-[minmax(0,1fr)_minmax(420px,0.95fr)]">
+            <CampaignBasicForm categories={childCategories} form={form} onChange={updateForm} onGeneratePass={generatePass} />
+            <CampaignGuidePreview form={form} instructionHtml={instructionHtml} />
+          </div>
+        )}
+        <WizardFooter
+          nextHref={`${getCampaignWizardBase()}/instructions`}
+          onNext={() => window.localStorage.setItem(campaignBasicDraftStorageKey, JSON.stringify(form))}
+        />
+      </AdminShell>
+      <Toast message={toast} />
+    </div>
+  );
+}

@@ -1,0 +1,240 @@
+@import "tailwindcss";
+
+:root {
+  --background: 150 24% 8%;
+  --foreground: 210 40% 96%;
+  --brand: 141 74% 56%;
+  --accent: 72 88% 63%;
+  --success: 151 72% 50%;
+  --warning: 39 93% 58%;
+  --danger: 348 83% 61%;
+  --surface: 221 35% 13%;
+  --muted: 217 18% 62%;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: 'Geist Variable', Arial, Helvetica, sans-serif;
+  --font-mono: 'Geist Mono Variable', monospace;
+}
+
+body {
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: 'Geist Variable', Arial, Helvetica, sans-serif;
+  text-rendering: geometricPrecision;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+::selection {
+  background: hsl(var(--brand) / 0.32);
+  color: white;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--brand) / 0.45) transparent;
+}
+
+*::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: hsl(var(--brand) / 0.35);
+  border-radius: 999px;
+}
+
+.instruction-editor .ProseMirror p {
+  margin: 0.75rem 0;
+}
+
+.instruction-editor .ProseMirror h1,
+.instruction-preview h1 {
+  margin: 1rem 0;
+  font-size: 1.65rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.instruction-editor .ProseMirror h2,
+.instruction-preview h2 {
+  margin: 0.9rem 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.instruction-editor .ProseMirror h3,
+.instruction-preview h3 {
+  margin: 0.8rem 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.instruction-editor .ProseMirror ul,
+.instruction-editor .ProseMirror ol,
+.instruction-preview ul,
+.instruction-preview ol {
+  margin: 0.75rem 0;
+  padding-left: 1.35rem;
+}
+
+.instruction-editor .ProseMirror ul,
+.instruction-preview ul {
+  list-style: disc;
+}
+
+.instruction-editor .ProseMirror ol,
+.instruction-preview ol {
+  list-style: decimal;
+}
+
+.instruction-editor .ProseMirror li,
+.instruction-preview li {
+  margin: 0.45rem 0;
+}
+
+.instruction-editor .ProseMirror blockquote,
+.instruction-preview blockquote {
+  margin: 1rem 0;
+  border-left: 3px solid hsl(var(--brand));
+  border-radius: 0.75rem;
+  background: hsl(var(--brand) / 0.1);
+  padding: 0.75rem 1rem;
+  color: hsl(var(--foreground));
+  font-weight: 700;
+}
+
+.instruction-editor .ProseMirror code,
+.instruction-preview code {
+  border-radius: 0.4rem;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.1rem 0.35rem;
+  font-family: 'Geist Mono Variable', monospace;
+}
+
+.instruction-editor .ProseMirror img,
+.instruction-preview img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1rem;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+}
+
+.instruction-editor .ProseMirror img:not([data-align]),
+.instruction-preview img:not([data-align]),
+.instruction-editor .ProseMirror img[data-align="left"],
+.instruction-preview img[data-align="left"] {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+.instruction-editor .ProseMirror img[data-align="center"],
+.instruction-preview img[data-align="center"] {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.instruction-editor .ProseMirror img[data-align="right"],
+.instruction-preview img[data-align="right"] {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+}
+
+.instruction-editor .ProseMirror img.ProseMirror-selectednode {
+  outline: 2px solid hsl(var(--brand));
+  outline-offset: 3px;
+}
+
+.instruction-editor .ProseMirror p.is-editor-empty:first-child::before {
+  color: rgb(113 113 122);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.instruction-video {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 1rem;
+  margin: 1rem 0;
+  background: rgb(9 9 11);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.instruction-video iframe,
+.instruction-video video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.instruction-editor .ProseMirror .instruction-video.ProseMirror-selectednode {
+  outline: 2px solid hsl(var(--brand));
+  outline-offset: 3px;
+}
+
+.copy-block {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.15rem 0.45rem 0.15rem 0.65rem;
+  border-radius: 0.5rem;
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.32);
+  font-weight: 600;
+  color: rgb(199, 210, 254);
+  vertical-align: middle;
+  line-height: 1.4;
+}
+
+.copy-block .copy-block-text {
+  font-size: 0.875rem;
+}
+
+.copy-block .copy-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.45rem;
+  border-radius: 0.35rem;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.7rem;
+  color: rgb(199, 210, 254);
+  cursor: pointer;
+  border: 0;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: background 120ms ease;
+}
+
+.copy-block .copy-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.instruction-editor .ProseMirror .copy-block.ProseMirror-selectednode {
+  outline: 2px solid rgba(99, 102, 241, 0.7);
+  outline-offset: 2px;
+}
