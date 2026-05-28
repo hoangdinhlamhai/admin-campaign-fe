@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { AdminShell } from "@/components/campaign-ops/admin-shell";
 import { Toast } from "@/components/campaign-ops/toast";
 import { CategoryHeader } from "./category-header";
+import { CategoryStatsCards } from "./category-stats-cards";
 import { CategoryTable } from "./category-table";
 import { useParentCategoriesApi } from "./use-parent-categories-api";
 import { useChildCategoriesApi } from "./use-child-categories-api";
@@ -72,6 +73,7 @@ export function CategoryManager({ mode }: CategoryManagerProps) {
         ) : (
           <>
             <CategoryHeader mode={mode} total={categories.length} />
+            <CategoryStatsCards mode={mode} />
             <CategoryTable
               categories={filteredCategories}
               getChildrenOf={getChildrenOf}
