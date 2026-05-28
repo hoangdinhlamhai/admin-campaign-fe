@@ -11,9 +11,15 @@ function statusBadge(status: ChildDetailCampaignDto["status"]) {
     case "active":
       return { label: "Hoạt động", cls: "bg-emerald-500/15 text-emerald-300" };
     case "paused":
-      return { label: "Tạm dừng", cls: "bg-zinc-500/15 text-zinc-400" };
-    case "completed":
-      return { label: "Hoàn thành", cls: "bg-sky-500/15 text-sky-300" };
+      return { label: "Tạm dừng", cls: "bg-amber-500/15 text-amber-300" };
+    case "draft":
+      return { label: "Bản nháp", cls: "bg-zinc-500/15 text-zinc-400" };
+    case "stopped":
+      return { label: "Đã dừng", cls: "bg-rose-500/15 text-rose-300" };
+    case "archived":
+      return { label: "Lưu trữ", cls: "bg-zinc-500/15 text-zinc-500" };
+    default:
+      return { label: status ?? "—", cls: "bg-zinc-500/15 text-zinc-400" };
   }
 }
 

@@ -14,7 +14,7 @@ export type ParentCategoryApi = {
   slug: string;
   description: string | null;
   dailyUserTarget: number;
-  status: "active" | "paused";
+  status: "active" | "paused" | "archived";
   createdBy: string;
   createdAt: string;
   updatedAt: string;
@@ -33,7 +33,7 @@ export type CreateParentCategoryDto = {
   slug: string;
   description: string;
   dailyUserTarget: number;
-  status: "active" | "paused";
+  status: "active" | "paused" | "archived";
 };
 
 export type UpdateParentCategoryDto = Partial<CreateParentCategoryDto>;
@@ -79,7 +79,7 @@ export type ParentDetailChildDto = {
   initials: string;
   description: string | null;
   dailyUserTarget: number;
-  status: "active" | "paused";
+  status: "active" | "paused" | "archived";
   campaignCount: number;
   pausedCount: number;
   rangeStats: ParentCategoryRangeStats;

@@ -16,7 +16,7 @@ export type ChildCategoryApi = {
   slug: string;
   description: string | null;
   dailyUserTarget: number;
-  status: "active" | "paused";
+  status: "active" | "paused" | "archived";
   createdAt: string;
   campaignCount: number;
   pausedCount: number;
@@ -33,7 +33,7 @@ export type CreateChildCategoryDto = {
   slug: string;
   description: string;
   dailyUserTarget: number;
-  status: "active" | "paused";
+  status: "active" | "paused" | "archived";
 };
 
 export type UpdateChildCategoryDto = Partial<CreateChildCategoryDto>;
@@ -74,7 +74,7 @@ export type ChildDetailCampaignDto = {
   id: string;
   code: string;
   name: string;
-  status: "active" | "paused" | "completed";
+  status: "draft" | "active" | "paused" | "stopped" | "archived";
   dailyUserTarget: number;
   completedCount: number;
   missingCount: number;
