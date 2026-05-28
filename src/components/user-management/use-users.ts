@@ -1,7 +1,21 @@
-import { useState, useCallback } from "react";
-import { type User, type Permission, defaultUsers, allPermissions } from "@/lib/user-management-data";
+import { useEffect, useState, useCallback } from "react";
+import {
+  listUsers,
+  createUser,
+  updateUser as apiUpdateUser,
+  deleteUser as apiDeleteUser,
+  type UserApi,
+} from "@/lib/api/users-api";
+import type { Permission } from "@/lib/user-management-data";
 
-const STORAGE_KEY = "senlyzer-users-v1";
+type UserFormData = {
+  name: string;
+  email: string;
+  phone: string;
+  role: "admin" | "employee";
+  status: "active" | "inactive" | "suspended";
+  permissions: Permission[];
+};
 
 function getInitials(name: string): string {
   return name
@@ -13,76 +27,105 @@ function getInitials(name: string): string {
     .toUpperCase();
 }
 
-function loadUsers(): User[] {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) return JSON.parse(stored);
-  } catch { /* ignore parse errors, use defaults */ }
-  return defaultUsers;
-}
-
-function saveUsers(users: User[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
-}
+/** Adapt UserApi to include computed initials for table display */
+export type UserWithInitials = UserApi & { initials: string };
 
 export function useUsers() {
-  const [users, setUsers] = useState<User[]>(loadUsers);
+  const [users, setUsers] = useState<UserWithInitials[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const persist = useCallback((next: User[]) => {
-    setUsers(next);
-    saveUsers(next);
+  const refetch = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await listUsers();
+      setUsers(data.map((u) => ({ ...u, initials: getInitials(u.name) })));
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Lỗi tải danh sách");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    refetch();
+  }, [refetch]);
+
   const addUser = useCallback(
-    (data: { name: string; email: string; phone: string; role: User["role"]; status: User["status"]; permissions: Permission[] }) => {
+    async (data: UserFormData) => {
       if (!data.name.trim() || !data.email.trim()) return false;
-      const newUser: User = {
-        id: `user-${Date.now()}`,
-        name: data.name.trim(),
-        email: data.email.trim(),
-        phone: data.phone.trim(),
-        initials: getInitials(data.name),
-        role: data.role,
-        status: data.status,
-        permissions: data.role === "admin" ? allPermissions : data.permissions,
-        createdAt: new Date().toISOString(),
-        lastLoginAt: null,
-        createdBy: "user-1",
-      };
-      persist([...loadUsers(), newUser]);
-      return true;
+      try {
+        await createUser({
+          name: data.name.trim(),
+          email: data.email.trim(),
+          phone: data.phone.trim() || undefined,
+          role: data.role,
+          status: data.status,
+          permissions: data.permissions,
+        });
+        await refetch();
+        return true;
+      } catch {
+        return false;
+      }
     },
-    [persist]
+    [refetch],
   );
 
   const updateUser = useCallback(
-    (id: string, data: Partial<Omit<User, "id" | "createdAt" | "createdBy">>) => {
-      const current = loadUsers();
-      const idx = current.findIndex((u) => u.id === id);
-      if (idx === -1) return false;
-      const updated = { ...current[idx], ...data };
-      if (data.name) updated.initials = getInitials(data.name);
-      if (updated.role === "admin") updated.permissions = allPermissions;
-      current[idx] = updated;
-      persist(current);
-      return true;
+    async (id: string, data: Partial<UserFormData>) => {
+      try {
+        await apiUpdateUser(id, {
+          name: data.name?.trim(),
+          email: data.email?.trim(),
+          phone: data.phone?.trim() || undefined,
+          role: data.role,
+          status: data.status,
+          permissions: data.permissions,
+        });
+        await refetch();
+        return true;
+      } catch {
+        return false;
+      }
     },
-    [persist]
+    [refetch],
   );
 
   const deleteUser = useCallback(
-    (id: string) => {
-      persist(loadUsers().filter((u) => u.id !== id));
+    async (id: string) => {
+      try {
+        await apiDeleteUser(id);
+        await refetch();
+      } catch (err) {
+        console.error("Delete failed", err);
+      }
     },
-    [persist]
+    [refetch],
   );
 
   const deleteUsers = useCallback(
-    (ids: string[]) => {
-      persist(loadUsers().filter((u) => !ids.includes(u.id)));
+    async (ids: string[]) => {
+      try {
+        await Promise.all(ids.map((id) => apiDeleteUser(id)));
+        await refetch();
+      } catch (err) {
+        console.error("Delete batch failed", err);
+      }
     },
-    [persist]
+    [refetch],
   );
 
-  return { users, addUser, updateUser, deleteUser, deleteUsers };
+  return {
+    users,
+    loading,
+    error,
+    addUser,
+    updateUser,
+    deleteUser,
+    deleteUsers,
+    refetch,
+  };
 }

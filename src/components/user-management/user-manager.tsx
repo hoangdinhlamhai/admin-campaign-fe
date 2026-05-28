@@ -17,8 +17,8 @@ export function UserManager() {
     window.setTimeout(() => setToast(null), 2200);
   };
 
-  const handleDelete = (id: string) => {
-    deleteUser(id);
+  const handleDelete = async (id: string) => {
+    await deleteUser(id);
     showToast("Đã xoá người dùng.");
   };
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { fetchFullCampaign, deleteCampaign, publishCampaign, pauseCampaign } from "@/lib/api/campaigns-api";
+import { useAuth } from "@/lib/auth/auth-context";
 import { AdminShell } from "@/components/campaign-ops/admin-shell";
 import { Toast } from "@/components/campaign-ops/toast";
 import { CampaignDetailHeader } from "./campaign-detail-header";
@@ -8,16 +9,19 @@ import { CampaignDetailStats } from "./campaign-detail-stats";
 import { CampaignDetailInfo } from "./campaign-detail-info";
 import { CampaignDetailSettings } from "./campaign-detail-settings";
 import { CampaignDetailInstructions } from "./campaign-detail-instructions";
+import { AssigneeReassignModal } from "./assignee-reassign-modal";
 
 type FullCampaign = Awaited<ReturnType<typeof fetchFullCampaign>>;
 
 export function CampaignDetailPage() {
   const { id = "" } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { isAdmin } = useAuth();
   const [data, setData] = useState<FullCampaign | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const [reassignOpen, setReassignOpen] = useState(false);
 
   const showToast = (msg: string) => {
     setToast(msg);
@@ -93,6 +97,8 @@ export function CampaignDetailPage() {
               onEdit={handleEdit}
               onPause={handlePause}
               onPublish={handlePublish}
+              onReassignClick={() => setReassignOpen(true)}
+              isAdmin={isAdmin}
             />
             <CampaignDetailStats campaignId={id} dailyTarget={data.dailyUserTarget} />
             <div className="grid gap-5 xl:grid-cols-2">
@@ -104,6 +110,18 @@ export function CampaignDetailPage() {
         ) : null}
       </AdminShell>
       <Toast message={toast} />
+      {reassignOpen && data && (
+        <AssigneeReassignModal
+          campaignId={data.id}
+          campaignName={data.name}
+          currentAssigneeId={data.assignedTo}
+          onClose={() => setReassignOpen(false)}
+          onSuccess={() => {
+            setReassignOpen(false);
+            refetch();
+          }}
+        />
+      )}
     </div>
   );
 }

@@ -8,6 +8,7 @@ export type CampaignCreateForm = {
   pass: string;
   priority: "low" | "medium" | "high";
   maxWrongAttempts: string;
+  assigneeId: string | null;
 };
 
 export const defaultCampaignCreateForm: CampaignCreateForm = {
@@ -20,6 +21,7 @@ export const defaultCampaignCreateForm: CampaignCreateForm = {
   pass: "",
   priority: "medium",
   maxWrongAttempts: "3",
+  assigneeId: null,
 };
 
 export const campaignBasicDraftStorageKey = "senlyzer-campaign-basic-draft";

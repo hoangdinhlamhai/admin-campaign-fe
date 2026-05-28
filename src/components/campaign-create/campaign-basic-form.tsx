@@ -1,15 +1,20 @@
 import { RefreshCw } from "lucide-react";
 import type { CampaignCategory } from "@/lib/campaign-categories-data";
 import type { CampaignCreateForm } from "@/lib/campaign-create-data";
+import type { UserApi } from "@/lib/api/users-api";
+import type { AuthUser } from "@/lib/auth/auth-storage";
 
 type CampaignBasicFormProps = {
   categories: CampaignCategory[];
   form: CampaignCreateForm;
   onChange: (form: CampaignCreateForm) => void;
   onGeneratePass: () => void;
+  users: UserApi[];
+  currentUser: AuthUser | null;
+  isAdmin: boolean;
 };
 
-export function CampaignBasicForm({ categories, form, onChange, onGeneratePass }: CampaignBasicFormProps) {
+export function CampaignBasicForm({ categories, form, onChange, onGeneratePass, users, currentUser, isAdmin }: CampaignBasicFormProps) {
   return (
     <section className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl sm:p-5">
       <h3 className="text-lg font-semibold text-white">Thông tin cơ bản</h3>
@@ -44,6 +49,34 @@ export function CampaignBasicForm({ categories, form, onChange, onGeneratePass }
             {form.active ? "Hoạt động" : "Tạm dừng"}
           </button>
         </div>
+
+        <label className="block">
+          <span className="text-sm font-medium text-zinc-200">Người phụ trách</span>
+          {isAdmin ? (
+            <select
+              className="mt-2 h-11 w-full rounded-xl border border-white/10 bg-zinc-950/55 px-3 text-sm text-white outline-none transition focus:border-emerald-300/60"
+              value={form.assigneeId ?? ""}
+              onChange={(e) => onChange({ ...form, assigneeId: e.target.value || null })}
+            >
+              <option value="">— Chưa phân công —</option>
+              {users.filter(u => u.status === "active").map(u => (
+                <option key={u.id} value={u.id}>
+                  {u.name} ({u.role === "admin" ? "Admin" : "NV"})
+                </option>
+              ))}
+            </select>
+          ) : (
+            <select
+              disabled
+              className="mt-2 h-11 w-full rounded-xl border border-white/10 bg-zinc-950/55 px-3 text-sm text-white outline-none transition disabled:opacity-70"
+              value={currentUser?.id ?? ""}
+            >
+              <option value={currentUser?.id ?? ""}>
+                Bạn ({currentUser?.name ?? "—"})
+              </option>
+            </select>
+          )}
+        </label>
 
         <label className="block">
           <span className="text-sm font-medium text-zinc-200">Tên chiến dịch <span className="text-rose-300">*</span></span>
