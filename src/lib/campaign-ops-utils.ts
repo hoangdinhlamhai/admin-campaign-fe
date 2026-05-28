@@ -20,6 +20,8 @@ export function filterCampaigns(
   rows: Campaign[],
   query: string,
   status: "all" | CampaignStatus,
+  parentId: string = "all",
+  childId: string = "all",
 ) {
   const normalizedQuery = query.trim().toLocaleLowerCase("vi-VN");
 
@@ -29,7 +31,9 @@ export function filterCampaigns(
       campaign.name.toLocaleLowerCase("vi-VN").includes(normalizedQuery) ||
       campaign.code.toLocaleLowerCase("vi-VN").includes(normalizedQuery);
     const matchesStatus = status === "all" || campaign.status === status;
+    const matchesParent = parentId === "all" || campaign.parentCategoryId === parentId;
+    const matchesChild = childId === "all" || campaign.childCategoryId === childId;
 
-    return matchesQuery && matchesStatus;
+    return matchesQuery && matchesStatus && matchesParent && matchesChild;
   });
 }

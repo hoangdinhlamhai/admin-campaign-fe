@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import type { Campaign, CampaignPriority, CampaignStatus } from "@/lib/campaign-ops-data";
 import { filterCampaigns, formatPercent } from "@/lib/campaign-ops-utils";
+import { useParentCategoriesApi } from "@/components/campaign-categories/use-parent-categories-api";
+import { useChildCategoriesApi } from "@/components/campaign-categories/use-child-categories-api";
 
 type CampaignTableProps = {
   campaigns: Campaign[];
@@ -76,11 +78,23 @@ export function CampaignTable({
 }: CampaignTableProps) {
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | CampaignStatus>("all");
+  const [parentFilter, setParentFilter] = useState<string>("all");
+  const [childFilter, setChildFilter] = useState<string>("all");
   const [activeTab, setActiveTab] = useState<"campaigns" | "history">("campaigns");
 
+  const { categories: parentCategories } = useParentCategoriesApi();
+  const { categories: childCategories } = useChildCategoriesApi();
+
+  const filteredChildOptions = useMemo(
+    () => parentFilter === "all"
+      ? childCategories
+      : childCategories.filter((c) => c.parentId === parentFilter),
+    [childCategories, parentFilter],
+  );
+
   const filtered = useMemo(
-    () => filterCampaigns(campaigns, query, statusFilter),
-    [campaigns, query, statusFilter],
+    () => filterCampaigns(campaigns, query, statusFilter, parentFilter, childFilter),
+    [campaigns, query, statusFilter, parentFilter, childFilter],
   );
 
   const isAllTime = dateFilter === "all";
@@ -108,7 +122,7 @@ export function CampaignTable({
         </div>
 
         {activeTab === "campaigns" && (
-          <div className="grid gap-2 xl:grid-cols-[minmax(15rem,1fr)_auto_auto_auto_auto_auto]">
+          <div className="grid gap-2 xl:grid-cols-[minmax(15rem,1fr)_auto_auto_auto_auto_auto_auto_auto]">
             <label className="relative min-w-0">
               <span className="sr-only">Tìm kiếm chiến dịch</span>
               <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-zinc-500" />
@@ -127,6 +141,32 @@ export function CampaignTable({
             >
               {STATUS_FILTER_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
+              ))}
+            </select>
+            <select
+              aria-label="Lọc theo danh mục cha"
+              className="h-11 rounded-xl border border-white/10 bg-zinc-950/85 px-3 text-base text-white outline-none transition focus:border-emerald-300/45"
+              onChange={(e) => {
+                setParentFilter(e.target.value);
+                setChildFilter("all");
+              }}
+              value={parentFilter}
+            >
+              <option value="all">Tất cả danh mục cha</option>
+              {parentCategories.map((cat) => (
+                <option key={cat.id} value={cat.id}>{cat.name}</option>
+              ))}
+            </select>
+            <select
+              aria-label="Lọc theo danh mục con"
+              className="h-11 rounded-xl border border-white/10 bg-zinc-950/85 px-3 text-base text-white outline-none transition focus:border-emerald-300/45 disabled:opacity-50"
+              disabled={filteredChildOptions.length === 0}
+              onChange={(e) => setChildFilter(e.target.value)}
+              value={childFilter}
+            >
+              <option value="all">Tất cả danh mục con</option>
+              {filteredChildOptions.map((cat) => (
+                <option key={cat.id} value={cat.id}>{cat.name}</option>
               ))}
             </select>
             <input

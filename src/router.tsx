@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router'
 import { App } from './app'
 import { lazy } from 'react'
+import { ProtectedRoute } from './components/auth/protected-route'
 
 /* eslint-disable react-refresh/only-export-components */
 const OverviewPage = lazy(() => import('./pages/overview'))
@@ -29,32 +30,37 @@ export const router = createBrowserRouter([
   },
   {
     path: '/',
-    element: <App />,
+    element: <ProtectedRoute />,
     children: [
-      { index: true, element: <Navigate to="/overview" replace /> },
-      { path: 'overview', element: <OverviewPage /> },
-      { path: 'campaigns', element: <CampaignsPage /> },
-      { path: 'campaigns/new', element: <CampaignCreatePage /> },
-      { path: 'campaigns/new/instructions', element: <CampaignInstructionsPage /> },
-      { path: 'campaigns/new/advanced', element: <CampaignAdvancedPage /> },
-      { path: 'campaigns/new/review', element: <CampaignReviewPage /> },
-      { path: 'campaigns/:id', element: <CampaignDetailPage /> },
-      { path: 'campaigns/:id/edit', element: <CampaignEditPage /> },
-      { path: 'campaigns/:id/edit/instructions', element: <CampaignInstructionsPage /> },
-      { path: 'campaigns/:id/edit/advanced', element: <CampaignAdvancedPage /> },
-      { path: 'campaigns/:id/edit/review', element: <CampaignReviewPage /> },
-      { path: 'categories', element: <Navigate to="/categories/parents" replace /> },
-      { path: 'categories/parents', element: <CategoriesPage /> },
-      { path: 'categories/parents/new', element: <CategoryNewPage /> },
-      { path: 'categories/parents/:id/edit', element: <CategoryEditPage /> },
-      { path: 'categories/children', element: <CategoryChildrenPage /> },
-      { path: 'categories/children/new', element: <CategoryNewPage /> },
-      { path: 'categories/children/:id/edit', element: <CategoryEditPage /> },
-      { path: 'users', element: <UsersPage /> },
-      { path: 'users/new', element: <UserNewPage /> },
-      { path: 'users/:id/edit', element: <UserEditPage /> },
-      { path: 'alerts', element: <AlertsPage /> },
-      { path: 'settings', element: <SettingsPage /> },
+      {
+        element: <App />,
+        children: [
+          { index: true, element: <Navigate to="/overview" replace /> },
+          { path: 'overview', element: <OverviewPage /> },
+          { path: 'campaigns', element: <CampaignsPage /> },
+          { path: 'campaigns/new', element: <CampaignCreatePage /> },
+          { path: 'campaigns/new/instructions', element: <CampaignInstructionsPage /> },
+          { path: 'campaigns/new/advanced', element: <CampaignAdvancedPage /> },
+          { path: 'campaigns/new/review', element: <CampaignReviewPage /> },
+          { path: 'campaigns/:id', element: <CampaignDetailPage /> },
+          { path: 'campaigns/:id/edit', element: <CampaignEditPage /> },
+          { path: 'campaigns/:id/edit/instructions', element: <CampaignInstructionsPage /> },
+          { path: 'campaigns/:id/edit/advanced', element: <CampaignAdvancedPage /> },
+          { path: 'campaigns/:id/edit/review', element: <CampaignReviewPage /> },
+          { path: 'categories', element: <Navigate to="/categories/parents" replace /> },
+          { path: 'categories/parents', element: <CategoriesPage /> },
+          { path: 'categories/parents/new', element: <CategoryNewPage /> },
+          { path: 'categories/parents/:id/edit', element: <CategoryEditPage /> },
+          { path: 'categories/children', element: <CategoryChildrenPage /> },
+          { path: 'categories/children/new', element: <CategoryNewPage /> },
+          { path: 'categories/children/:id/edit', element: <CategoryEditPage /> },
+          { path: 'users', element: <UsersPage /> },
+          { path: 'users/new', element: <UserNewPage /> },
+          { path: 'users/:id/edit', element: <UserEditPage /> },
+          { path: 'alerts', element: <AlertsPage /> },
+          { path: 'settings', element: <SettingsPage /> },
+        ],
+      },
     ],
   },
 ])
