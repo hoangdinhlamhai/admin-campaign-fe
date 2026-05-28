@@ -4,11 +4,13 @@ import {
   ChevronLeft,
   ChevronRight,
   Edit3,
+  Eye,
   Search,
   Trash2,
   TriangleAlert,
 } from "lucide-react";
 import type { CampaignCategory } from "@/lib/campaign-categories-data";
+import { formatNumber } from "@/lib/format-currency";
 
 type CategoryTableProps = {
   categories: CampaignCategory[];
@@ -18,6 +20,7 @@ type CategoryTableProps = {
   onDelete: (id: string) => void;
   onEdit: (category: CampaignCategory) => void;
   onQueryChange: (query: string) => void;
+  onRowClick?: (category: CampaignCategory) => void;
   parentCategories: CampaignCategory[];
   query: string;
   total: number;
@@ -31,6 +34,7 @@ export function CategoryTable({
   onDelete,
   onEdit,
   onQueryChange,
+  onRowClick,
   parentCategories,
   query,
   total,
@@ -91,29 +95,30 @@ export function CategoryTable({
               {mode === "parent" && <HeaderCell className="w-28 text-center">Số DM con</HeaderCell>}
               <HeaderCell className="w-32 text-center">Số chiến dịch</HeaderCell>
               <HeaderCell className="w-40 text-center">User cần chạy / ngày</HeaderCell>
-              <HeaderCell className="w-44 text-center">Đã hoàn thành hôm nay</HeaderCell>
+              <HeaderCell className="w-44 text-center">Đã hoàn thành</HeaderCell>
               <HeaderCell className="w-32 text-center">Còn thiếu</HeaderCell>
               <HeaderCell className="w-44">Tiến độ</HeaderCell>
               <HeaderCell className="w-32">Trạng thái</HeaderCell>
-              <HeaderCell className="w-24 text-right">Thao tác</HeaderCell>
+              <HeaderCell className="w-32 text-right">Thao tác</HeaderCell>
             </tr>
           </thead>
           <tbody>
             {visibleCategories.map((category, index) => (
               <CategoryRow
                 category={category}
-                childCount={mode === "parent" ? getChildrenOf(category.id).length : undefined}
+                childCount={mode === "parent" ? (category.childCount ?? getChildrenOf(category.id).length) : undefined}
                 index={index}
                 key={category.id}
                 mode={mode}
                 onDelete={() => onDelete(category.id)}
                 onEdit={() => onEdit(category)}
+                onRowClick={onRowClick ? () => onRowClick(category) : undefined}
                 parentName={mode === "child" && category.parentId ? getParentName(category.parentId) : undefined}
               />
             ))}
             {visibleCategories.length === 0 && (
               <tr>
-                <td className="px-4 py-10 text-center text-zinc-400" colSpan={mode === "parent" ? 10 : 10}>
+                <td className="px-4 py-10 text-center text-zinc-400" colSpan={mode === "parent" ? 11 : 10}>
                   Không tìm thấy danh mục phù hợp.
                 </td>
               </tr>
@@ -158,6 +163,7 @@ function CategoryRow({
   mode,
   onDelete,
   onEdit,
+  onRowClick,
   parentName,
 }: {
   category: CampaignCategory;
@@ -166,12 +172,19 @@ function CategoryRow({
   mode: "parent" | "child";
   onDelete: () => void;
   onEdit: () => void;
+  onRowClick?: () => void;
   parentName?: string;
 }) {
-  const progress = getProgress(category.completedToday, category.dailyUsers);
+  const target = category.rangeTarget ?? 0;
+  const completed = category.rangeCompleted ?? 0;
+  const missing = category.rangeMissing ?? 0;
+  const progress = getProgress(completed, target);
 
   return (
-    <tr className="border-b border-white/[0.06] text-zinc-200 transition hover:bg-white/[0.035]">
+    <tr
+      className={`border-b border-white/[0.06] text-zinc-200 transition hover:bg-white/[0.035] ${onRowClick ? "cursor-pointer" : ""}`}
+      onClick={onRowClick}
+    >
       <BodyCell>
         <span className="font-mono text-zinc-400">{index + 1}</span>
       </BodyCell>
@@ -181,13 +194,9 @@ function CategoryRow({
             {category.initials}
           </div>
           <div className="min-w-0">
-            <button
-              className="font-semibold text-white transition hover:text-emerald-100"
-              onClick={onEdit}
-              type="button"
-            >
+            <span className="font-semibold text-white">
               {category.name}
-            </button>
+            </span>
             <p className="mt-1 truncate text-xs text-zinc-500">{category.website}</p>
           </div>
         </div>
@@ -201,14 +210,14 @@ function CategoryRow({
       )}
       {mode === "parent" && (
         <BodyCell className="text-center">
-          <span className="font-mono font-semibold text-zinc-300">{childCount ?? 0}</span>
+          <span className="font-mono font-semibold text-zinc-300">{formatNumber(childCount ?? 0)}</span>
         </BodyCell>
       )}
       <BodyCell className="text-center">
-        <span className="font-mono font-semibold">{category.count}</span>
+        <span className="font-mono font-semibold">{formatNumber(category.campaignCount ?? 0)}</span>
       </BodyCell>
       <BodyCell className="text-center">
-        <span className="font-mono font-semibold">{category.dailyUsers}</span>
+        <span className="font-mono font-semibold">{formatNumber(target)}</span>
       </BodyCell>
       <BodyCell className="text-center">
         <span
@@ -216,16 +225,16 @@ function CategoryRow({
             progress >= 100 ? "text-emerald-200" : progress >= 70 ? "text-lime-200" : "text-amber-200"
           }`}
         >
-          {category.completedToday}
+          {formatNumber(completed)}
         </span>
       </BodyCell>
       <BodyCell className="text-center">
         <span
           className={`font-mono font-semibold ${
-            category.missingToday > 0 ? "text-rose-200" : "text-zinc-200"
+            missing > 0 ? "text-rose-200" : "text-zinc-200"
           }`}
         >
-          {category.missingToday}
+          {formatNumber(missing)}
         </span>
       </BodyCell>
       <BodyCell>
@@ -235,7 +244,18 @@ function CategoryRow({
         <StatusBadge status={category.status} />
       </BodyCell>
       <BodyCell>
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-1" onClick={(e) => e.stopPropagation()}>
+          {onRowClick && (
+            <button
+              aria-label={`Chi tiết ${category.name}`}
+              className="grid size-9 place-items-center rounded-lg text-zinc-400 transition hover:bg-white/[0.08] hover:text-white"
+              onClick={onRowClick}
+              type="button"
+              title="Chi tiết"
+            >
+              <Eye className="size-4" />
+            </button>
+          )}
           <button
             aria-label={`Sửa ${category.name}`}
             className="grid size-9 place-items-center rounded-lg text-zinc-400 transition hover:bg-white/[0.08] hover:text-white"
@@ -272,7 +292,7 @@ function ProgressBar({ value }: { value: number }) {
       <div className="h-2.5 w-28 overflow-hidden rounded-full bg-zinc-800">
         <div
           className={`h-full rounded-full ${tone} transition-all duration-500`}
-          style={{ width: `${value}%` }}
+          style={{ width: `${Math.min(value, 100)}%` }}
         />
       </div>
       <span className="w-11 font-mono text-xs font-semibold text-zinc-300">{value}%</span>

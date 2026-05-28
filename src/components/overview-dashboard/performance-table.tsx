@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, Download, MoreHorizontal, Search } from "lucide-react";
 import type { OverviewTableItem } from "@/lib/api/stats-api";
+import { formatVND, formatNumber } from "@/lib/format-currency";
+import { exportTableCsv } from "./export-table-csv";
 
 const statusLabel: Record<string, string> = {
   draft: "Nháp",
@@ -20,10 +22,6 @@ const statusClass: Record<string, string> = {
   running: "bg-emerald-400/12 text-emerald-200",
 };
 
-function formatNumber(value: number) {
-  return new Intl.NumberFormat("vi-VN").format(value);
-}
-
 type Props = {
   items: OverviewTableItem[];
   total: number;
@@ -31,6 +29,8 @@ type Props = {
   error: string | null;
   searchQuery: string;
   onSearchChange: (q: string) => void;
+  rangeFrom: string;
+  rangeTo: string;
 };
 
 export function PerformanceTable({
@@ -40,6 +40,8 @@ export function PerformanceTable({
   error,
   searchQuery,
   onSearchChange,
+  rangeFrom,
+  rangeTo,
 }: Props) {
   const [quiz, setQuiz] = useState("all");
 
@@ -90,7 +92,12 @@ export function PerformanceTable({
                 <option key={item} value={item}>{item}</option>
               ))}
             </select>
-            <button className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.07] px-3 text-sm font-semibold text-zinc-100 transition hover:bg-white/[0.11]" type="button">
+            <button
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.07] px-3 text-sm font-semibold text-zinc-100 transition hover:bg-white/[0.11] disabled:cursor-not-allowed disabled:opacity-40"
+              disabled={filteredItems.length === 0}
+              onClick={() => exportTableCsv(filteredItems, rangeFrom, rangeTo)}
+              type="button"
+            >
               <Download className="size-4" />
               Xuất Excel
             </button>
@@ -142,14 +149,20 @@ export function PerformanceTable({
                       </div>
                     </BodyCell>
                     <BodyCell>
-                      <span className="text-zinc-500">{"—"}</span>
+                      <span className="text-zinc-400">{item.source ?? "—"}</span>
                     </BodyCell>
                     <BodyCell>{item.parentName}</BodyCell>
-                    <BodyCell className="text-right font-mono text-zinc-500">{"—"}</BodyCell>
-                    <BodyCell className="text-right font-mono text-zinc-500">{"—"}</BodyCell>
+                    <BodyCell className="text-right font-mono">
+                      {item.cost != null && item.cost > 0 ? formatVND(item.cost) : "—"}
+                    </BodyCell>
+                    <BodyCell className="text-right font-mono">
+                      {item.clicks != null && item.clicks > 0 ? formatNumber(item.clicks) : "—"}
+                    </BodyCell>
                     <BodyCell className="text-right font-mono">{formatNumber(item.valid)}</BodyCell>
                     <BodyCell className="text-right font-mono">{formatNumber(item.completed)}</BodyCell>
-                    <BodyCell className="text-right font-mono text-zinc-500">{"—"}</BodyCell>
+                    <BodyCell className="text-right font-mono">
+                      {item.cpa != null && item.cpa > 0 ? formatVND(item.cpa) : "—"}
+                    </BodyCell>
                     <BodyCell className="text-right font-mono font-semibold">{item.conversionRate.toFixed(2)}%</BodyCell>
                     <BodyCell>
                       <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-bold ${statusClass[item.status] ?? "bg-zinc-400/12 text-zinc-300"}`}>

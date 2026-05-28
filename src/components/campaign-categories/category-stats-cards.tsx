@@ -13,6 +13,8 @@ import type { LucideIcon } from "lucide-react";
 
 type Props = {
   mode: "parent" | "child";
+  from?: string;
+  to?: string;
 };
 
 type CardConfig = {
@@ -37,20 +39,20 @@ function getCards(mode: "parent" | "child"): CardConfig[] {
       Icon: Megaphone,
     },
     {
-      key: "todayTarget",
-      label: "User cần chạy hôm nay",
+      key: "rangeTarget",
+      label: "User cần chạy (trong kỳ)",
       tone: "text-lime-200",
       Icon: Target,
     },
     {
-      key: "todayCompleted",
-      label: "Đã hoàn thành hôm nay",
+      key: "rangeCompleted",
+      label: "Đã hoàn thành (trong kỳ)",
       tone: "text-emerald-200",
       Icon: ShieldCheck,
     },
     {
-      key: "todayMissing",
-      label: "Còn thiếu hôm nay",
+      key: "rangeMissing",
+      label: "Còn thiếu (trong kỳ)",
       tone: "text-amber-200",
       Icon: AlertTriangle,
     },
@@ -63,8 +65,8 @@ function getCards(mode: "parent" | "child"): CardConfig[] {
   ];
 }
 
-export function CategoryStatsCards({ mode }: Props) {
-  const { stats, loading, error, refresh } = useCategoryStats(mode);
+export function CategoryStatsCards({ mode, from, to }: Props) {
+  const { stats, loading, error, refresh } = useCategoryStats(mode, from, to);
   const cards = getCards(mode);
 
   return (

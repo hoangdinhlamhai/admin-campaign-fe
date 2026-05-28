@@ -1,6 +1,5 @@
 import { apiFetch } from "./config";
 
-export type RangeKey = "today" | "7d" | "30d";
 export type CategoryScope = "parent" | "child";
 
 export type DashboardStats = {
@@ -10,6 +9,9 @@ export type DashboardStats = {
   totalDisplays: number;
   totalWrong: number;
   totalValid: number;
+  totalCost: number;
+  totalClicks: number;
+  cpa: number;
   conversionRate: number;
 };
 
@@ -17,17 +19,15 @@ export type CategoryStats = {
   totalCategoryCount: number;
   totalCampaignCount: number;
   pausedCampaignCount: number;
-  todayTarget: number;
-  todayCompleted: number;
-  todayMissing: number;
+  rangeTarget: number;
+  rangeCompleted: number;
+  rangeMissing: number;
 };
 
 export type DashboardResponse = {
-  range: RangeKey;
   from: string;
   to: string;
   stats: DashboardStats;
-  previous: { from: string; to: string; stats: DashboardStats };
   campaignsByStatus: { status: string; count: number }[];
   activeCategoryCount: number;
   totalPausedCampaigns: number;
@@ -57,31 +57,39 @@ export type OverviewTableItem = {
 };
 
 export type OverviewTableResponse = {
-  range: RangeKey;
   from: string;
   to: string;
   items: OverviewTableItem[];
   total: number;
 };
 
-export function fetchDashboard(range: RangeKey): Promise<DashboardResponse> {
-  return apiFetch<DashboardResponse>(`/api/stats/dashboard?range=${range}`);
+export function fetchDashboard(
+  from: string,
+  to: string
+): Promise<DashboardResponse> {
+  const params = new URLSearchParams({ from, to });
+  return apiFetch<DashboardResponse>(
+    `/api/stats/dashboard?${params.toString()}`
+  );
 }
 
 export function fetchDashboardScoped(
-  range: RangeKey,
+  from: string,
+  to: string,
   scope: CategoryScope
 ): Promise<DashboardResponse> {
+  const params = new URLSearchParams({ from, to, categoryScope: scope });
   return apiFetch<DashboardResponse>(
-    `/api/stats/dashboard?range=${range}&categoryScope=${scope}`
+    `/api/stats/dashboard?${params.toString()}`
   );
 }
 
 export function fetchOverviewTable(
-  range: RangeKey,
+  from: string,
+  to: string,
   q?: string
 ): Promise<OverviewTableResponse> {
-  const params = new URLSearchParams({ range });
+  const params = new URLSearchParams({ from, to });
   if (q) params.set("q", q);
   return apiFetch<OverviewTableResponse>(
     `/api/stats/overview-table?${params.toString()}`

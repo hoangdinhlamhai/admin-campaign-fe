@@ -12,6 +12,18 @@ export type CampaignCategory = {
   missingToday: number;
   status: "active" | "paused";
   createdAt: string;
+  /** Number of child categories (parent mode only) */
+  childCount?: number;
+  /** Number of campaigns in this category */
+  campaignCount?: number;
+  /** Number of paused campaigns */
+  pausedCount?: number;
+  /** Range-scoped target user count */
+  rangeTarget?: number;
+  /** Range-scoped completed user count */
+  rangeCompleted?: number;
+  /** Range-scoped missing user count */
+  rangeMissing?: number;
 };
 
 export const campaignCategories: CampaignCategory[] = [
@@ -29,6 +41,12 @@ export const campaignCategories: CampaignCategory[] = [
     missingToday: 7,
     status: "active",
     createdAt: "2026-05-22",
+    childCount: 2,
+    campaignCount: 5,
+    pausedCount: 0,
+    rangeTarget: 25,
+    rangeCompleted: 18,
+    rangeMissing: 7,
   },
   {
     id: "category-caraluna",
@@ -44,6 +62,12 @@ export const campaignCategories: CampaignCategory[] = [
     missingToday: 0,
     status: "active",
     createdAt: "2026-05-20",
+    childCount: 2,
+    campaignCount: 5,
+    pausedCount: 0,
+    rangeTarget: 25,
+    rangeCompleted: 25,
+    rangeMissing: 0,
   },
   {
     id: "category-real-estate",
@@ -59,6 +83,12 @@ export const campaignCategories: CampaignCategory[] = [
     missingToday: 15,
     status: "active",
     createdAt: "2026-05-18",
+    childCount: 1,
+    campaignCount: 5,
+    pausedCount: 0,
+    rangeTarget: 25,
+    rangeCompleted: 10,
+    rangeMissing: 15,
   },
   {
     id: "category-compressor",
@@ -74,6 +104,12 @@ export const campaignCategories: CampaignCategory[] = [
     missingToday: 5,
     status: "active",
     createdAt: "2026-05-17",
+    childCount: 0,
+    campaignCount: 5,
+    pausedCount: 0,
+    rangeTarget: 25,
+    rangeCompleted: 20,
+    rangeMissing: 5,
   },
   {
     id: "category-sao-viet",
@@ -89,6 +125,12 @@ export const campaignCategories: CampaignCategory[] = [
     missingToday: 15,
     status: "paused",
     createdAt: "2026-05-16",
+    childCount: 0,
+    campaignCount: 5,
+    pausedCount: 5,
+    rangeTarget: 25,
+    rangeCompleted: 10,
+    rangeMissing: 15,
   },
   {
     id: "category-telecom",
@@ -104,6 +146,12 @@ export const campaignCategories: CampaignCategory[] = [
     missingToday: 5,
     status: "active",
     createdAt: "2026-05-15",
+    childCount: 0,
+    campaignCount: 6,
+    pausedCount: 0,
+    rangeTarget: 25,
+    rangeCompleted: 20,
+    rangeMissing: 5,
   },
   {
     id: "category-child-chain",
@@ -119,6 +167,12 @@ export const campaignCategories: CampaignCategory[] = [
     missingToday: 2,
     status: "active",
     createdAt: "2026-05-23",
+    childCount: 0,
+    campaignCount: 2,
+    pausedCount: 0,
+    rangeTarget: 10,
+    rangeCompleted: 8,
+    rangeMissing: 2,
   },
   {
     id: "category-child-ring",
@@ -134,6 +188,12 @@ export const campaignCategories: CampaignCategory[] = [
     missingToday: 2,
     status: "active",
     createdAt: "2026-05-24",
+    childCount: 0,
+    campaignCount: 3,
+    pausedCount: 0,
+    rangeTarget: 8,
+    rangeCompleted: 6,
+    rangeMissing: 2,
   },
   {
     id: "category-child-bracelet",
@@ -149,6 +209,12 @@ export const campaignCategories: CampaignCategory[] = [
     missingToday: 2,
     status: "active",
     createdAt: "2026-05-21",
+    childCount: 0,
+    campaignCount: 2,
+    pausedCount: 0,
+    rangeTarget: 12,
+    rangeCompleted: 10,
+    rangeMissing: 2,
   },
   {
     id: "category-child-earring",
@@ -164,6 +230,12 @@ export const campaignCategories: CampaignCategory[] = [
     missingToday: 0,
     status: "active",
     createdAt: "2026-05-22",
+    childCount: 0,
+    campaignCount: 1,
+    pausedCount: 0,
+    rangeTarget: 5,
+    rangeCompleted: 5,
+    rangeMissing: 0,
   },
   {
     id: "category-child-dress",
@@ -179,6 +251,12 @@ export const campaignCategories: CampaignCategory[] = [
     missingToday: 8,
     status: "active",
     createdAt: "2026-05-19",
+    childCount: 0,
+    campaignCount: 3,
+    pausedCount: 0,
+    rangeTarget: 15,
+    rangeCompleted: 7,
+    rangeMissing: 8,
   },
 ];
 

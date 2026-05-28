@@ -16,6 +16,8 @@ const CategoriesPage = lazy(() => import('./pages/categories'))
 const CategoryChildrenPage = lazy(() => import('./pages/category-children'))
 const CategoryNewPage = lazy(() => import('./pages/category-new'))
 const CategoryEditPage = lazy(() => import('./pages/category-edit'))
+const ParentDetailPage = lazy(() => import('./pages/categories/parent-detail-page'))
+const ChildDetailPage = lazy(() => import('./pages/categories/child-detail-page'))
 const UsersPage = lazy(() => import('./pages/users'))
 const UserNewPage = lazy(() => import('./pages/user-new'))
 const UserEditPage = lazy(() => import('./pages/user-edit'))
@@ -51,8 +53,10 @@ export const router = createBrowserRouter([
           { path: 'categories/parents', element: <CategoriesPage /> },
           { path: 'categories/parents/new', element: <CategoryNewPage /> },
           { path: 'categories/parents/:id/edit', element: <CategoryEditPage /> },
+          { path: 'categories/parents/:id', element: <ParentDetailPage /> },
           { path: 'categories/children', element: <CategoryChildrenPage /> },
           { path: 'categories/children/new', element: <CategoryNewPage /> },
+          { path: 'categories/children/:id', element: <ChildDetailPage /> },
           { path: 'categories/children/:id/edit', element: <CategoryEditPage /> },
           { path: 'users', element: <UsersPage /> },
           { path: 'users/new', element: <UserNewPage /> },

@@ -11,6 +11,7 @@ import type { CampaignCategory } from "@/lib/campaign-categories-data";
 import type { CategoryFormState } from "./category-form";
 import { createCategorySlug } from "@/lib/campaign-categories-data";
 import { parentApiToCategory } from "./category-mappers";
+import { dateToISO } from "@/lib/format-date";
 
 function formToDto(form: CategoryFormState): CreateParentCategoryDto {
   return {
@@ -24,13 +25,17 @@ function formToDto(form: CategoryFormState): CreateParentCategoryDto {
   };
 }
 
-async function loadParentCategories(): Promise<CampaignCategory[]> {
-  const res = await fetchParentCategories();
+async function loadParentCategories(from: string, to: string): Promise<CampaignCategory[]> {
+  const res = await fetchParentCategories(from, to);
   const items = Array.isArray(res) ? res : (res.value ?? []);
   return items.map(parentApiToCategory);
 }
 
-export function useParentCategoriesApi() {
+export function useParentCategoriesApi(from?: string, to?: string) {
+  const todayIso = dateToISO(new Date());
+  const effectiveFrom = from || todayIso;
+  const effectiveTo = to || todayIso;
+
   const [categories, setCategories] = useState<CampaignCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -40,7 +45,7 @@ export function useParentCategoriesApi() {
     let cancelled = false;
     Promise.resolve()
       .then(() => { if (!cancelled) { setLoading(true); setError(null); } })
-      .then(() => loadParentCategories())
+      .then(() => loadParentCategories(effectiveFrom, effectiveTo))
       .then((data) => { if (!cancelled) setCategories(data); })
       .catch((e: unknown) => {
         if (!cancelled)
@@ -48,7 +53,7 @@ export function useParentCategoriesApi() {
       })
       .finally(() => { if (!cancelled) setLoading(false); });
     return () => { cancelled = true; };
-  }, [tick]);
+  }, [effectiveFrom, effectiveTo, tick]);
 
   const refetch = useCallback(() => {
     setTick((t) => t + 1);
