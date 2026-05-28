@@ -1,6 +1,17 @@
-import { CalendarDays, Filter } from "lucide-react";
+import type { RangeKey } from "@/lib/api/stats-api";
 
-export function OverviewHeader() {
+type Props = {
+  range: RangeKey;
+  onRangeChange: (range: RangeKey) => void;
+};
+
+const presets: { key: RangeKey; label: string }[] = [
+  { key: "today", label: "Hôm nay" },
+  { key: "7d", label: "7 ngày" },
+  { key: "30d", label: "30 ngày" },
+];
+
+export function OverviewHeader({ range, onRangeChange }: Props) {
   return (
     <header className="mb-5 flex flex-col gap-4 rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl sm:p-5 xl:flex-row xl:items-center xl:justify-between">
       <div>
@@ -11,15 +22,21 @@ export function OverviewHeader() {
         <p className="mt-2 text-sm text-zinc-400 sm:text-base">Theo dõi hiệu suất quảng cáo, quiz và nhiệm vụ trong toàn hệ thống.</p>
       </div>
 
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-        <button className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.07] px-3 text-sm font-semibold text-zinc-100 transition hover:bg-white/[0.11]" type="button">
-          <CalendarDays className="size-4" />
-          7 ngày gần nhất
-        </button>
-        <button className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.07] px-3 text-sm font-semibold text-zinc-100 transition hover:bg-white/[0.11]" type="button">
-          <Filter className="size-4" />
-          Bộ lọc
-        </button>
+      <div className="flex items-center gap-1 rounded-xl border border-white/10 bg-zinc-950/55 p-1">
+        {presets.map((preset) => (
+          <button
+            key={preset.key}
+            type="button"
+            onClick={() => onRangeChange(preset.key)}
+            className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+              range === preset.key
+                ? "bg-emerald-300/15 text-emerald-200"
+                : "text-zinc-400 hover:text-zinc-200"
+            }`}
+          >
+            {preset.label}
+          </button>
+        ))}
       </div>
     </header>
   );
