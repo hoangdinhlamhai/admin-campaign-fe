@@ -6,6 +6,19 @@ type Props = {
   children: ParentDetailChildDto[];
 };
 
+function childStatusBadge(status: ParentDetailChildDto["status"]) {
+  switch (status) {
+    case "active":
+      return { label: "Hoạt động", cls: "bg-emerald-500/15 text-emerald-300" };
+    case "paused":
+      return { label: "Tạm dừng", cls: "bg-amber-500/15 text-amber-300" };
+    case "archived":
+      return { label: "Lưu trữ", cls: "bg-zinc-500/15 text-zinc-500" };
+    default:
+      return { label: status ?? "—", cls: "bg-zinc-500/15 text-zinc-400" };
+  }
+}
+
 export function ParentChildrenSection({ children }: Props) {
   const navigate = useNavigate();
 
@@ -65,14 +78,8 @@ export function ParentChildrenSection({ children }: Props) {
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex items-center justify-center gap-2">
-                    <span
-                      className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
-                        child.status === "active"
-                          ? "bg-emerald-500/15 text-emerald-300"
-                          : "bg-zinc-500/15 text-zinc-400"
-                      }`}
-                    >
-                      {child.status === "active" ? "Hoạt động" : "Tạm dừng"}
+                    <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${childStatusBadge(child.status).cls}`}>
+                      {childStatusBadge(child.status).label}
                     </span>
                     <button
                       type="button"

@@ -10,7 +10,7 @@ export type CampaignCategory = {
   dailyUsers: number;
   completedToday: number;
   missingToday: number;
-  status: "active" | "paused";
+  status: "active" | "paused" | "archived";
   createdAt: string;
   /** Number of child categories (parent mode only) */
   childCount?: number;
