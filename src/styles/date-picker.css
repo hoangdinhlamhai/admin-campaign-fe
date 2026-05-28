@@ -1,0 +1,63 @@
+/**
+ * Dark theme overrides for react-day-picker v10.
+ * Applied via the .rdp-dark wrapper class on the root element.
+ */
+
+.rdp-dark {
+  --rdp-accent-color: #6ee7b7;
+  --rdp-accent-background-color: rgba(110, 231, 183, 0.12);
+  --rdp-today-color: #6ee7b7;
+  --rdp-selected-border: 2px solid #6ee7b7;
+  --rdp-day-height: 36px;
+  --rdp-day-width: 36px;
+  --rdp-day_button-height: 34px;
+  --rdp-day_button-width: 34px;
+  --rdp-day_button-border-radius: 8px;
+  --rdp-range_middle-background-color: rgba(110, 231, 183, 0.1);
+  --rdp-range_middle-color: #d1fae5;
+  --rdp-range_start-color: #022c22;
+  --rdp-range_start-date-background-color: #6ee7b7;
+  --rdp-range_end-color: #022c22;
+  --rdp-range_end-date-background-color: #6ee7b7;
+  --rdp-outside-opacity: 0.3;
+  --rdp-disabled-opacity: 0.3;
+  --rdp-months-gap: 1rem;
+  color: #e5e7eb;
+}
+
+.rdp-dark .rdp-day_button:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.rdp-dark .rdp-weekday {
+  color: #9ca3af;
+  font-size: 0.75rem;
+}
+
+.rdp-dark .rdp-caption_label {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.rdp-dark .rdp-button_previous,
+.rdp-dark .rdp-button_next {
+  color: #9ca3af;
+  border-radius: 8px;
+}
+
+.rdp-dark .rdp-button_previous:hover,
+.rdp-dark .rdp-button_next:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+}
+
+.rdp-dark .rdp-day.rdp-disabled .rdp-day_button {
+  color: #4b5563;
+  cursor: not-allowed;
+}
+
+.rdp-dark .rdp-day.rdp-today .rdp-day_button {
+  font-weight: 700;
+  color: #6ee7b7;
+}

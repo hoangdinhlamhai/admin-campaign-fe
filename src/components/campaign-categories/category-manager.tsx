@@ -2,6 +2,8 @@ import { useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { AdminShell } from "@/components/campaign-ops/admin-shell";
 import { Toast } from "@/components/campaign-ops/toast";
+import { DateRangePicker, type DateRangeValue } from "@/components/common/date-range-picker";
+import { dateToISO } from "@/lib/format-date";
 import { CategoryHeader } from "./category-header";
 import { CategoryStatsCards } from "./category-stats-cards";
 import { CategoryTable } from "./category-table";
@@ -14,10 +16,15 @@ type CategoryManagerProps = {
 
 export function CategoryManager({ mode }: CategoryManagerProps) {
   const navigate = useNavigate();
-  const parentApiHook = useParentCategoriesApi();
-  const childApiHook = useChildCategoriesApi();
-
   const isParent = mode === "parent";
+
+  const today = new Date();
+  const [range, setRange] = useState<DateRangeValue>({ from: today, to: today });
+  const fromIso = dateToISO(range.from);
+  const toIso = dateToISO(range.to);
+
+  const parentApiHook = useParentCategoriesApi(fromIso, toIso);
+  const childApiHook = useChildCategoriesApi(fromIso, toIso);
 
   const categories = isParent ? parentApiHook.categories : childApiHook.categories;
   const parentCategories = parentApiHook.categories;
@@ -52,7 +59,6 @@ export function CategoryManager({ mode }: CategoryManagerProps) {
   const editPath = (id: string) =>
     mode === "parent" ? `/categories/parents/${id}/edit` : `/categories/children/${id}/edit`;
 
-  // stub for child mode — no local hook needed
   const getChildrenOf = () => [];
   const getParentName = (parentId: string | null) => {
     if (!parentId) return "";
@@ -72,8 +78,11 @@ export function CategoryManager({ mode }: CategoryManagerProps) {
           </div>
         ) : (
           <>
-            <CategoryHeader mode={mode} total={categories.length} />
-            <CategoryStatsCards mode={mode} />
+            <div className="mb-4 flex items-center justify-between">
+              <CategoryHeader mode={mode} total={categories.length} />
+              <DateRangePicker value={range} onChange={setRange} />
+            </div>
+            <CategoryStatsCards mode={mode} from={fromIso} to={toIso} />
             <CategoryTable
               categories={filteredCategories}
               getChildrenOf={getChildrenOf}
@@ -82,6 +91,11 @@ export function CategoryManager({ mode }: CategoryManagerProps) {
               onDelete={removeCategory}
               onEdit={(category) => navigate(editPath(category.id))}
               onQueryChange={setQuery}
+              onRowClick={(category) => navigate(
+                isParent
+                  ? `/categories/parents/${category.id}`
+                  : `/categories/children/${category.id}`
+              )}
               parentCategories={parentCategories}
               query={query}
               total={categories.length}

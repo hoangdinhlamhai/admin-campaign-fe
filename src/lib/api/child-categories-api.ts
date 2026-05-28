@@ -1,5 +1,11 @@
 import { apiFetch } from "./config";
 
+export type ChildCategoryRangeStats = {
+  target: number;
+  completed: number;
+  missing: number;
+};
+
 export type ChildCategoryApi = {
   id: string;
   parentId: string;
@@ -12,6 +18,9 @@ export type ChildCategoryApi = {
   dailyUserTarget: number;
   status: "active" | "paused";
   createdAt: string;
+  campaignCount: number;
+  pausedCount: number;
+  rangeStats: ChildCategoryRangeStats;
 };
 
 type ListResponse = ChildCategoryApi[] | { value: ChildCategoryApi[]; Count: number };
@@ -31,8 +40,10 @@ export type UpdateChildCategoryDto = Partial<CreateChildCategoryDto>;
 
 const BASE = "/api/child-categories";
 
-export function fetchChildCategories(): Promise<ListResponse> {
-  return apiFetch<ListResponse>(BASE);
+export function fetchChildCategories(from: string, to: string, parentId?: string): Promise<ListResponse> {
+  const params = new URLSearchParams({ from, to });
+  if (parentId) params.set("parentId", parentId);
+  return apiFetch<ListResponse>(`${BASE}?${params.toString()}`);
 }
 
 export function fetchChildCategory(id: string): Promise<ChildCategoryApi> {
@@ -55,4 +66,26 @@ export function updateChildCategory(id: string, data: UpdateChildCategoryDto): P
 
 export function deleteChildCategory(id: string): Promise<void> {
   return apiFetch<void>(`${BASE}/${id}`, { method: "DELETE" });
+}
+
+// --- Child Detail ---
+
+export type ChildDetailCampaignDto = {
+  id: string;
+  code: string;
+  name: string;
+  status: "active" | "paused" | "completed";
+  dailyUserTarget: number;
+  completedCount: number;
+  missingCount: number;
+  displayCount: number;
+};
+
+export type ChildDetailDto = ChildCategoryApi & {
+  campaigns: ChildDetailCampaignDto[];
+};
+
+export function fetchChildDetail(id: string, from: string, to: string): Promise<ChildDetailDto> {
+  const params = new URLSearchParams({ from, to });
+  return apiFetch<ChildDetailDto>(`${BASE}/${id}?${params.toString()}`);
 }

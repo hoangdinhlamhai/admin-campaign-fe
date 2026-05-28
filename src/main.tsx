@@ -6,6 +6,7 @@ import { AuthProvider } from '@/lib/auth/auth-context'
 import '@fontsource-variable/geist'
 import '@fontsource-variable/geist-mono'
 import './globals.css'
+import './styles/date-picker.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

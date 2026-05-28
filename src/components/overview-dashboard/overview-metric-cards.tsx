@@ -7,7 +7,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { toneClass, type MetricTone } from "@/lib/overview-dashboard-data";
-import { formatDelta, type DeltaTone } from "./format-delta";
+import { formatVND, formatNumber } from "@/lib/format-currency";
 import type { DashboardResponse } from "@/lib/api/stats-api";
 
 type Props = {
@@ -22,9 +22,7 @@ type MetricConfig = {
   meta: string;
   tone: MetricTone;
   icon: React.ComponentType<{ className?: string }>;
-  isAd: boolean;
   getValue: (stats: DashboardResponse["stats"]) => number;
-  getPrev: (stats: DashboardResponse["stats"]) => number;
   formatValue: (v: number) => string;
 };
 
@@ -35,10 +33,8 @@ const metrics: MetricConfig[] = [
     meta: "Tổng chi tiêu",
     tone: "blue",
     icon: DollarSign,
-    isAd: true,
-    getValue: () => 0,
-    getPrev: () => 0,
-    formatValue: () => "—",
+    getValue: (s) => s.totalCost,
+    formatValue: (v) => (v > 0 ? formatVND(v) : "—"),
   },
   {
     id: "clicks",
@@ -46,10 +42,8 @@ const metrics: MetricConfig[] = [
     meta: "Tổng click",
     tone: "emerald",
     icon: MousePointer2,
-    isAd: true,
-    getValue: () => 0,
-    getPrev: () => 0,
-    formatValue: () => "—",
+    getValue: (s) => s.totalClicks,
+    formatValue: (v) => (v > 0 ? formatNumber(v) : "—"),
   },
   {
     id: "quiz-completed",
@@ -57,10 +51,8 @@ const metrics: MetricConfig[] = [
     meta: "Số người hoàn thành",
     tone: "indigo",
     icon: CheckSquare,
-    isAd: false,
     getValue: (s) => s.totalValid,
-    getPrev: (s) => s.totalValid,
-    formatValue: (v) => new Intl.NumberFormat("vi-VN").format(v),
+    formatValue: (v) => formatNumber(v),
   },
   {
     id: "tasks-completed",
@@ -68,40 +60,28 @@ const metrics: MetricConfig[] = [
     meta: "Số lần hoàn thành",
     tone: "amber",
     icon: Gift,
-    isAd: false,
     getValue: (s) => s.totalCompleted,
-    getPrev: (s) => s.totalCompleted,
-    formatValue: (v) => new Intl.NumberFormat("vi-VN").format(v),
+    formatValue: (v) => formatNumber(v),
   },
   {
     id: "cpa",
-    label: "CPA (Chi phí / 1 nhiệm vụ)",
-    meta: "Trung bình",
+    label: "CPA",
+    meta: "Chi phí / 1 nhiệm vụ",
     tone: "rose",
     icon: Target,
-    isAd: true,
-    getValue: () => 0,
-    getPrev: () => 0,
-    formatValue: () => "—",
+    getValue: (s) => s.cpa,
+    formatValue: (v) => (v > 0 ? formatVND(v) : "—"),
   },
   {
     id: "conversion",
     label: "Tỷ lệ chuyển đổi",
-    meta: "Tỷ lệ nhiệm vụ / click",
+    meta: "Completed / Clicks",
     tone: "teal",
     icon: TrendingUp,
-    isAd: false,
     getValue: (s) => s.conversionRate,
-    getPrev: (s) => s.conversionRate,
     formatValue: (v) => `${v.toFixed(2)}%`,
   },
 ];
-
-const deltaToneClass: Record<DeltaTone, string> = {
-  up: "text-emerald-300",
-  down: "text-rose-300",
-  flat: "text-zinc-500",
-};
 
 export function OverviewMetricCards({ data, loading, error }: Props) {
   if (error) {
@@ -119,21 +99,9 @@ export function OverviewMetricCards({ data, loading, error }: Props) {
         const isLoading = loading || !data;
 
         let displayValue = "—";
-        let deltaText = "";
-        let deltaTone: DeltaTone = "flat";
-
         if (!isLoading && data) {
-          if (metric.isAd) {
-            displayValue = "—";
-            deltaText = "";
-          } else {
-            const curr = metric.getValue(data.stats);
-            const prev = metric.getPrev(data.previous.stats);
-            displayValue = metric.formatValue(curr);
-            const delta = formatDelta(curr, prev);
-            deltaText = delta.text;
-            deltaTone = delta.tone;
-          }
+          const curr = metric.getValue(data.stats);
+          displayValue = metric.formatValue(curr);
         }
 
         return (
@@ -157,17 +125,6 @@ export function OverviewMetricCards({ data, loading, error }: Props) {
                 <p className="mt-1 text-xs text-zinc-500">{metric.meta}</p>
               </div>
             </div>
-            {deltaText && (
-              <p className={`mt-4 text-xs font-semibold ${deltaToneClass[deltaTone]}`}>
-                {deltaText}
-              </p>
-            )}
-            {!deltaText && !isLoading && (
-              <p className="mt-4 text-xs font-semibold text-zinc-600">—</p>
-            )}
-            {isLoading && (
-              <p className="mt-4 h-4 w-32 animate-pulse rounded bg-zinc-700" />
-            )}
           </article>
         );
       })}

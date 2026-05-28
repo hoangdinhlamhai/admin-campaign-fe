@@ -2,10 +2,9 @@ import { useState, useEffect, useCallback } from "react";
 import {
   fetchOverviewTable,
   type OverviewTableItem,
-  type RangeKey,
 } from "@/lib/api/stats-api";
 
-export function useOverviewTable(range: RangeKey, q?: string) {
+export function useOverviewTable(from: string, to: string, q?: string) {
   const [items, setItems] = useState<OverviewTableItem[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -15,7 +14,7 @@ export function useOverviewTable(range: RangeKey, q?: string) {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetchOverviewTable(range, q);
+      const res = await fetchOverviewTable(from, to, q);
       setItems(res.items);
       setTotal(res.total);
     } catch (e) {
@@ -25,7 +24,7 @@ export function useOverviewTable(range: RangeKey, q?: string) {
     } finally {
       setLoading(false);
     }
-  }, [range, q]);
+  }, [from, to, q]);
 
   useEffect(() => {
     load();
