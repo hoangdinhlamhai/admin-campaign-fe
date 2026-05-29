@@ -88,6 +88,34 @@ body {
   text-rendering: geometricPrecision;
 }
 
+.glass-card {
+  border-radius: 1.1rem;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--surface) / 0.85);
+  box-shadow: 0 18px 40px hsl(var(--foreground) / 0.08);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+:where(.dark) .glass-card {
+  background: hsl(var(--surface) / 0.6);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+}
+
+.glass-panel {
+  border-radius: 1rem;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--surface) / 0.92);
+  box-shadow: 0 24px 56px hsl(var(--foreground) / 0.12);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+:where(.dark) .glass-panel {
+  background: hsl(var(--surface) / 0.75);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.5);
+}
+
 button,
 input,
 select {
