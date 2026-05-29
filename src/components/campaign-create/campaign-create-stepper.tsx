@@ -17,7 +17,7 @@ export function CampaignCreateStepper({ activeStep = 1 }: CampaignCreateStepperP
   const base = getCampaignWizardBase();
 
   return (
-    <section className="mb-5 grid gap-3 rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl lg:grid-cols-4">
+    <section className="mb-5 grid gap-3 rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl lg:grid-cols-4">
       {campaignCreateSteps.map((step, index) => {
         const active = step.id === activeStep;
         const href = `${base}${stepSuffix[step.id]}`;
@@ -27,8 +27,8 @@ export function CampaignCreateStepper({ activeStep = 1 }: CampaignCreateStepperP
               {step.id}
             </div>
             <div className="min-w-0">
-              <p className={`text-sm font-semibold ${active ? "text-white" : "text-zinc-300"}`}>{step.title}</p>
-              <p className="mt-1 truncate text-xs text-zinc-500">{step.description}</p>
+              <p className={`text-sm font-semibold ${active ? "text-foreground" : "text-muted-foreground"}`}>{step.title}</p>
+              <p className="mt-1 truncate text-xs text-muted-foreground">{step.description}</p>
             </div>
           </>
         );
@@ -38,7 +38,7 @@ export function CampaignCreateStepper({ activeStep = 1 }: CampaignCreateStepperP
             <Link className="flex min-w-0 flex-1 items-center gap-3 rounded-xl p-1 transition hover:bg-white/[0.05]" to={href}>
               {content}
             </Link>
-            {index < campaignCreateSteps.length - 1 ? <ChevronRight className="ml-auto hidden size-4 text-zinc-600 lg:block" /> : null}
+            {index < campaignCreateSteps.length - 1 ? <ChevronRight className="ml-auto hidden size-4 text-muted-foreground lg:block" /> : null}
           </div>
         );
       })}

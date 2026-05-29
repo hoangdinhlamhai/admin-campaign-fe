@@ -184,21 +184,21 @@ export function CampaignReviewPage() {
   return (
     <div>
       <AdminShell activeLabel="Chiến dịch">
-        <header className="mb-5 rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl sm:p-5">
+        <header className="mb-5 rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl sm:p-5">
           <div className="min-w-0">
-            <Link className="mb-3 inline-flex items-center gap-2 text-sm font-semibold text-zinc-300 hover:text-white" to={`${wizardBase}/advanced`}>
+            <Link className="mb-3 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground" to={`${wizardBase}/advanced`}>
               <ArrowLeft className="size-4" />
               Quay lại cài đặt nâng cao
             </Link>
-            <div className="flex flex-wrap items-center gap-2 text-sm text-zinc-400">
+            <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
               <span>Danh mục chiến dịch</span>
-              <span className="text-zinc-600">&gt;</span>
+              <span className="text-muted-foreground">&gt;</span>
               <span>{category?.name || "Caraluna"}</span>
-              <span className="text-zinc-600">&gt;</span>
+              <span className="text-muted-foreground">&gt;</span>
               <span className="font-medium text-lime-100">Xem trước & Xác nhận</span>
             </div>
-            <h2 className="mt-2 text-3xl font-semibold tracking-tight text-white sm:text-4xl">Xem trước & Xác nhận</h2>
-            <p className="mt-2 text-sm text-zinc-400 sm:text-base">Kiểm tra toàn bộ cấu hình trước khi tạo chiến dịch.</p>
+            <h2 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">Xem trước & Xác nhận</h2>
+            <p className="mt-2 text-sm text-muted-foreground sm:text-base">Kiểm tra toàn bộ cấu hình trước khi tạo chiến dịch.</p>
           </div>
         </header>
 
@@ -213,8 +213,8 @@ export function CampaignReviewPage() {
           <aside className="space-y-5 xl:sticky xl:top-6 xl:self-start">
             <ValidationChecklist items={validationItems} />
             <AdvancedRulesReview settings={settings} />
-            <section className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl sm:p-5">
-              <label className="flex cursor-pointer gap-3 rounded-2xl border border-white/10 bg-zinc-950/36 p-4">
+            <section className="rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl sm:p-5">
+              <label className="flex cursor-pointer gap-3 rounded-2xl border border-border bg-surface p-4">
                 <input
                   checked={confirmed}
                   className="mt-1"
@@ -222,8 +222,8 @@ export function CampaignReviewPage() {
                   type="checkbox"
                 />
                 <span>
-                  <span className="block font-semibold text-white">Tôi đã kiểm tra và xác nhận tạo chiến dịch</span>
-                  <span className="mt-1 block text-sm text-zinc-400">Campaign sẽ dùng đúng thông tin, hướng dẫn và rule đang hiển thị.</span>
+                  <span className="block font-semibold text-foreground">Tôi đã kiểm tra và xác nhận tạo chiến dịch</span>
+                  <span className="mt-1 block text-sm text-muted-foreground">Campaign sẽ dùng đúng thông tin, hướng dẫn và rule đang hiển thị.</span>
                 </span>
               </label>
               <button
@@ -238,10 +238,10 @@ export function CampaignReviewPage() {
           </aside>
         </div>
 
-        <div className="mt-5 flex flex-col gap-3 rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl sm:flex-row sm:items-center sm:justify-between sm:p-5">
-          <div className="text-sm text-zinc-400">Xác nhận ở bảng kiểm tra bên phải để {isEditing ? "cập nhật" : "tạo"} chiến dịch.</div>
+        <div className="mt-5 flex flex-col gap-3 rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl sm:flex-row sm:items-center sm:justify-between sm:p-5">
+          <div className="text-sm text-muted-foreground">Xác nhận ở bảng kiểm tra bên phải để {isEditing ? "cập nhật" : "tạo"} chiến dịch.</div>
           <Link
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.07] px-4 text-sm font-semibold text-zinc-100 transition hover:bg-white/[0.11]"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border bg-white/[0.07] px-4 text-sm font-semibold text-foreground transition hover:bg-white/[0.11]"
             to={`${wizardBase}/advanced`}
           >
             <ArrowLeft className="size-4" />

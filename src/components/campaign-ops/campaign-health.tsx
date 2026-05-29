@@ -64,14 +64,14 @@ export function CampaignHealth({ campaigns }: { campaigns: Campaign[] }) {
   ];
 
   return (
-    <article className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-5 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl">
+    <article className="rounded-[1.1rem] border border-border bg-surface p-5 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl">
       <div className="mb-3">
-        <h3 className="text-lg font-semibold text-white">Sức khỏe chiến dịch</h3>
-        <p className="mt-1 text-sm text-zinc-400">% tiến độ trung bình</p>
+        <h3 className="text-lg font-semibold text-foreground">Sức khỏe chiến dịch</h3>
+        <p className="mt-1 text-sm text-muted-foreground">% tiến độ trung bình</p>
       </div>
       {active.length === 0 ? (
         <div className="flex h-52 items-center justify-center">
-          <p className="text-sm text-zinc-500">Chưa có chiến dịch hoạt động</p>
+          <p className="text-sm text-muted-foreground">Chưa có chiến dịch hoạt động</p>
         </div>
       ) : (
         <div className="grid gap-3 sm:grid-cols-[13rem_1fr] xl:grid-cols-1 2xl:grid-cols-[13rem_1fr]">
@@ -93,7 +93,7 @@ export function CampaignHealth({ campaigns }: { campaigns: Campaign[] }) {
             </RadialBarChart>
             <div className="absolute inset-0 grid place-items-center pt-5 text-center">
               <div>
-                <p className="font-mono text-5xl font-semibold text-white">{score}</p>
+                <p className="font-mono text-5xl font-semibold text-foreground">{score}</p>
                 <p className={`mt-1 text-sm font-semibold ${rating.color}`}>
                   Điểm sức khỏe: {rating.label}
                 </p>
@@ -102,12 +102,12 @@ export function CampaignHealth({ campaigns }: { campaigns: Campaign[] }) {
           </div>
           <div className="flex flex-col justify-center gap-3">
             {legend.map((item) => (
-              <div className="flex items-center justify-between gap-3 rounded-xl bg-zinc-950/34 px-3 py-2" key={item.label}>
+              <div className="flex items-center justify-between gap-3 rounded-xl bg-surface px-3 py-2" key={item.label}>
                 <div className="flex items-center gap-2">
                   <span className={`size-2.5 rounded-full ${item.color}`} />
-                  <span className="text-sm text-zinc-300">{item.label}</span>
+                  <span className="text-sm text-muted-foreground">{item.label}</span>
                 </div>
-                <span className="text-sm font-semibold text-white">{item.value}</span>
+                <span className="text-sm font-semibold text-foreground">{item.value}</span>
               </div>
             ))}
           </div>

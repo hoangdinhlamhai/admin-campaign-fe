@@ -76,7 +76,7 @@ export function CampaignOpsDashboard() {
           </div>
         ) : null}
         {loading ? (
-          <div className="mb-4 rounded-xl border border-white/10 bg-zinc-900/50 px-4 py-8 text-center text-sm text-zinc-400">
+          <div className="mb-4 rounded-xl border border-border bg-surface px-4 py-8 text-center text-sm text-muted-foreground">
             Đang tải dữ liệu chiến dịch...
           </div>
         ) : (

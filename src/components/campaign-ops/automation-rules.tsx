@@ -40,14 +40,14 @@ export function AutomationRules({ rules }: { rules: AutomationRule[] }) {
   const triggerCounts = useTriggerCounts();
 
   return (
-    <article className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-5 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl">
+    <article className="rounded-[1.1rem] border border-border bg-surface p-5 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl">
       <div className="mb-4 flex items-start gap-3">
         <span className="grid size-10 place-items-center rounded-xl bg-emerald-300/14 text-lime-100">
           <Bot className="size-5" />
         </span>
         <div>
-          <h3 className="text-lg font-semibold text-white">Quy tắc tự động</h3>
-          <p className="mt-1 text-sm text-zinc-400">Tự xử lý các tình huống lặp lại</p>
+          <h3 className="text-lg font-semibold text-foreground">Quy tắc tự động</h3>
+          <p className="mt-1 text-sm text-muted-foreground">Tự xử lý các tình huống lặp lại</p>
         </div>
       </div>
       <div className="space-y-3">
@@ -56,12 +56,12 @@ export function AutomationRules({ rules }: { rules: AutomationRule[] }) {
           const count = alertType ? triggerCounts[alertType] : undefined;
 
           return (
-            <div className="rounded-2xl border border-white/10 bg-zinc-950/28 p-3.5" key={rule.id}>
+            <div className="rounded-2xl border border-border bg-surface p-3.5" key={rule.id}>
               <div>
-                <p className="font-semibold text-white">{rule.trigger}</p>
-                <p className="mt-1 text-sm text-zinc-400">{rule.action}</p>
+                <p className="font-semibold text-foreground">{rule.trigger}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{rule.action}</p>
               </div>
-              <p className="mt-3 text-xs font-bold text-zinc-400">
+              <p className="mt-3 text-xs font-bold text-muted-foreground">
                 {`Đã trigger ${count !== undefined ? count : "—"} lần / 7 ngày`}
               </p>
             </div>

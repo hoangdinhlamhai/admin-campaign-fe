@@ -86,7 +86,7 @@ const metrics: MetricConfig[] = [
 export function OverviewMetricCards({ data, loading, error }: Props) {
   if (error) {
     return (
-      <section className="mb-5 rounded-[1.1rem] border border-rose-400/20 bg-zinc-900/58 p-4 text-sm text-rose-300">
+      <section className="mb-5 rounded-[1.1rem] border border-rose-400/20 bg-surface p-4 text-sm text-rose-300">
         Lỗi tải dữ liệu: {error}
       </section>
     );
@@ -106,7 +106,7 @@ export function OverviewMetricCards({ data, loading, error }: Props) {
 
         return (
           <article
-            className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl"
+            className="rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl"
             key={metric.id}
           >
             <div className="flex items-start gap-3">
@@ -114,15 +114,15 @@ export function OverviewMetricCards({ data, loading, error }: Props) {
                 <Icon className="size-5" />
               </div>
               <div className="min-w-0">
-                <p className="truncate text-sm font-medium text-zinc-400">{metric.label}</p>
-                <p className="mt-2 text-2xl font-bold tracking-tight text-white">
+                <p className="truncate text-sm font-medium text-muted-foreground">{metric.label}</p>
+                <p className="mt-2 text-2xl font-bold tracking-tight text-foreground">
                   {isLoading ? (
-                    <span className="inline-block h-7 w-20 animate-pulse rounded bg-zinc-700" />
+                    <span className="inline-block h-7 w-20 animate-pulse rounded bg-surface-2" />
                   ) : (
                     displayValue
                   )}
                 </p>
-                <p className="mt-1 text-xs text-zinc-500">{metric.meta}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{metric.meta}</p>
               </div>
             </div>
           </article>

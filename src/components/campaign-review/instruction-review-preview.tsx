@@ -33,7 +33,7 @@ export function InstructionReviewPreview({ content }: InstructionReviewPreviewPr
         >
           <InstructionRenderer
             html={content}
-            className="min-h-72 rounded-2xl border border-white/10 bg-zinc-950/45 p-5 text-sm leading-7 text-zinc-200"
+            className="min-h-72 rounded-2xl border border-border bg-surface p-5 text-sm leading-7 text-foreground"
           />
         </div>
       </div>
