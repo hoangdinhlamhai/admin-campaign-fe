@@ -54,15 +54,15 @@ export function CampaignDetailHeader({ campaign, onEdit, onPublish, onPause, onD
   const toggleTooltip = "Chỉ người phụ trách hoặc admin mới thao tác được";
 
   return (
-    <header className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl sm:p-5">
+    <header className="rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
       <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
         <div className="min-w-0">
-          <Link className="mb-3 inline-flex items-center gap-2 text-sm font-semibold text-zinc-300 hover:text-white" to="/campaigns">
+          <Link className="mb-3 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground" to="/campaigns">
             <ArrowLeft className="size-4" />
             Quay lại danh sách chiến dịch
           </Link>
           <div className="flex flex-wrap items-center gap-3">
-            <span className="rounded-md bg-zinc-800 px-2 py-1 font-mono text-xs font-semibold text-zinc-300">
+            <span className="rounded-md bg-surface-2 px-2 py-1 font-mono text-xs font-semibold text-muted-foreground">
               {campaign.code}
             </span>
             <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold ${STATUS_CLASS[campaign.status] ?? "bg-zinc-500/15 text-zinc-400"}`}>
@@ -72,11 +72,11 @@ export function CampaignDetailHeader({ campaign, onEdit, onPublish, onPause, onD
               Ưu tiên: {PRIORITY_LABELS[campaign.priority] ?? campaign.priority}
             </span>
           </div>
-          <h2 className="mt-3 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+          <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
             {campaign.name}
           </h2>
           {campaign.keyword && (
-            <p className="mt-1 text-sm text-zinc-400">Keyword: <span className="font-medium text-zinc-200">{campaign.keyword}</span></p>
+            <p className="mt-1 text-sm text-muted-foreground">Keyword: <span className="font-medium text-foreground">{campaign.keyword}</span></p>
           )}
         </div>
 
@@ -94,7 +94,7 @@ export function CampaignDetailHeader({ campaign, onEdit, onPublish, onPause, onD
           )}
           {canEdit ? (
             <button
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[hsl(var(--brand))] px-5 text-sm font-bold text-zinc-950 shadow-lg shadow-emerald-950/30 transition hover:-translate-y-0.5 hover:bg-emerald-200"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-brand px-5 text-sm font-bold text-brand-foreground shadow-lg transition hover:-translate-y-0.5 hover:brightness-110"
               onClick={onEdit}
               type="button"
             >
@@ -104,7 +104,7 @@ export function CampaignDetailHeader({ campaign, onEdit, onPublish, onPause, onD
           ) : (
             <Tooltip content={editTooltip}>
               <button
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[hsl(var(--brand))] px-5 text-sm font-bold text-zinc-950 opacity-50 shadow-lg shadow-emerald-950/30 cursor-not-allowed"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-brand px-5 text-sm font-bold text-brand-foreground opacity-50 shadow-lg cursor-not-allowed"
                 disabled
                 type="button"
               >

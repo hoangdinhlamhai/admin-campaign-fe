@@ -42,19 +42,19 @@ export function CampaignInstructionsPage() {
   return (
     <div>
       <AdminShell activeLabel="Chiến dịch">
-        <header className="mb-5 rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl sm:p-5">
+        <header className="mb-5 rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
           <div className="min-w-0">
-            <Link className="mb-3 inline-flex items-center gap-2 text-sm font-semibold text-zinc-300 hover:text-white" to={wizardBase}>
+            <Link className="mb-3 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground" to={wizardBase}>
               <ArrowLeft className="size-4" />
               Quay lại thông tin cơ bản
             </Link>
-            <div className="flex flex-wrap items-center gap-2 text-sm text-zinc-400">
+            <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
               <span>Danh mục chiến dịch</span>
-              <span className="text-zinc-600">&gt;</span>
-              <span className="font-medium text-lime-100">Hướng dẫn nhiệm vụ</span>
+              <span className="text-muted-foreground/60">&gt;</span>
+              <span className="font-medium text-brand">Hướng dẫn nhiệm vụ</span>
             </div>
-            <h2 className="mt-2 text-3xl font-semibold tracking-tight text-white sm:text-4xl">Hướng dẫn nhiệm vụ</h2>
-            <p className="mt-2 text-sm text-zinc-400 sm:text-base">Chỉnh sửa trực tiếp nội dung hướng dẫn trong khung preview bên dưới.</p>
+            <h2 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">Hướng dẫn nhiệm vụ</h2>
+            <p className="mt-2 text-sm text-muted-foreground sm:text-base">Chỉnh sửa trực tiếp nội dung hướng dẫn trong khung preview bên dưới.</p>
           </div>
         </header>
 

@@ -10,9 +10,9 @@ export function CampaignDetailInstructions({ html }: Props) {
   const device = getPreviewDevice(deviceId);
 
   return (
-    <section className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl sm:p-5">
+    <section className="rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h3 className="text-lg font-semibold text-white">Hướng dẫn nhiệm vụ</h3>
+        <h3 className="text-lg font-semibold text-foreground">Hướng dẫn nhiệm vụ</h3>
         <DevicePreviewToggle selectedId={deviceId} onSelect={setDeviceId} />
       </div>
 
@@ -24,11 +24,11 @@ export function CampaignDetailInstructions({ html }: Props) {
             transition: "max-width 200ms ease",
           }}
         >
-          <div className="rounded-2xl border border-white/10 bg-zinc-950/45 p-5">
+          <div className="instruction-light rounded-2xl border border-border p-5">
             {html ? (
-              <InstructionRenderer html={html} className="text-sm leading-7 text-zinc-200" />
+              <InstructionRenderer html={html} className="text-sm leading-7" />
             ) : (
-              <p className="py-8 text-center text-sm italic text-zinc-500">Chưa có hướng dẫn cho chiến dịch này.</p>
+              <p className="py-8 text-center text-sm italic text-muted-foreground">Chưa có hướng dẫn cho chiến dịch này.</p>
             )}
           </div>
         </div>

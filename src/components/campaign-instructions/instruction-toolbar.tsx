@@ -151,7 +151,7 @@ export function InstructionToolbar({ editor, onUploadImage, onUploadVideo }: Ins
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-1 border-b border-white/10 bg-zinc-950/45 p-2">
+    <div className="flex flex-wrap items-center gap-1 border-b border-border bg-surface-2 p-2">
       <ToolbarButton active={editor.isActive("heading", { level: 1 })} label="Heading 1" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}>
         <Heading1 className="size-4" />
       </ToolbarButton>
@@ -203,7 +203,7 @@ export function InstructionToolbar({ editor, onUploadImage, onUploadVideo }: Ins
       <div className="relative" ref={videoMenuRef}>
         <button
           aria-label="Insert video"
-          className="flex h-9 items-center gap-1 rounded-lg px-2 text-zinc-300 transition hover:bg-white/[0.08] hover:text-white"
+          className="flex h-9 items-center gap-1 rounded-lg px-2 text-muted-foreground transition hover:bg-surface-2 hover:text-foreground"
           onClick={() => setVideoMenuOpen((v) => !v)}
           onMouseDown={(e) => e.preventDefault()}
           title="Video"
@@ -213,9 +213,9 @@ export function InstructionToolbar({ editor, onUploadImage, onUploadVideo }: Ins
           <ChevronDown className="size-3" />
         </button>
         {videoMenuOpen && (
-          <div className="absolute left-0 top-full z-30 mt-1 w-44 overflow-hidden rounded-lg border border-white/10 bg-zinc-900 shadow-xl">
+          <div className="absolute left-0 top-full z-30 mt-1 w-44 overflow-hidden rounded-lg border border-border bg-surface shadow-xl">
             <button
-              className="block w-full px-3 py-2 text-left text-sm text-zinc-200 hover:bg-white/[0.08]"
+              className="block w-full px-3 py-2 text-left text-sm text-foreground hover:bg-surface-2"
               onClick={insertYouTube}
               onMouseDown={(e) => e.preventDefault()}
               type="button"
@@ -224,7 +224,7 @@ export function InstructionToolbar({ editor, onUploadImage, onUploadVideo }: Ins
             </button>
             {onUploadVideo && (
               <button
-                className="block w-full px-3 py-2 text-left text-sm text-zinc-200 hover:bg-white/[0.08]"
+                className="block w-full px-3 py-2 text-left text-sm text-foreground hover:bg-surface-2"
                 onClick={triggerUploadVideo}
                 onMouseDown={(e) => e.preventDefault()}
                 type="button"
@@ -269,7 +269,7 @@ function ToolbarButton({
     <button
       aria-label={label}
       className={`grid size-9 place-items-center rounded-lg transition disabled:cursor-not-allowed disabled:opacity-40 ${
-        active ? "bg-emerald-300 text-zinc-950" : "text-zinc-300 hover:bg-white/[0.08] hover:text-white"
+        active ? "bg-brand text-brand-foreground" : "text-muted-foreground hover:bg-surface-2 hover:text-foreground"
       }`}
       disabled={disabled}
       onClick={onClick}
@@ -283,5 +283,5 @@ function ToolbarButton({
 }
 
 function Divider() {
-  return <span className="mx-1 h-6 w-px bg-white/10" />;
+  return <span className="mx-1 h-6 w-px bg-border" />;
 }

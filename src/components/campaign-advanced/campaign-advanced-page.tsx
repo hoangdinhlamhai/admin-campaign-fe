@@ -51,21 +51,21 @@ export function CampaignAdvancedPage() {
   return (
     <div>
       <AdminShell activeLabel="Chiến dịch">
-        <header className="mb-5 rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl sm:p-5">
+        <header className="mb-5 rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
           <div className="min-w-0">
-            <Link className="mb-3 inline-flex items-center gap-2 text-sm font-semibold text-zinc-300 hover:text-white" to={`${wizardBase}/instructions`}>
+            <Link className="mb-3 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground" to={`${wizardBase}/instructions`}>
               <ArrowLeft className="size-4" />
               Quay lại hướng dẫn nhiệm vụ
             </Link>
-            <div className="flex flex-wrap items-center gap-2 text-sm text-zinc-400">
+            <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
               <span>Danh mục chiến dịch</span>
-              <span className="text-zinc-600">&gt;</span>
+              <span className="text-muted-foreground/60">&gt;</span>
               <span>Caraluna</span>
-              <span className="text-zinc-600">&gt;</span>
-              <span className="font-medium text-lime-100">Cài đặt nâng cao</span>
+              <span className="text-muted-foreground/60">&gt;</span>
+              <span className="font-medium text-brand">Cài đặt nâng cao</span>
             </div>
-            <h2 className="mt-2 text-3xl font-semibold tracking-tight text-white sm:text-4xl">Cài đặt nâng cao</h2>
-            <p className="mt-2 text-sm text-zinc-400 sm:text-base">Thiết lập cảnh báo và tự động hóa riêng cho chiến dịch này.</p>
+            <h2 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">Cài đặt nâng cao</h2>
+            <p className="mt-2 text-sm text-muted-foreground sm:text-base">Thiết lập cảnh báo và tự động hóa riêng cho chiến dịch này.</p>
           </div>
         </header>
 
@@ -149,9 +149,9 @@ export function CampaignAdvancedPage() {
           </div>
 
           <aside className="space-y-5">
-            <section className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl sm:p-5">
-              <h3 className="font-semibold text-white">Tóm tắt rule</h3>
-              <div className="mt-4 space-y-3 text-sm text-zinc-300">
+            <section className="rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
+              <h3 className="font-semibold text-foreground">Tóm tắt rule</h3>
+              <div className="mt-4 space-y-3 text-sm text-foreground">
                 <SummaryItem icon={<BellRing className="size-4" />} active={settings.notifyLowUsers}>
                   Cảnh báo thiếu từ {settings.lowUsersThreshold || 0} user.
                 </SummaryItem>
@@ -185,7 +185,7 @@ export function CampaignAdvancedPage() {
 
 function SummaryItem({ active, children, icon }: { active: boolean; children: React.ReactNode; icon: React.ReactNode }) {
   return (
-    <div className={`flex items-start gap-3 rounded-xl border px-3 py-2 ${active ? "border-emerald-300/20 bg-emerald-400/10 text-emerald-100" : "border-white/10 bg-white/[0.03] text-zinc-500"}`}>
+    <div className={`flex items-start gap-3 rounded-xl border px-3 py-2 ${active ? "border-emerald-300/20 bg-emerald-400/10 text-emerald-100" : "border-border bg-surface-2 text-muted-foreground"}`}>
       <span className="mt-0.5">{icon}</span>
       <span>{children}</span>
     </div>

@@ -9,6 +9,9 @@ export function InstructionRenderer({ html, className = "" }: InstructionRendere
   const ref = useRef<HTMLDivElement>(null);
   const [toast, setToast] = useState<string | null>(null);
 
+  // FE-D will add: import { useUnlockGateHydration } from "./use-unlock-gate-hydration";
+  // And: useUnlockGateHydration(ref);
+
   useEffect(() => {
     const root = ref.current;
     if (!root) return;
@@ -40,14 +43,14 @@ export function InstructionRenderer({ html, className = "" }: InstructionRendere
   }, [toast]);
 
   return (
-    <div className="relative">
+    <div className="instruction-light relative">
       <div
         ref={ref}
         className={`instruction-preview ${className}`}
         dangerouslySetInnerHTML={{ __html: html }}
       />
       {toast && (
-        <div className="pointer-events-none absolute bottom-3 right-3 rounded-xl bg-zinc-900/95 px-3 py-2 text-xs font-semibold text-emerald-200 shadow-lg shadow-zinc-950/40">
+        <div className="pointer-events-none absolute bottom-3 right-3 rounded-xl bg-surface px-3 py-2 text-xs font-semibold text-brand shadow-lg">
           {toast}
         </div>
       )}

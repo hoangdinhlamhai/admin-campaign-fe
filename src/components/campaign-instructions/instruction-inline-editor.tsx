@@ -76,7 +76,7 @@ export function InstructionInlineEditor({
     content,
     editorProps: {
       attributes: {
-        class: "min-h-[480px] max-w-none outline-none px-5 py-5 text-sm leading-7 text-zinc-200",
+        class: "min-h-[480px] max-w-none outline-none px-5 py-5 text-sm leading-7 text-foreground",
       },
       handlePaste(_view, event) {
         const files = Array.from(event.clipboardData?.files ?? []).filter((f) => f.type.startsWith("image/"));
@@ -175,22 +175,22 @@ export function InstructionInlineEditor({
     <section
       className={
         fullscreen
-          ? "fixed inset-0 z-[9999] flex flex-col overflow-hidden bg-zinc-900 shadow-2xl shadow-zinc-950/40"
-          : "overflow-hidden rounded-[1.1rem] border border-white/10 bg-zinc-900/58 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl"
+          ? "fixed inset-0 z-[9999] flex flex-col overflow-hidden bg-background shadow-2xl"
+          : "overflow-hidden rounded-[1.1rem] border border-border bg-surface shadow-2xl backdrop-blur-2xl"
       }
     >
-      <div className="flex items-center justify-between border-b border-white/10 p-4 sm:p-5">
-        <h3 className="text-lg font-semibold text-white">
+      <div className="flex items-center justify-between border-b border-border p-4 sm:p-5">
+        <h3 className="text-lg font-semibold text-foreground">
           {fullscreen ? "Hướng dẫn nhiệm vụ — Fullscreen" : "Xem trước hướng dẫn (Preview)"}
         </h3>
         <div className="flex items-center gap-3">
-          {uploading && <span className="text-xs text-emerald-300">Đang tải ảnh...</span>}
+          {uploading && <span className="text-xs text-brand">Đang tải ảnh...</span>}
           {videoProgress !== null && (
             <div className="flex items-center gap-2">
-              <span className="text-xs text-emerald-300">Đang tải video {videoProgress}%</span>
-              <div className="h-1.5 w-32 overflow-hidden rounded-full bg-zinc-800">
+              <span className="text-xs text-brand">Đang tải video {videoProgress}%</span>
+              <div className="h-1.5 w-32 overflow-hidden rounded-full bg-surface-2">
                 <div
-                  className="h-full bg-emerald-400 transition-[width] duration-150"
+                  className="h-full bg-brand transition-[width] duration-150"
                   style={{ width: `${videoProgress}%` }}
                 />
               </div>
@@ -198,7 +198,7 @@ export function InstructionInlineEditor({
           )}
           {uploadError && <span className="text-xs text-rose-400">{uploadError}</span>}
           <button
-            className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.07] px-3 text-sm font-semibold text-zinc-100 transition hover:bg-white/[0.11]"
+            className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-border bg-surface-2 px-3 text-sm font-semibold text-foreground transition hover:bg-surface"
             onClick={() => setFullscreen((v) => !v)}
             type="button"
           >
@@ -219,14 +219,14 @@ export function InstructionInlineEditor({
 
       <InstructionToolbar editor={editor} onUploadImage={handleImageButton} onUploadVideo={handleVideoButton} />
 
-      <div className="border-b border-white/10 px-5 py-4">
+      <div className="border-b border-border px-5 py-4">
         <DevicePreviewToggle selectedId={deviceId} onSelect={setDeviceId} />
       </div>
 
       <div className={fullscreen ? "flex-1 overflow-auto p-5" : "p-5"}>
         <div className="flex justify-center">
           <div
-            className="w-full rounded-2xl border border-white/10 bg-zinc-950/45"
+            className="instruction-light w-full rounded-2xl border border-border"
             style={{
               maxWidth: device.width ? `${device.width}px` : "100%",
               transition: "max-width 200ms ease",
@@ -236,7 +236,7 @@ export function InstructionInlineEditor({
           </div>
         </div>
         {!fullscreen && (
-          <p className="mt-3 text-xs text-zinc-500">Chỉnh sửa nội dung và chèn ảnh trực tiếp. Hỗ trợ paste, kéo-thả, hoặc nút ảnh trên thanh công cụ.</p>
+          <p className="mt-3 text-xs text-muted-foreground">Chỉnh sửa nội dung và chèn ảnh trực tiếp. Hỗ trợ paste, kéo-thả, hoặc nút ảnh trên thanh công cụ.</p>
         )}
       </div>
       <CopyBlockBubbleMenu editor={editor} />

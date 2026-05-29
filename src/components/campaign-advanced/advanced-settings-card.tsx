@@ -8,10 +8,10 @@ type AdvancedSettingsCardProps = {
 
 export function AdvancedSettingsCard({ children, description, title }: AdvancedSettingsCardProps) {
   return (
-    <section className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl sm:p-5">
+    <section className="rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
       <div className="mb-5">
-        <h3 className="text-lg font-semibold text-white">{title}</h3>
-        <p className="mt-1 text-sm text-zinc-400">{description}</p>
+        <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+        <p className="mt-1 text-sm text-muted-foreground">{description}</p>
       </div>
       <div className="space-y-3">{children}</div>
     </section>

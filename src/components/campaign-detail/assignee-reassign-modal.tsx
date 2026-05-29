@@ -46,7 +46,7 @@ export function AssigneeReassignModal({
             type="button"
             onClick={onClose}
             disabled={loading}
-            className="h-10 rounded-xl border border-white/10 bg-white/[0.07] px-4 text-sm font-semibold text-zinc-100 transition hover:bg-white/[0.11] disabled:opacity-50"
+            className="h-10 rounded-xl border border-border bg-surface-2 px-4 text-sm font-semibold text-foreground transition hover:bg-surface disabled:opacity-50"
           >
             Huỷ
           </button>
@@ -54,15 +54,15 @@ export function AssigneeReassignModal({
             type="button"
             onClick={handleSave}
             disabled={loading}
-            className="h-10 rounded-xl bg-[hsl(var(--brand))] px-4 text-sm font-bold text-zinc-950 transition hover:brightness-110 disabled:opacity-50"
+            className="h-10 rounded-xl bg-brand px-4 text-sm font-bold text-brand-foreground transition hover:brightness-110 disabled:opacity-50"
           >
             {loading ? "Đang lưu..." : "Lưu"}
           </button>
         </>
       }
     >
-      <p className="mb-3 text-sm text-zinc-400">
-        Chiến dịch: <span className="font-semibold text-white">{campaignName}</span>
+      <p className="mb-3 text-sm text-muted-foreground">
+        Chiến dịch: <span className="font-semibold text-foreground">{campaignName}</span>
       </p>
       <UserPicker value={selected} onChange={setSelected} includeUnassigned disabled={loading} />
       {error && <p className="mt-3 text-sm text-rose-400">{error}</p>}
