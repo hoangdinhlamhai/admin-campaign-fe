@@ -34,9 +34,9 @@ export function CampaignSummary({ category, form }: CampaignSummaryProps) {
     >
       <div className="grid gap-3 md:grid-cols-2">
         {rows.map(([label, value]) => (
-          <div className="rounded-2xl border border-white/10 bg-zinc-950/36 p-4" key={label}>
-            <p className="text-xs uppercase tracking-[0.12em] text-zinc-500">{label}</p>
-            <p className="mt-2 break-words text-sm font-semibold text-white">{value}</p>
+          <div className="rounded-2xl border border-border bg-surface p-4" key={label}>
+            <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">{label}</p>
+            <p className="mt-2 break-words text-sm font-semibold text-foreground">{value}</p>
           </div>
         ))}
       </div>

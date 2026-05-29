@@ -52,20 +52,20 @@ export function CopyBlockBubbleMenu({ editor }: CopyBlockBubbleMenuProps) {
       shouldShow={({ editor }) => editor.isActive("copyBlock")}
       updateDelay={0}
     >
-      <div className="flex w-72 flex-col gap-2 rounded-xl border border-white/10 bg-zinc-900 p-3 shadow-2xl shadow-zinc-950/60">
+      <div className="flex w-72 flex-col gap-2 rounded-xl border border-border bg-surface p-3 shadow-2xl">
         <label className="flex flex-col gap-1">
-          <span className="text-[11px] font-semibold uppercase tracking-wide text-zinc-400">Giá trị copy</span>
+          <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Giá trị copy</span>
           <input
-            className="rounded-md border border-white/10 bg-zinc-800 px-2 py-1.5 text-sm text-white outline-none focus:border-emerald-300/40"
+            className="rounded-md border border-border bg-surface-2 px-2 py-1.5 text-sm text-foreground outline-none focus:border-brand/40"
             onChange={(e) => onValueChange(e.target.value)}
             placeholder="VD: hãy trao cho anh"
             value={value}
           />
         </label>
         <label className="flex flex-col gap-1">
-          <span className="text-[11px] font-semibold uppercase tracking-wide text-zinc-400">Label hiển thị</span>
+          <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Label hiển thị</span>
           <input
-            className="rounded-md border border-white/10 bg-zinc-800 px-2 py-1.5 text-sm text-white outline-none focus:border-emerald-300/40"
+            className="rounded-md border border-border bg-surface-2 px-2 py-1.5 text-sm text-foreground outline-none focus:border-brand/40"
             onChange={(e) => onLabelChange(e.target.value)}
             placeholder="Mặc định = giá trị copy"
             value={label}

@@ -61,9 +61,9 @@ export function AlertTable({
   };
 
   return (
-    <section className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl">
+    <section className="rounded-[1.1rem] border border-border bg-surface shadow-2xl backdrop-blur-2xl">
       {/* Filters */}
-      <div className="flex flex-wrap gap-3 border-b border-white/10 p-4 sm:p-5">
+      <div className="flex flex-wrap gap-3 border-b border-border p-4 sm:p-5">
         <Filter
           id="severity-filter"
           label="Mức độ"
@@ -118,7 +118,7 @@ export function AlertTable({
       <div className="overflow-x-auto">
         <table className="w-full min-w-[700px] border-collapse text-sm">
           <thead>
-            <tr className="border-b border-white/10 text-left text-xs uppercase tracking-[0.12em] text-zinc-500">
+            <tr className="border-b border-border text-left text-xs uppercase tracking-[0.12em] text-muted-foreground">
               <HeaderCell className="w-10">Mức</HeaderCell>
               <HeaderCell>Tiêu đề</HeaderCell>
               <HeaderCell className="w-40">Chiến dịch</HeaderCell>
@@ -130,13 +130,13 @@ export function AlertTable({
           <tbody>
             {loading ? (
               <tr>
-                <td className="px-4 py-10 text-center text-zinc-400" colSpan={6}>
+                <td className="px-4 py-10 text-center text-muted-foreground" colSpan={6}>
                   Đang tải cảnh báo...
                 </td>
               </tr>
             ) : alerts.length === 0 ? (
               <tr>
-                <td className="px-4 py-10 text-center text-zinc-400" colSpan={6}>
+                <td className="px-4 py-10 text-center text-muted-foreground" colSpan={6}>
                   Không có cảnh báo nào phù hợp.
                 </td>
               </tr>
@@ -156,24 +156,24 @@ export function AlertTable({
       </div>
 
       {/* Pagination */}
-      <div className="flex flex-col gap-3 border-t border-white/10 p-4 text-sm text-zinc-400 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+      <div className="flex flex-col gap-3 border-t border-border p-4 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:p-5">
         <span>
           Hiển thị {total === 0 ? 0 : (safePage - 1) * pageSize + 1}–{Math.min(safePage * pageSize, total)} của {total} cảnh báo
         </span>
         <div className="flex items-center gap-2">
           <button
             aria-label="Trang trước"
-            className="grid size-9 place-items-center rounded-lg border border-white/10 bg-white/[0.06] text-zinc-300 transition hover:bg-white/[0.1] disabled:opacity-40"
+            className="grid size-9 place-items-center rounded-lg border border-border bg-surface-2 text-muted-foreground transition hover:bg-surface-2/80 disabled:opacity-40"
             disabled={safePage <= 1}
             onClick={() => update({ page: safePage - 1 }, false)}
             type="button"
           >
             <ChevronLeft className="size-4" />
           </button>
-          <span className="rounded-lg bg-emerald-300 px-3 py-1.5 font-bold text-zinc-950">{safePage}</span>
+          <span className="rounded-lg bg-brand px-3 py-1.5 font-bold text-brand-foreground">{safePage}</span>
           <button
             aria-label="Trang sau"
-            className="grid size-9 place-items-center rounded-lg border border-white/10 bg-white/[0.06] text-zinc-300 transition hover:bg-white/[0.1] disabled:opacity-40"
+            className="grid size-9 place-items-center rounded-lg border border-border bg-surface-2 text-muted-foreground transition hover:bg-surface-2/80 disabled:opacity-40"
             disabled={safePage >= totalPages}
             onClick={() => update({ page: safePage + 1 }, false)}
             type="button"
@@ -201,9 +201,9 @@ function Filter({
 }) {
   return (
     <div className="flex items-center gap-2">
-      <label className="text-sm text-zinc-400" htmlFor={id}>{label}:</label>
+      <label className="text-sm text-muted-foreground" htmlFor={id}>{label}:</label>
       <select
-        className="h-9 rounded-xl border border-white/10 bg-zinc-950/85 px-3 text-sm text-white outline-none focus:border-emerald-300/60"
+        className="h-9 rounded-xl border border-border bg-background px-3 text-sm text-foreground outline-none focus:border-border-strong"
         id={id}
         onChange={(e) => onChange(e.target.value)}
         value={value}
@@ -232,7 +232,7 @@ function AlertRow({
 
   return (
     <tr
-      className="cursor-pointer border-b border-white/[0.06] text-zinc-200 transition hover:bg-white/[0.035]"
+      className="cursor-pointer border-b border-border/60 text-foreground transition hover:bg-surface-2"
       onClick={onRowClick}
     >
       <td className="px-4 py-4 align-middle">
@@ -241,15 +241,15 @@ function AlertRow({
         </span>
       </td>
       <td className="px-4 py-4 align-middle">
-        <span className={isOpen ? "font-bold text-white" : "font-medium text-zinc-300"}>
+        <span className={isOpen ? "font-bold text-foreground" : "font-medium text-muted-foreground"}>
           {alert.title}
         </span>
-        <p className="mt-0.5 line-clamp-1 text-xs text-zinc-500">{alert.message}</p>
+        <p className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">{alert.message}</p>
       </td>
-      <td className="px-4 py-4 align-middle text-zinc-400">
-        {alert.campaignId ?? <span className="text-zinc-600">—</span>}
+      <td className="px-4 py-4 align-middle text-muted-foreground">
+        {alert.campaignId ?? <span className="text-muted-foreground/60">—</span>}
       </td>
-      <td className="px-4 py-4 align-middle text-xs text-zinc-500">
+      <td className="px-4 py-4 align-middle text-xs text-muted-foreground">
         {formatRelativeTime(alert.triggeredAt)}
       </td>
       <td className="px-4 py-4 align-middle">
@@ -260,7 +260,7 @@ function AlertRow({
           {isOpen && (
             <button
               aria-label="Xác nhận"
-              className="grid size-8 place-items-center rounded-lg text-zinc-400 transition hover:bg-white/[0.08] hover:text-amber-300"
+              className="grid size-8 place-items-center rounded-lg text-muted-foreground transition hover:bg-surface-2 hover:text-amber-300"
               onClick={onAcknowledge}
               title="Xác nhận"
               type="button"
@@ -271,7 +271,7 @@ function AlertRow({
           {canResolve && (
             <button
               aria-label="Đã xử lý"
-              className="grid size-8 place-items-center rounded-lg text-zinc-400 transition hover:bg-white/[0.08] hover:text-emerald-300"
+              className="grid size-8 place-items-center rounded-lg text-muted-foreground transition hover:bg-surface-2 hover:text-emerald-300"
               onClick={onResolve}
               title="Đã xử lý"
               type="button"

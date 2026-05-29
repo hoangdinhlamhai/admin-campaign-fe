@@ -115,31 +115,31 @@ export function CategoryFormPage({ categoryId, mode }: CategoryFormPageProps) {
   return (
     <div>
       <AdminShell activeLabel="Danh mục">
-        <header className="mb-5 rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl sm:p-5">
+        <header className="mb-5 rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
           <Link
-            className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-zinc-300 hover:text-white"
+            className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground"
             to={backLink}
           >
             <ArrowLeft className="size-4" />
             Quay lại danh sách
           </Link>
-          <div className="flex flex-wrap items-center gap-2 text-sm text-zinc-400">
+          <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
             <span>Danh mục</span>
-            <span className="text-zinc-600">&gt;</span>
+            <span className="text-muted-foreground/60">&gt;</span>
             <span>{modeLabel}</span>
-            <span className="text-zinc-600">&gt;</span>
-            <span className="font-medium text-lime-100">{actionLabel}</span>
+            <span className="text-muted-foreground/60">&gt;</span>
+            <span className="font-medium text-brand">{actionLabel}</span>
           </div>
-          <h2 className="mt-2 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+          <h2 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
             {actionLabel} {modeLabel}
           </h2>
-          <p className="mt-2 text-sm text-zinc-400 sm:text-base">
+          <p className="mt-2 text-sm text-muted-foreground sm:text-base">
             Nhập thông tin danh mục, sau đó lưu để quay về bảng quản lý.
           </p>
         </header>
 
         {isEditingMissingCategory ? (
-          <section className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-5 text-zinc-300 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl">
+          <section className="rounded-[1.1rem] border border-border bg-surface p-5 text-muted-foreground shadow-2xl backdrop-blur-2xl">
             Không tìm thấy danh mục cần sửa.
           </section>
         ) : (

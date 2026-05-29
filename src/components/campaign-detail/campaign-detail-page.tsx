@@ -82,7 +82,7 @@ export function CampaignDetailPage() {
     <div>
       <AdminShell activeLabel="Chiến dịch">
         {loading ? (
-          <div className="rounded-xl border border-white/10 bg-zinc-900/50 px-4 py-12 text-center text-sm text-zinc-400">
+          <div className="rounded-xl border border-border bg-surface px-4 py-12 text-center text-sm text-muted-foreground">
             Đang tải dữ liệu chiến dịch...
           </div>
         ) : error ? (

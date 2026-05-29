@@ -50,16 +50,16 @@ export function CampaignDetailStats({ campaignId, dailyTarget }: Props) {
   const progress = dailyTarget > 0 ? Math.min(100, Math.round((stats.completed / dailyTarget) * 100)) : 0;
 
   return (
-    <section className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl sm:p-5">
+    <section className="rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h3 className="text-lg font-semibold text-white">Số liệu hoạt động</h3>
+        <h3 className="text-lg font-semibold text-foreground">Số liệu hoạt động</h3>
         <div className="flex flex-wrap items-center gap-2">
           <FilterChip active={filter === "today"} onClick={() => setFilter("today")}>Hôm nay</FilterChip>
           <FilterChip active={filter === "all"} onClick={() => setFilter("all")}>Tổng tất cả</FilterChip>
           <FilterChip active={filter === "custom"} onClick={() => setFilter("custom")}>Chọn ngày</FilterChip>
           {filter === "custom" && (
             <input
-              className="h-9 rounded-lg border border-white/10 bg-zinc-950/60 px-2 text-sm text-white outline-none focus:border-emerald-300/45"
+              className="h-9 rounded-lg border border-border bg-surface-2 px-2 text-sm text-foreground outline-none focus:border-brand/45"
               onChange={(e) => setCustomDate(e.target.value)}
               type="date"
               value={customDate}
@@ -109,7 +109,7 @@ export function CampaignDetailStats({ campaignId, dailyTarget }: Props) {
 function FilterChip({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
   return (
     <button
-      className={`h-9 rounded-lg px-3 text-sm font-semibold transition ${active ? "bg-emerald-300 text-zinc-950" : "border border-white/10 bg-white/[0.06] text-zinc-300 hover:bg-white/[0.1]"}`}
+      className={`h-9 rounded-lg px-3 text-sm font-semibold transition ${active ? "bg-brand text-brand-foreground" : "border border-border bg-surface-2 text-muted-foreground hover:bg-surface"}`}
       onClick={onClick}
       type="button"
     >
@@ -141,13 +141,13 @@ function StatCard({
   loading: boolean;
 }) {
   return (
-    <div className="rounded-xl border border-white/10 bg-zinc-950/55 p-4">
+    <div className="rounded-xl border border-border bg-surface-2 p-4">
       <div className="mb-2 flex items-center justify-between">
-        <span className="text-xs font-semibold uppercase tracking-wider text-zinc-400">{label}</span>
+        <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{label}</span>
         <span className={`grid size-8 place-items-center rounded-lg ${TONE_BG[tone]}`}>{icon}</span>
       </div>
-      <p className="text-2xl font-bold text-white">{loading ? "—" : value}</p>
-      <p className="mt-1 text-xs text-zinc-500">{meta}</p>
+      <p className="text-2xl font-bold text-foreground">{loading ? "—" : value}</p>
+      <p className="mt-1 text-xs text-muted-foreground">{meta}</p>
     </div>
   );
 }

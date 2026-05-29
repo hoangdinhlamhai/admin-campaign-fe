@@ -7,6 +7,8 @@ import StarterKit from "@tiptap/starter-kit";
 import { useEffect } from "react";
 import { InstructionImage } from "./instruction-image-extension";
 import { InstructionToolbar } from "./instruction-toolbar";
+import { UnlockGateExtension } from "./unlock-gate-extension";
+import { UnlockGateBubbleMenu } from "./unlock-gate-bubble-menu";
 
 type InstructionEditorProps = {
   content: string;
@@ -41,12 +43,13 @@ export function InstructionEditor({ content, onChange }: InstructionEditorProps)
       Placeholder.configure({
         placeholder: "Nhập hướng dẫn nhiệm vụ cho user...",
       }),
+      UnlockGateExtension,
     ],
     content,
     editorProps: {
       attributes: {
         class:
-          "min-h-[520px] max-w-none outline-none px-5 py-5 text-sm leading-7 text-zinc-100 prose-headings:text-white prose-strong:text-white",
+          "min-h-[520px] max-w-none outline-none px-5 py-5 text-sm leading-7 text-foreground prose-headings:text-foreground prose-strong:text-foreground",
       },
     },
     onUpdate: ({ editor: currentEditor }) => {
@@ -63,16 +66,17 @@ export function InstructionEditor({ content, onChange }: InstructionEditorProps)
   }, [content, editor]);
 
   return (
-    <section className="overflow-hidden rounded-[1.1rem] border border-white/10 bg-zinc-900/58 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl">
-      <div className="flex items-center justify-between border-b border-white/10 p-4 sm:p-5">
+    <section className="overflow-hidden rounded-[1.1rem] border border-border bg-surface shadow-2xl backdrop-blur-2xl">
+      <div className="flex items-center justify-between border-b border-border p-4 sm:p-5">
         <div>
-          <h3 className="text-lg font-semibold text-white">Nội dung hướng dẫn</h3>
-          <p className="mt-1 text-sm text-zinc-400">Chỉnh sửa trực tiếp, định dạng như trình soạn thảo văn bản.</p>
+          <h3 className="text-lg font-semibold text-foreground">Nội dung hướng dẫn</h3>
+          <p className="mt-1 text-sm text-muted-foreground">Chỉnh sửa trực tiếp, định dạng như trình soạn thảo văn bản.</p>
         </div>
       </div>
       <InstructionToolbar editor={editor} />
-      <EditorContent className="instruction-editor bg-zinc-950/24" editor={editor} />
-      <div className="border-t border-white/10 px-4 py-3 text-xs text-zinc-500">
+      <UnlockGateBubbleMenu editor={editor} />
+      <EditorContent className="instruction-editor instruction-light" editor={editor} />
+      <div className="border-t border-border px-4 py-3 text-xs text-muted-foreground">
         Nội dung sẽ được dùng cho phần preview hướng dẫn của chiến dịch.
       </div>
     </section>

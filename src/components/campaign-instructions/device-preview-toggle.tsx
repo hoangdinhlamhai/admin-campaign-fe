@@ -27,24 +27,24 @@ export function DevicePreviewToggle({ selectedId, onSelect }: DevicePreviewToggl
   return (
     <div className="relative" ref={ref}>
       <button
-        className="inline-flex h-9 items-center gap-2 rounded-lg border border-white/10 bg-zinc-950/40 px-3 text-sm font-semibold text-zinc-200 transition hover:bg-white/[0.08]"
+        className="inline-flex h-9 items-center gap-2 rounded-lg border border-border bg-surface-2 px-3 text-sm font-semibold text-foreground transition hover:bg-surface"
         onClick={() => setOpen((v) => !v)}
         type="button"
       >
         {renderIcon(selected.icon)}
         <span>{selected.label}</span>
-        {selected.width && <span className="text-xs text-zinc-500">{selected.width}px</span>}
+        {selected.width && <span className="text-xs text-muted-foreground">{selected.width}px</span>}
         <ChevronDown className="size-3" />
       </button>
       {open && (
-        <div className="absolute right-0 top-full z-30 mt-1 w-52 overflow-hidden rounded-lg border border-white/10 bg-zinc-900 shadow-xl">
+        <div className="absolute right-0 top-full z-30 mt-1 w-52 overflow-hidden rounded-lg border border-border bg-surface shadow-xl">
           {PREVIEW_DEVICES.map((device) => {
             const active = device.id === selectedId;
             return (
               <button
                 key={device.id}
                 className={`flex w-full items-center justify-between gap-3 px-3 py-2 text-left text-sm transition ${
-                  active ? "bg-emerald-300/15 text-emerald-200" : "text-zinc-200 hover:bg-white/[0.08]"
+                  active ? "bg-brand/15 text-brand" : "text-foreground hover:bg-surface-2"
                 }`}
                 onClick={() => {
                   onSelect(device.id);
@@ -56,7 +56,7 @@ export function DevicePreviewToggle({ selectedId, onSelect }: DevicePreviewToggl
                   {renderIcon(device.icon)}
                   {device.label}
                 </span>
-                {device.width && <span className="text-xs text-zinc-500">{device.width}px</span>}
+                {device.width && <span className="text-xs text-muted-foreground">{device.width}px</span>}
               </button>
             );
           })}

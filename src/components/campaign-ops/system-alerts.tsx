@@ -36,14 +36,14 @@ export function SystemAlerts() {
   const newCount = alerts.length;
 
   return (
-    <article className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-5 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl">
+    <article className="rounded-[1.1rem] border border-border bg-surface p-5 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
-          <h3 className="text-lg font-semibold text-white">Cảnh báo hệ thống</h3>
-          <p className="mt-1 text-sm text-zinc-400">Theo dõi thời gian thực</p>
+          <h3 className="text-lg font-semibold text-foreground">Cảnh báo hệ thống</h3>
+          <p className="mt-1 text-sm text-muted-foreground">Theo dõi thời gian thực</p>
         </div>
         {newCount > 0 && (
-          <span className="rounded-full bg-rose-500 px-2.5 py-1 text-xs font-bold text-white">
+          <span className="rounded-full bg-rose-500 px-2.5 py-1 text-xs font-bold text-foreground">
             {newCount} mới
           </span>
         )}
@@ -59,8 +59,8 @@ export function SystemAlerts() {
         )}
 
         {!loading && !error && alerts.length === 0 && (
-          <div className="rounded-2xl border border-white/5 bg-zinc-800/40 p-4 text-center">
-            <p className="text-sm text-zinc-400">Không có cảnh báo</p>
+          <div className="rounded-2xl border border-border bg-surface-2 p-4 text-center">
+            <p className="text-sm text-muted-foreground">Không có cảnh báo</p>
           </div>
         )}
 
@@ -104,11 +104,11 @@ function AlertItem({ alert }: { alert: AlertApi }) {
       <div className="flex gap-3">
         <Icon className={`mt-0.5 size-5 shrink-0 ${iconColor}`} />
         <div className="min-w-0">
-          <p className="font-semibold text-zinc-100">{alert.title}</p>
+          <p className="font-semibold text-foreground">{alert.title}</p>
           {alert.description && (
-            <p className="mt-1 text-sm text-zinc-400">{alert.description}</p>
+            <p className="mt-1 text-sm text-muted-foreground">{alert.description}</p>
           )}
-          <p className="mt-2 text-xs font-medium text-zinc-500">{timeAgo}</p>
+          <p className="mt-2 text-xs font-medium text-muted-foreground">{timeAgo}</p>
         </div>
       </div>
     </div>
@@ -119,13 +119,13 @@ function AlertsSkeleton() {
   return (
     <>
       {[1, 2, 3].map((i) => (
-        <div key={i} className="animate-pulse rounded-2xl border border-white/5 bg-zinc-800/30 p-3.5">
+        <div key={i} className="animate-pulse rounded-2xl border border-border bg-surface-2 p-3.5">
           <div className="flex gap-3">
-            <div className="mt-0.5 size-5 shrink-0 rounded bg-zinc-700" />
+            <div className="mt-0.5 size-5 shrink-0 rounded bg-surface-2" />
             <div className="min-w-0 flex-1 space-y-2">
-              <div className="h-4 w-3/4 rounded bg-zinc-700" />
-              <div className="h-3 w-full rounded bg-zinc-700/60" />
-              <div className="h-3 w-1/4 rounded bg-zinc-700/40" />
+              <div className="h-4 w-3/4 rounded bg-surface-2" />
+              <div className="h-3 w-full rounded bg-surface-2" />
+              <div className="h-3 w-1/4 rounded bg-surface-2" />
             </div>
           </div>
         </div>

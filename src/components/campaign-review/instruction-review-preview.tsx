@@ -16,7 +16,7 @@ export function InstructionReviewPreview({ content }: InstructionReviewPreviewPr
 
   return (
     <ReviewCard
-      action={<Link className="text-sm font-semibold text-emerald-200 hover:text-emerald-100" to={`${getCampaignWizardBase()}/instructions`}>Sửa</Link>}
+      action={<Link className="text-sm font-semibold text-brand hover:opacity-80" to={`${getCampaignWizardBase()}/instructions`}>Sửa</Link>}
       description="Preview readonly nội dung user sẽ nhìn thấy khi làm nhiệm vụ."
       title="Preview hướng dẫn user"
     >
@@ -33,7 +33,7 @@ export function InstructionReviewPreview({ content }: InstructionReviewPreviewPr
         >
           <InstructionRenderer
             html={content}
-            className="min-h-72 rounded-2xl border border-white/10 bg-zinc-950/45 p-5 text-sm leading-7 text-zinc-200"
+            className="min-h-72 rounded-2xl border border-border bg-surface p-5 text-sm leading-7 text-foreground"
           />
         </div>
       </div>

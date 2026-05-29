@@ -13,16 +13,16 @@ export function ParentDetailInfo({ parent, range, onRangeChange }: Props) {
   return (
     <div className="mb-5">
       {/* Breadcrumb */}
-      <nav aria-label="Breadcrumb" className="mb-4 flex items-center gap-1.5 text-sm text-zinc-400">
-        <Link to="/categories" className="transition hover:text-white">
+      <nav aria-label="Breadcrumb" className="mb-4 flex items-center gap-1.5 text-sm text-muted-foreground">
+        <Link to="/categories" className="transition hover:text-foreground">
           Danh mục
         </Link>
         <ChevronRight className="size-3.5" />
-        <Link to="/categories/parents" className="transition hover:text-white">
+        <Link to="/categories/parents" className="transition hover:text-foreground">
           Danh mục cha
         </Link>
         <ChevronRight className="size-3.5" />
-        <span className="text-white font-medium">{parent.name}</span>
+        <span className="text-foreground font-medium">{parent.name}</span>
       </nav>
 
       {/* Header row */}
@@ -32,8 +32,8 @@ export function ParentDetailInfo({ parent, range, onRangeChange }: Props) {
             {parent.initials}
           </div>
           <div>
-            <h1 className="text-xl font-semibold text-white">{parent.name}</h1>
-            <p className="mt-0.5 text-sm text-zinc-400">
+            <h1 className="text-xl font-semibold text-foreground">{parent.name}</h1>
+            <p className="mt-0.5 text-sm text-muted-foreground">
               {parent.website} &middot; /{parent.slug}
             </p>
           </div>
@@ -41,7 +41,7 @@ export function ParentDetailInfo({ parent, range, onRangeChange }: Props) {
             className={`ml-2 rounded-full px-2.5 py-0.5 text-xs font-semibold ${
               parent.status === "active"
                 ? "bg-emerald-500/15 text-emerald-300"
-                : "bg-zinc-500/15 text-zinc-400"
+                : "bg-zinc-500/15 text-muted-foreground"
             }`}
           >
             {parent.status === "active" ? "Hoạt động" : "Tạm dừng"}
