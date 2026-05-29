@@ -47,20 +47,20 @@ export function CategoryTable({
       : categories;
 
   return (
-    <section className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl">
-      <div className="flex flex-col gap-3 border-b border-white/10 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+    <section className="rounded-[1.1rem] border border-border bg-surface shadow-2xl backdrop-blur-2xl">
+      <div className="flex flex-col gap-3 border-b border-border p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
         <div>
-          <h3 className="text-lg font-semibold text-white">
+          <h3 className="text-lg font-semibold text-foreground">
             {mode === "parent" ? "Danh sách danh mục cha" : "Danh sách danh mục con"}
           </h3>
-          <p className="mt-1 text-sm text-zinc-400">
+          <p className="mt-1 text-sm text-muted-foreground">
             Theo dõi tiến độ chạy user theo từng danh mục website.
           </p>
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
           {mode === "child" && (
             <select
-              className="h-11 rounded-xl border border-white/10 bg-zinc-950/55 px-4 py-3 text-sm text-white outline-none transition focus:border-emerald-300/60"
+              className="h-11 rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition focus:border-border-strong"
               onChange={(e) => setParentFilter(e.target.value)}
               value={parentFilter}
             >
@@ -73,10 +73,10 @@ export function CategoryTable({
             </select>
           )}
           <label className="relative block">
-            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-zinc-500" />
+            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <span className="sr-only">Tìm danh mục</span>
             <input
-              className="h-11 w-full rounded-xl border border-white/10 bg-zinc-950/55 pl-9 pr-3 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-emerald-300/60 sm:w-72"
+              className="h-11 w-full rounded-xl border border-border bg-background pl-9 pr-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-border-strong sm:w-72"
               onChange={(e) => onQueryChange(e.target.value)}
               placeholder="Tìm danh mục hoặc website..."
               value={query}
@@ -88,7 +88,7 @@ export function CategoryTable({
       <div className="overflow-x-auto">
         <table className="w-full min-w-[1080px] border-collapse text-sm">
           <thead>
-            <tr className="border-b border-white/10 text-left text-xs uppercase tracking-[0.12em] text-zinc-500">
+            <tr className="border-b border-border text-left text-xs uppercase tracking-[0.12em] text-muted-foreground">
               <HeaderCell className="w-12">#</HeaderCell>
               <HeaderCell className="w-72">Danh mục (Website)</HeaderCell>
               {mode === "child" && <HeaderCell className="w-44">Danh mục cha</HeaderCell>}
@@ -118,7 +118,7 @@ export function CategoryTable({
             ))}
             {visibleCategories.length === 0 && (
               <tr>
-                <td className="px-4 py-10 text-center text-zinc-400" colSpan={mode === "parent" ? 11 : 10}>
+                <td className="px-4 py-10 text-center text-muted-foreground" colSpan={mode === "parent" ? 11 : 10}>
                   Không tìm thấy danh mục phù hợp.
                 </td>
               </tr>
@@ -127,27 +127,27 @@ export function CategoryTable({
         </table>
       </div>
 
-      <div className="flex flex-col gap-3 border-t border-white/10 p-4 text-sm text-zinc-400 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+      <div className="flex flex-col gap-3 border-t border-border p-4 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:p-5">
         <span>
           Hiển thị 1 - {visibleCategories.length} của {total} danh mục
         </span>
         <div className="flex items-center gap-2">
           <button
             aria-label="Trang trước"
-            className="grid size-9 place-items-center rounded-lg border border-white/10 bg-white/[0.06] text-zinc-300 transition hover:bg-white/[0.1]"
+            className="grid size-9 place-items-center rounded-lg border border-border bg-surface-2 text-muted-foreground transition hover:bg-surface-2/80"
             type="button"
           >
             <ChevronLeft className="size-4" />
           </button>
-          <span className="rounded-lg bg-emerald-300 px-3 py-1.5 font-bold text-zinc-950">1</span>
+          <span className="rounded-lg bg-brand px-3 py-1.5 font-bold text-brand-foreground">1</span>
           <button
             aria-label="Trang sau"
-            className="grid size-9 place-items-center rounded-lg border border-white/10 bg-white/[0.06] text-zinc-300 transition hover:bg-white/[0.1]"
+            className="grid size-9 place-items-center rounded-lg border border-border bg-surface-2 text-muted-foreground transition hover:bg-surface-2/80"
             type="button"
           >
             <ChevronRight className="size-4" />
           </button>
-          <select className="h-9 rounded-lg border border-white/10 bg-zinc-950/85 px-2 text-white">
+          <select className="h-9 rounded-lg border border-border bg-background px-2 text-foreground">
             <option>10/trang</option>
           </select>
         </div>
@@ -182,11 +182,11 @@ function CategoryRow({
 
   return (
     <tr
-      className={`border-b border-white/[0.06] text-zinc-200 transition hover:bg-white/[0.035] ${onRowClick ? "cursor-pointer" : ""}`}
+      className={`border-b border-border/60 text-foreground transition hover:bg-surface-2 ${onRowClick ? "cursor-pointer" : ""}`}
       onClick={onRowClick}
     >
       <BodyCell>
-        <span className="font-mono text-zinc-400">{index + 1}</span>
+        <span className="font-mono text-muted-foreground">{index + 1}</span>
       </BodyCell>
       <BodyCell>
         <div className="flex items-center gap-3">
@@ -194,10 +194,10 @@ function CategoryRow({
             {category.initials}
           </div>
           <div className="min-w-0">
-            <span className="font-semibold text-white">
+            <span className="font-semibold text-foreground">
               {category.name}
             </span>
-            <p className="mt-1 truncate text-xs text-zinc-500">{category.website}</p>
+            <p className="mt-1 truncate text-xs text-muted-foreground">{category.website}</p>
           </div>
         </div>
       </BodyCell>
@@ -210,7 +210,7 @@ function CategoryRow({
       )}
       {mode === "parent" && (
         <BodyCell className="text-center">
-          <span className="font-mono font-semibold text-zinc-300">{formatNumber(childCount ?? 0)}</span>
+          <span className="font-mono font-semibold text-muted-foreground">{formatNumber(childCount ?? 0)}</span>
         </BodyCell>
       )}
       <BodyCell className="text-center">
@@ -231,7 +231,7 @@ function CategoryRow({
       <BodyCell className="text-center">
         <span
           className={`font-mono font-semibold ${
-            missing > 0 ? "text-rose-200" : "text-zinc-200"
+            missing > 0 ? "text-rose-200" : "text-foreground"
           }`}
         >
           {formatNumber(missing)}
@@ -248,7 +248,7 @@ function CategoryRow({
           {onRowClick && (
             <button
               aria-label={`Chi tiết ${category.name}`}
-              className="grid size-9 place-items-center rounded-lg text-zinc-400 transition hover:bg-white/[0.08] hover:text-white"
+              className="grid size-9 place-items-center rounded-lg text-muted-foreground transition hover:bg-surface-2 hover:text-foreground"
               onClick={onRowClick}
               type="button"
               title="Chi tiết"
@@ -258,7 +258,7 @@ function CategoryRow({
           )}
           <button
             aria-label={`Sửa ${category.name}`}
-            className="grid size-9 place-items-center rounded-lg text-zinc-400 transition hover:bg-white/[0.08] hover:text-white"
+            className="grid size-9 place-items-center rounded-lg text-muted-foreground transition hover:bg-surface-2 hover:text-foreground"
             onClick={onEdit}
             type="button"
           >
@@ -266,7 +266,7 @@ function CategoryRow({
           </button>
           <button
             aria-label={`Xoá ${category.name}`}
-            className="grid size-9 place-items-center rounded-lg text-zinc-400 transition hover:bg-rose-400/12 hover:text-rose-100"
+            className="grid size-9 place-items-center rounded-lg text-muted-foreground transition hover:bg-rose-400/12 hover:text-rose-100"
             onClick={onDelete}
             type="button"
           >
@@ -289,13 +289,13 @@ function ProgressBar({ value }: { value: number }) {
 
   return (
     <div className="flex items-center gap-2">
-      <div className="h-2.5 w-28 overflow-hidden rounded-full bg-zinc-800">
+      <div className="h-2.5 w-28 overflow-hidden rounded-full bg-surface-2">
         <div
           className={`h-full rounded-full ${tone} transition-all duration-500`}
           style={{ width: `${Math.min(value, 100)}%` }}
         />
       </div>
-      <span className="w-11 font-mono text-xs font-semibold text-zinc-300">{value}%</span>
+      <span className="w-11 font-mono text-xs font-semibold text-muted-foreground">{value}%</span>
     </div>
   );
 }

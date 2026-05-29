@@ -18,14 +18,14 @@ export function AlertDetailPanel({ alert, onClose, onAcknowledge, onResolve }: A
         <>
           <motion.div
             animate={{ opacity: 1 }}
-            className="fixed inset-0 z-40 bg-zinc-950/60 backdrop-blur-sm"
+            className="fixed inset-0 z-40 bg-foreground/40 backdrop-blur-sm"
             exit={{ opacity: 0 }}
             initial={{ opacity: 0 }}
             onClick={onClose}
           />
           <motion.aside
             animate={{ x: 0 }}
-            className="fixed inset-y-0 right-0 z-50 flex w-full flex-col border-l border-white/10 bg-zinc-900 shadow-2xl shadow-zinc-950/50 lg:w-[400px]"
+            className="fixed inset-y-0 right-0 z-50 flex w-full flex-col border-l border-border bg-surface shadow-2xl lg:w-[400px]"
             exit={{ x: "100%" }}
             initial={{ x: "100%" }}
             transition={{ type: "spring", damping: 28, stiffness: 280 }}
@@ -57,17 +57,17 @@ function PanelContent({
   return (
     <>
       {/* Header */}
-      <div className="flex items-start gap-3 border-b border-white/10 p-5">
+      <div className="flex items-start gap-3 border-b border-border p-5">
         <span className={`mt-0.5 shrink-0 rounded-xl p-2 ${cfg.bgColor}`}>
           <Icon className={`size-5 ${cfg.color}`} />
         </span>
         <div className="min-w-0 flex-1">
-          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">{cfg.label}</p>
-          <h3 className="mt-0.5 text-base font-semibold leading-snug text-white">{alert.title}</h3>
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">{cfg.label}</p>
+          <h3 className="mt-0.5 text-base font-semibold leading-snug text-foreground">{alert.title}</h3>
         </div>
         <button
           aria-label="Đóng"
-          className="grid size-8 shrink-0 place-items-center rounded-lg text-zinc-400 transition hover:bg-white/[0.08] hover:text-white"
+          className="grid size-8 shrink-0 place-items-center rounded-lg text-muted-foreground transition hover:bg-surface-2 hover:text-foreground"
           onClick={onClose}
           type="button"
         >
@@ -77,32 +77,32 @@ function PanelContent({
 
       {/* Body */}
       <div className="flex-1 overflow-y-auto p-5 space-y-4">
-        <p className="text-sm leading-relaxed text-zinc-300">{alert.message}</p>
+        <p className="text-sm leading-relaxed text-muted-foreground">{alert.message}</p>
 
-        <div className="space-y-2 rounded-xl border border-white/10 bg-white/[0.03] p-4 text-sm">
+        <div className="space-y-2 rounded-xl border border-border bg-surface-2 p-4 text-sm">
           <Row label="Trạng thái">
             <StatusBadge status={alert.status} />
           </Row>
           <Row label="Thời gian">
-            <span className="text-zinc-300">{formatRelativeTime(alert.triggeredAt)}</span>
+            <span className="text-muted-foreground">{formatRelativeTime(alert.triggeredAt)}</span>
           </Row>
           <Row label="Chiến dịch">
             {alert.campaignId ? (
               <Link
-                className="font-medium text-lime-300 transition hover:text-lime-200 hover:underline"
+                className="font-medium text-brand transition hover:text-brand/80 hover:underline"
                 to={`/campaigns/${alert.campaignId}`}
               >
                 {alert.campaignId}
               </Link>
             ) : (
-              <span className="text-zinc-500">—</span>
+              <span className="text-muted-foreground">—</span>
             )}
           </Row>
         </div>
       </div>
 
       {/* Footer */}
-      <div className="flex flex-wrap gap-2 border-t border-white/10 p-5">
+      <div className="flex flex-wrap gap-2 border-t border-border p-5">
         {isOpen && (
           <button
             className="inline-flex h-9 flex-1 items-center justify-center gap-2 rounded-xl border border-amber-500/20 bg-amber-500/15 text-sm font-semibold text-amber-300 transition hover:bg-amber-500/25"
@@ -131,7 +131,7 @@ function PanelContent({
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex items-center justify-between gap-3">
-      <span className="text-zinc-500">{label}</span>
+      <span className="text-muted-foreground">{label}</span>
       <span>{children}</span>
     </div>
   );

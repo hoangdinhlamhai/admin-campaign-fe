@@ -94,40 +94,40 @@ export function UserFormPage({ userId }: UserFormPageProps) {
   return (
     <div>
       <AdminShell activeLabel="Người dùng">
-        <header className="mb-5 rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl sm:p-5">
+        <header className="mb-5 rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
           <Link
-            className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-zinc-300 hover:text-white"
+            className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground"
             to="/users"
           >
             <ArrowLeft className="size-4" />
             Quay lại danh sách
           </Link>
-          <div className="flex flex-wrap items-center gap-2 text-sm text-zinc-400">
+          <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
             <span>Danh mục</span>
-            <span className="text-zinc-600">&gt;</span>
+            <span className="text-muted-foreground/60">&gt;</span>
             <span>Người dùng</span>
-            <span className="text-zinc-600">&gt;</span>
-            <span className="font-medium text-lime-100">
+            <span className="text-muted-foreground/60">&gt;</span>
+            <span className="font-medium text-brand">
               {userId ? "Sửa nhân viên" : "Thêm nhân viên"}
             </span>
           </div>
-          <h2 className="mt-2 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+          <h2 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
             {userId ? "Sửa thông tin nhân viên" : "Thêm nhân viên mới"}
           </h2>
-          <p className="mt-2 text-sm text-zinc-400 sm:text-base">
+          <p className="mt-2 text-sm text-muted-foreground sm:text-base">
             Nhập thông tin và phân quyền, sau đó lưu để quay về bảng quản lý.
           </p>
         </header>
 
         {loadingUser ? (
-          <section className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-5 text-zinc-300 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl">
+          <section className="rounded-[1.1rem] border border-border bg-surface p-5 text-muted-foreground shadow-2xl backdrop-blur-2xl">
             <div className="flex items-center gap-3">
-              <div className="size-5 animate-spin rounded-full border-2 border-emerald-400 border-t-transparent" />
+              <div className="size-5 animate-spin rounded-full border-2 border-brand border-t-transparent" />
               <span>Đang tải thông tin...</span>
             </div>
           </section>
         ) : isEditingMissing ? (
-          <section className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-5 text-zinc-300 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl">
+          <section className="rounded-[1.1rem] border border-border bg-surface p-5 text-muted-foreground shadow-2xl backdrop-blur-2xl">
             Không tìm thấy người dùng cần sửa.
           </section>
         ) : (
@@ -143,8 +143,8 @@ export function UserFormPage({ userId }: UserFormPageProps) {
             </div>
 
             {userId && (
-              <section className="mb-8 rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl sm:p-5">
-                <h3 className="mb-4 text-lg font-semibold text-white">
+              <section className="mb-8 rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
+                <h3 className="mb-4 text-lg font-semibold text-foreground">
                   Chiến dịch đang phụ trách
                 </h3>
                 <UserCampaignsSection userId={userId} />

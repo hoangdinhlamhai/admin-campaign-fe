@@ -70,7 +70,7 @@ export function CategoryManager({ mode }: CategoryManagerProps) {
       <AdminShell activeLabel="Danh mục">
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <span className="text-sm text-zinc-400">Đang tải...</span>
+            <span className="text-sm text-muted-foreground">Đang tải...</span>
           </div>
         ) : error ? (
           <div className="flex items-center justify-center py-20">

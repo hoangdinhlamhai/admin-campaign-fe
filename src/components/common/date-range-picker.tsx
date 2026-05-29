@@ -113,9 +113,9 @@ export function DateRangePicker({
         onClick={() => setOpen((v) => !v)}
         aria-label="Chọn khoảng thời gian"
         aria-expanded={open}
-        className="inline-flex h-11 items-center gap-2 rounded-xl border border-white/10 bg-zinc-950/55 px-4 text-sm font-semibold text-white transition hover:border-emerald-300/40 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="inline-flex h-11 items-center gap-2 rounded-xl border border-border bg-background px-4 text-sm font-semibold text-foreground transition hover:border-border-strong disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        <Calendar className="size-4 text-zinc-400" />
+        <Calendar className="size-4 text-muted-foreground" />
         <span>{display}</span>
       </button>
 
@@ -123,10 +123,10 @@ export function DateRangePicker({
         <div
           role="dialog"
           aria-label="Bộ chọn khoảng ngày"
-          className="absolute right-0 z-50 mt-2 flex rounded-2xl border border-white/10 bg-zinc-950 shadow-2xl shadow-black/40"
+          className="absolute right-0 z-50 mt-2 flex rounded-2xl border border-border-strong bg-background shadow-2xl"
         >
           {/* Presets sidebar */}
-          <div className="flex flex-col gap-1 border-r border-white/10 p-3">
+          <div className="flex flex-col gap-1 border-r border-border p-3">
             {PRESETS.map((p) => (
               <button
                 key={p.label}
@@ -135,7 +135,7 @@ export function DateRangePicker({
                   const { from, to } = p.get(today)
                   applyRange(from, to)
                 }}
-                className="rounded-lg px-3 py-2 text-left text-sm text-zinc-300 transition hover:bg-white/[0.06] hover:text-white"
+                className="rounded-lg px-3 py-2 text-left text-sm text-muted-foreground transition hover:bg-surface-2 hover:text-foreground"
               >
                 {p.label}
               </button>

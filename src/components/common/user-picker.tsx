@@ -21,7 +21,7 @@ export function UserPicker({ value, onChange, includeUnassigned, disabled }: Use
 
   return (
     <select
-      className="h-11 w-full rounded-xl border border-white/10 bg-zinc-950/85 px-3 text-sm text-white outline-none transition focus:border-emerald-300/45 disabled:opacity-50"
+      className="h-11 w-full rounded-xl border border-border bg-background px-3 text-sm text-foreground outline-none transition focus:border-border-strong disabled:opacity-50"
       value={value ?? ""}
       onChange={(e) => onChange(e.target.value || null)}
       disabled={disabled || loading}

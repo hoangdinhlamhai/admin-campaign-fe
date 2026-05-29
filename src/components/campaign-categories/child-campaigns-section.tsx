@@ -28,14 +28,14 @@ export function ChildCampaignsSection({ campaigns }: Props) {
 
   return (
     <section className="mt-6">
-      <h2 className="mb-4 text-base font-semibold text-white">
+      <h2 className="mb-4 text-base font-semibold text-foreground">
         Danh sách chiến dịch
       </h2>
 
-      <div className="overflow-x-auto rounded-[1.1rem] border border-white/10 bg-zinc-900/58 shadow-xl shadow-zinc-950/20 backdrop-blur-2xl">
+      <div className="overflow-x-auto rounded-[1.1rem] border border-border bg-surface shadow-xl backdrop-blur-2xl">
         <table className="w-full text-left text-sm">
           <thead>
-            <tr className="border-b border-white/10 text-xs font-medium uppercase tracking-wider text-zinc-400">
+            <tr className="border-b border-border text-xs font-medium uppercase tracking-wider text-muted-foreground">
               <th className="px-4 py-3">Chiến dịch</th>
               <th className="px-4 py-3 text-center">Trạng thái</th>
               <th className="px-4 py-3 text-right">User cần chạy / ngày</th>
@@ -48,7 +48,7 @@ export function ChildCampaignsSection({ campaigns }: Props) {
           <tbody>
             {campaigns.length === 0 && (
               <tr>
-                <td colSpan={7} className="px-4 py-8 text-center text-zinc-500">
+                <td colSpan={7} className="px-4 py-8 text-center text-muted-foreground">
                   Chưa có chiến dịch nào.
                 </td>
               </tr>
@@ -59,7 +59,7 @@ export function ChildCampaignsSection({ campaigns }: Props) {
               return (
                 <tr
                   key={campaign.id}
-                  className="border-b border-white/5 transition hover:bg-white/[0.03]"
+                  className="border-b border-border/60 transition hover:bg-surface-2"
                 >
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
@@ -67,8 +67,8 @@ export function ChildCampaignsSection({ campaigns }: Props) {
                         {initials}
                       </div>
                       <div>
-                        <p className="font-medium text-white">{campaign.name}</p>
-                        <p className="text-xs text-zinc-500">{campaign.code}</p>
+                        <p className="font-medium text-foreground">{campaign.name}</p>
+                        <p className="text-xs text-muted-foreground">{campaign.code}</p>
                       </div>
                     </div>
                   </td>
@@ -77,7 +77,7 @@ export function ChildCampaignsSection({ campaigns }: Props) {
                       {badge.label}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-right font-mono text-zinc-200">
+                  <td className="px-4 py-3 text-right font-mono text-foreground">
                     {formatNumber(campaign.dailyUserTarget)}
                   </td>
                   <td className="px-4 py-3 text-right font-mono text-emerald-300">
@@ -86,14 +86,14 @@ export function ChildCampaignsSection({ campaigns }: Props) {
                   <td className="px-4 py-3 text-right font-mono text-amber-300">
                     {formatNumber(campaign.missingCount)}
                   </td>
-                  <td className="px-4 py-3 text-right font-mono text-zinc-200">
+                  <td className="px-4 py-3 text-right font-mono text-foreground">
                     {formatNumber(campaign.displayCount)}
                   </td>
                   <td className="px-4 py-3 text-center">
                     <button
                       type="button"
                       onClick={() => navigate(`/campaigns/${campaign.id}`)}
-                      className="rounded-lg bg-white/[0.06] px-2.5 py-1 text-xs font-medium text-zinc-300 transition hover:bg-white/[0.12] hover:text-white"
+                      className="rounded-lg bg-surface-2 px-2.5 py-1 text-xs font-medium text-muted-foreground transition hover:bg-surface-2/80 hover:text-foreground"
                     >
                       Chi tiết
                     </button>

@@ -8,7 +8,7 @@ type AssigneeCellProps = {
 export function AssigneeCell({ assignedTo, assignedToName }: AssigneeCellProps) {
   if (!assignedTo) {
     return (
-      <span className="rounded-full bg-zinc-800/80 px-2.5 py-0.5 text-xs font-medium text-zinc-400">
+      <span className="rounded-full bg-surface-2 px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
         Chưa phân công
       </span>
     );
@@ -21,7 +21,7 @@ export function AssigneeCell({ assignedTo, assignedToName }: AssigneeCellProps) 
       <div className="grid size-7 shrink-0 place-items-center rounded-lg bg-indigo-400/15 text-[11px] font-bold text-indigo-200">
         {initials}
       </div>
-      <span className="truncate text-sm text-zinc-200">{assignedToName ?? "—"}</span>
+      <span className="truncate text-sm text-foreground">{assignedToName ?? "—"}</span>
     </div>
   );
 }

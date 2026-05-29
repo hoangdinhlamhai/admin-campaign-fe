@@ -37,18 +37,18 @@ export function UserTable({ users, query, onQueryChange, onEdit, onDelete }: Use
   const handleStatusFilter = (v: string) => { setStatusFilter(v as UserStatus | "all"); setPage(1); };
 
   return (
-    <section className="rounded-[1.1rem] border border-white/10 bg-zinc-900/58 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl">
-      <div className="flex flex-col gap-3 border-b border-white/10 p-4 sm:p-5">
+    <section className="rounded-[1.1rem] border border-border bg-surface shadow-2xl backdrop-blur-2xl">
+      <div className="flex flex-col gap-3 border-b border-border p-4 sm:p-5">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-white">Danh sách nhân viên</h3>
-            <p className="mt-1 text-sm text-zinc-400">Quản lý tài khoản và phân quyền từng nhân viên.</p>
+            <h3 className="text-lg font-semibold text-foreground">Danh sách nhân viên</h3>
+            <p className="mt-1 text-sm text-muted-foreground">Quản lý tài khoản và phân quyền từng nhân viên.</p>
           </div>
           <label className="relative block">
-            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-zinc-500" />
+            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <span className="sr-only">Tìm người dùng</span>
             <input
-              className="h-11 w-full rounded-xl border border-white/10 bg-zinc-950/55 pl-9 pr-3 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-emerald-300/60 sm:w-72"
+              className="h-11 w-full rounded-xl border border-border bg-background pl-9 pr-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-border-strong sm:w-72"
               onChange={(e) => { onQueryChange(e.target.value); setPage(1); }}
               placeholder="Tìm tên, email, số điện thoại..."
               value={query}
@@ -57,7 +57,7 @@ export function UserTable({ users, query, onQueryChange, onEdit, onDelete }: Use
         </div>
         <div className="flex flex-wrap gap-2">
           <select
-            className="h-9 rounded-lg border border-white/10 bg-zinc-950/85 px-3 text-sm text-white outline-none focus:border-emerald-300/60"
+            className="h-9 rounded-lg border border-border bg-background px-3 text-sm text-foreground outline-none focus:border-border-strong"
             onChange={(e) => handleRoleFilter(e.target.value)}
             value={roleFilter}
           >
@@ -66,7 +66,7 @@ export function UserTable({ users, query, onQueryChange, onEdit, onDelete }: Use
             <option value="employee">Nhân viên</option>
           </select>
           <select
-            className="h-9 rounded-lg border border-white/10 bg-zinc-950/85 px-3 text-sm text-white outline-none focus:border-emerald-300/60"
+            className="h-9 rounded-lg border border-border bg-background px-3 text-sm text-foreground outline-none focus:border-border-strong"
             onChange={(e) => handleStatusFilter(e.target.value)}
             value={statusFilter}
           >
@@ -81,7 +81,7 @@ export function UserTable({ users, query, onQueryChange, onEdit, onDelete }: Use
       <div className="overflow-x-auto">
         <table className="w-full min-w-[900px] border-collapse text-sm">
           <thead>
-            <tr className="border-b border-white/10 text-left text-xs uppercase tracking-[0.12em] text-zinc-500">
+            <tr className="border-b border-border text-left text-xs uppercase tracking-[0.12em] text-muted-foreground">
               <HeaderCell className="w-10">#</HeaderCell>
               <HeaderCell className="w-56">Tên</HeaderCell>
               <HeaderCell className="w-52">Email</HeaderCell>
@@ -104,7 +104,7 @@ export function UserTable({ users, query, onQueryChange, onEdit, onDelete }: Use
             ))}
             {pageItems.length === 0 && (
               <tr>
-                <td className="px-4 py-10 text-center text-zinc-400" colSpan={8}>
+                <td className="px-4 py-10 text-center text-muted-foreground" colSpan={8}>
                   Không tìm thấy người dùng phù hợp.
                 </td>
               </tr>
@@ -113,24 +113,24 @@ export function UserTable({ users, query, onQueryChange, onEdit, onDelete }: Use
         </table>
       </div>
 
-      <div className="flex flex-col gap-3 border-t border-white/10 p-4 text-sm text-zinc-400 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+      <div className="flex flex-col gap-3 border-t border-border p-4 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:p-5">
         <span>
           Hiển thị {filtered.length === 0 ? 0 : (safePage - 1) * PAGE_SIZE + 1}–{Math.min(safePage * PAGE_SIZE, filtered.length)} của {filtered.length} người dùng
         </span>
         <div className="flex items-center gap-2">
           <button
             aria-label="Trang trước"
-            className="grid size-9 place-items-center rounded-lg border border-white/10 bg-white/[0.06] text-zinc-300 transition hover:bg-white/[0.1] disabled:opacity-40"
+            className="grid size-9 place-items-center rounded-lg border border-border bg-surface-2 text-muted-foreground transition hover:bg-surface-2/80 disabled:opacity-40"
             disabled={safePage <= 1}
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             type="button"
           >
             <ChevronLeft className="size-4" />
           </button>
-          <span className="rounded-lg bg-emerald-300 px-3 py-1.5 font-bold text-zinc-950">{safePage}</span>
+          <span className="rounded-lg bg-brand px-3 py-1.5 font-bold text-brand-foreground">{safePage}</span>
           <button
             aria-label="Trang sau"
-            className="grid size-9 place-items-center rounded-lg border border-white/10 bg-white/[0.06] text-zinc-300 transition hover:bg-white/[0.1] disabled:opacity-40"
+            className="grid size-9 place-items-center rounded-lg border border-border bg-surface-2 text-muted-foreground transition hover:bg-surface-2/80 disabled:opacity-40"
             disabled={safePage >= totalPages}
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             type="button"
@@ -145,22 +145,22 @@ export function UserTable({ users, query, onQueryChange, onEdit, onDelete }: Use
 
 function UserRow({ user, index, onEdit, onDelete }: { user: UserWithInitials; index: number; onEdit: () => void; onDelete: () => void }) {
   return (
-    <tr className="border-b border-white/[0.06] text-zinc-200 transition hover:bg-white/[0.035]">
+    <tr className="border-b border-border/60 text-foreground transition hover:bg-surface-2">
       <BodyCell>
-        <span className="font-mono text-zinc-400">{index + 1}</span>
+        <span className="font-mono text-muted-foreground">{index + 1}</span>
       </BodyCell>
       <BodyCell>
         <div className="flex items-center gap-3">
           <div className="grid size-9 shrink-0 place-items-center rounded-xl bg-indigo-400/16 text-xs font-bold text-indigo-100 ring-1 ring-indigo-300/20">
             {user.initials}
           </div>
-          <button className="min-w-0 text-left font-semibold text-white transition hover:text-emerald-100" onClick={onEdit} type="button">
+          <button className="min-w-0 text-left font-semibold text-foreground transition hover:text-brand" onClick={onEdit} type="button">
             {user.name}
           </button>
         </div>
       </BodyCell>
       <BodyCell>
-        <span className="truncate text-zinc-300">{user.email}</span>
+        <span className="truncate text-muted-foreground">{user.email}</span>
       </BodyCell>
       <BodyCell>
         <RoleBadge role={user.role} />
@@ -169,18 +169,18 @@ function UserRow({ user, index, onEdit, onDelete }: { user: UserWithInitials; in
         <StatusBadge status={user.status} />
       </BodyCell>
       <BodyCell className="text-center">
-        <span className="font-mono font-semibold text-zinc-300">{user.permissions?.length ?? 0}</span>
+        <span className="font-mono font-semibold text-muted-foreground">{user.permissions?.length ?? 0}</span>
       </BodyCell>
       <BodyCell>
-        <span className="text-zinc-400">
-          {user.lastLoginAt ? formatDate(user.lastLoginAt) : <span className="text-zinc-600">Chưa đăng nhập</span>}
+        <span className="text-muted-foreground">
+          {user.lastLoginAt ? formatDate(user.lastLoginAt) : <span className="text-muted-foreground/60">Chưa đăng nhập</span>}
         </span>
       </BodyCell>
       <BodyCell>
         <div className="flex justify-end gap-1">
           <button
             aria-label={`Sửa ${user.name}`}
-            className="grid size-9 place-items-center rounded-lg text-zinc-400 transition hover:bg-white/[0.08] hover:text-white"
+            className="grid size-9 place-items-center rounded-lg text-muted-foreground transition hover:bg-surface-2 hover:text-foreground"
             onClick={onEdit}
             type="button"
           >
@@ -188,7 +188,7 @@ function UserRow({ user, index, onEdit, onDelete }: { user: UserWithInitials; in
           </button>
           <button
             aria-label={`Xoá ${user.name}`}
-            className="grid size-9 place-items-center rounded-lg text-zinc-400 transition hover:bg-rose-400/12 hover:text-rose-100"
+            className="grid size-9 place-items-center rounded-lg text-muted-foreground transition hover:bg-rose-400/12 hover:text-rose-100"
             onClick={onDelete}
             type="button"
           >

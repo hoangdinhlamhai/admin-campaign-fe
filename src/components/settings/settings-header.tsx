@@ -9,15 +9,15 @@ type Props = {
 
 export function SettingsHeader({ dirty, saving, error, onSave }: Props) {
   return (
-    <header className="mb-5 flex flex-col gap-4 rounded-[1.1rem] border border-white/10 bg-zinc-900/58 p-4 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl sm:p-5 xl:flex-row xl:items-center xl:justify-between">
+    <header className="mb-5 flex flex-col gap-4 rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5 xl:flex-row xl:items-center xl:justify-between">
       <div>
-        <div className="mb-2 flex flex-wrap items-center gap-2 text-sm text-zinc-400">
-          <span className="font-medium text-lime-100">Cài đặt</span>
+        <div className="mb-2 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+          <span className="font-medium text-brand">Cài đặt</span>
         </div>
-        <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+        <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
           Cài đặt chung
         </h2>
-        <p className="mt-2 text-sm text-zinc-400 sm:text-base">
+        <p className="mt-2 text-sm text-muted-foreground sm:text-base">
           Mặc định áp dụng cho mọi chiến dịch mới. Có thể ghi đè ở từng chiến dịch.
         </p>
       </div>
@@ -27,7 +27,7 @@ export function SettingsHeader({ dirty, saving, error, onSave }: Props) {
           <span className="text-sm text-rose-300">{error}</span>
         ) : null}
         <button
-          className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[hsl(var(--brand))] px-4 text-sm font-bold text-zinc-950 shadow-lg shadow-emerald-950/30 transition hover:-translate-y-0.5 hover:bg-emerald-200 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
+          className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-brand px-4 text-sm font-bold text-brand-foreground shadow-lg transition hover:-translate-y-0.5 hover:bg-brand/80 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
           disabled={!dirty || saving}
           onClick={onSave}
           type="button"

@@ -68,11 +68,11 @@ export function UserCampaignsSection({ userId }: Props) {
     return <p className="text-sm text-rose-400">{error}</p>;
   }
   if (!items) {
-    return <p className="text-sm text-zinc-400">Đang tải...</p>;
+    return <p className="text-sm text-muted-foreground">Đang tải...</p>;
   }
   if (items.length === 0) {
     return (
-      <p className="text-sm text-zinc-400">
+      <p className="text-sm text-muted-foreground">
         Nhân viên này chưa được phân công chiến dịch nào.
       </p>
     );
@@ -86,13 +86,13 @@ export function UserCampaignsSection({ userId }: Props) {
         return (
           <div
             key={c.id}
-            className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-zinc-950/55 p-3"
+            className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-background p-3"
           >
             <div className="min-w-0">
-              <p className="truncate text-sm font-bold text-white">
+              <p className="truncate text-sm font-bold text-foreground">
                 {c.code} — {c.name}
               </p>
-              <p className="text-xs text-zinc-500">
+              <p className="text-xs text-muted-foreground">
                 Tạo: {formatDate(c.createdAt)}
               </p>
             </div>
@@ -105,7 +105,7 @@ export function UserCampaignsSection({ userId }: Props) {
               <button
                 type="button"
                 onClick={() => navigate(`/campaigns/${c.id}`)}
-                className="h-9 rounded-lg border border-white/10 bg-white/[0.07] px-3 text-xs font-semibold text-zinc-100 transition hover:bg-white/[0.11]"
+                className="h-9 rounded-lg border border-border bg-surface-2 px-3 text-xs font-semibold text-foreground transition hover:bg-surface-2/80"
               >
                 Xem
               </button>
