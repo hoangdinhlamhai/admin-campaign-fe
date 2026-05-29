@@ -28,7 +28,7 @@ export function CampaignSummary({ category, form }: CampaignSummaryProps) {
 
   return (
     <ReviewCard
-      action={<Link className="text-sm font-semibold text-emerald-200 hover:text-emerald-100" to={getCampaignWizardBase()}>Sửa</Link>}
+      action={<Link className="text-sm font-semibold text-brand hover:text-brand/80" to={getCampaignWizardBase()}>Sửa</Link>}
       description="Kiểm tra thông tin chính của chiến dịch trước khi tạo."
       title="Thông tin chiến dịch"
     >

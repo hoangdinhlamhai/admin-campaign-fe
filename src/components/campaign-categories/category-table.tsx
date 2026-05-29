@@ -47,7 +47,7 @@ export function CategoryTable({
       : categories;
 
   return (
-    <section className="rounded-[1.1rem] border border-border bg-surface shadow-2xl backdrop-blur-2xl">
+    <section className="glass-card">
       <div className="flex flex-col gap-3 border-b border-border p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
         <div>
           <h3 className="text-lg font-semibold text-foreground">
@@ -222,7 +222,7 @@ function CategoryRow({
       <BodyCell className="text-center">
         <span
           className={`font-mono font-semibold ${
-            progress >= 100 ? "text-emerald-200" : progress >= 70 ? "text-lime-200" : "text-amber-200"
+            progress >= 100 ? "text-brand" : progress >= 70 ? "text-brand" : "text-amber-200"
           }`}
         >
           {formatNumber(completed)}
@@ -285,7 +285,7 @@ function getProgress(completed: number, target: number) {
 
 function ProgressBar({ value }: { value: number }) {
   const tone =
-    value < 50 ? "bg-amber-300" : value < 70 ? "bg-orange-300" : "bg-emerald-300";
+    value < 50 ? "bg-amber-300" : value < 70 ? "bg-orange-300" : "bg-brand";
 
   return (
     <div className="flex items-center gap-2">
@@ -306,7 +306,7 @@ function StatusBadge({ status }: { status: CampaignCategory["status"] }) {
   return (
     <span
       className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-bold ${
-        active ? "bg-emerald-400/12 text-emerald-200" : "bg-amber-400/12 text-amber-200"
+        active ? "bg-brand/15 text-brand" : "bg-amber-400/12 text-amber-200"
       }`}
     >
       {active ? <Check className="size-3.5" /> : <TriangleAlert className="size-3.5" />}

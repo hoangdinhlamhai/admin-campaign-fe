@@ -27,7 +27,7 @@ function calculateHealth(campaigns: Campaign[]) {
 }
 
 function getRating(score: number) {
-  if (score >= 80) return { label: "Tốt", color: "text-emerald-200" };
+  if (score >= 80) return { label: "Tốt", color: "text-brand" };
   if (score >= 50) return { label: "Trung bình", color: "text-amber-200" };
   return { label: "Yếu", color: "text-rose-200" };
 }
@@ -64,7 +64,7 @@ export function CampaignHealth({ campaigns }: { campaigns: Campaign[] }) {
   ];
 
   return (
-    <article className="rounded-[1.1rem] border border-border bg-surface p-5 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl">
+    <article className="glass-card p-5">
       <div className="mb-3">
         <h3 className="text-lg font-semibold text-foreground">Sức khỏe chiến dịch</h3>
         <p className="mt-1 text-sm text-muted-foreground">% tiến độ trung bình</p>

@@ -36,7 +36,7 @@ export function SystemAlerts() {
   const newCount = alerts.length;
 
   return (
-    <article className="rounded-[1.1rem] border border-border bg-surface p-5 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl">
+    <article className="glass-card p-5">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
           <h3 className="text-lg font-semibold text-foreground">Cảnh báo hệ thống</h3>
@@ -71,7 +71,7 @@ export function SystemAlerts() {
 
       <Link
         to="/alerts"
-        className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-lime-200 transition hover:text-lime-100"
+        className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-brand transition hover:text-brand/80"
       >
         Xem tất cả cảnh báo
         <ArrowRight className="size-4" />

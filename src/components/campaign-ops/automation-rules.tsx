@@ -40,9 +40,9 @@ export function AutomationRules({ rules }: { rules: AutomationRule[] }) {
   const triggerCounts = useTriggerCounts();
 
   return (
-    <article className="rounded-[1.1rem] border border-border bg-surface p-5 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl">
+    <article className="glass-card p-5">
       <div className="mb-4 flex items-start gap-3">
-        <span className="grid size-10 place-items-center rounded-xl bg-emerald-300/14 text-lime-100">
+        <span className="grid size-10 place-items-center rounded-xl bg-brand/15 text-brand">
           <Bot className="size-5" />
         </span>
         <div>
@@ -69,7 +69,7 @@ export function AutomationRules({ rules }: { rules: AutomationRule[] }) {
         })}
       </div>
       <Link
-        className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-lime-200 transition hover:text-lime-100"
+        className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-brand transition hover:text-brand/80"
         to="/settings"
       >
         Quản lý quy tắc

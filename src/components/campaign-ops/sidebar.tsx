@@ -69,16 +69,16 @@ export function Sidebar({ activeLabel = "Chiến dịch" }: SidebarProps) {
       </button>
       <div className="flex min-w-0 flex-1 items-center gap-4 overflow-x-auto px-4 py-3 lg:flex-col lg:items-stretch lg:overflow-visible lg:p-5">
         <div
-          className={`flex shrink-0 items-center gap-3 rounded-[1.1rem] border border-border bg-white/[0.045] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] ${
+          className={`flex shrink-0 items-center gap-3 rounded-[1.1rem] border border-border bg-surface-2 ${
             collapsed ? "justify-center p-2" : "px-3 py-2 lg:px-4 lg:py-4"
           }`}
         >
-          <div className="grid size-10 place-items-center rounded-xl bg-[linear-gradient(135deg,hsl(var(--brand)),hsl(var(--accent)))] text-zinc-950 shadow-lg shadow-emerald-950/30">
+          <div className="grid size-10 place-items-center rounded-xl bg-[linear-gradient(135deg,hsl(var(--brand)),hsl(var(--accent)))] text-brand-foreground shadow-lg">
             <Orbit size={19} strokeWidth={2.4} />
           </div>
           {!collapsed && (
             <div className="min-w-28">
-              <p className="text-sm font-semibold tracking-[0.18em] text-lime-100">SC</p>
+              <p className="text-sm font-semibold tracking-[0.18em] text-brand">SC</p>
               <h1 className="text-lg font-semibold text-foreground">Senlyzer Campaign</h1>
             </div>
           )}
@@ -107,8 +107,8 @@ export function Sidebar({ activeLabel = "Chiến dịch" }: SidebarProps) {
                       collapsed ? "justify-center px-0" : "gap-3 px-3"
                     } ${
                       isActive
-                        ? "bg-emerald-300/15 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.14)]"
-                        : "text-muted-foreground hover:bg-white/[0.07] hover:text-foreground"
+                        ? "bg-brand/15 text-foreground"
+                        : "text-muted-foreground hover:bg-surface-2 hover:text-foreground"
                     }`}
                   >
                     <Icon className="size-4 shrink-0" />
@@ -133,8 +133,8 @@ export function Sidebar({ activeLabel = "Chiến dịch" }: SidebarProps) {
                             to={child.href}
                             className={`flex h-9 items-center rounded-lg px-3 text-xs font-medium transition duration-200 ${
                               isSubActive
-                                ? "bg-emerald-300/10 text-emerald-300"
-                                : "text-muted-foreground hover:bg-white/[0.05] hover:text-foreground"
+                                ? "bg-brand/10 text-brand"
+                                : "text-muted-foreground hover:bg-surface-2 hover:text-foreground"
                             }`}
                           >
                             {child.label}
@@ -158,8 +158,8 @@ export function Sidebar({ activeLabel = "Chiến dịch" }: SidebarProps) {
                   collapsed ? "justify-center px-0" : "gap-3 px-3"
                 } ${
                   isActive
-                    ? "bg-emerald-300/15 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.14)]"
-                    : "text-muted-foreground hover:bg-white/[0.07] hover:text-foreground"
+                    ? "bg-brand/15 text-foreground"
+                    : "text-muted-foreground hover:bg-surface-2 hover:text-foreground"
                 }`}
                 to={item.href}
               >
@@ -188,7 +188,7 @@ export function Sidebar({ activeLabel = "Chiến dịch" }: SidebarProps) {
           <div className={`mb-2 ${collapsed ? "flex justify-center" : ""}`}>
             <ThemeToggle collapsed={collapsed} />
           </div>
-          <div className={`flex items-center rounded-[1.1rem] border border-border bg-white/[0.055] ${collapsed ? "justify-center p-1.5" : "gap-3 p-2.5"}`}>
+          <div className={`flex items-center rounded-[1.1rem] border border-border bg-surface-2 ${collapsed ? "justify-center p-1.5" : "gap-3 p-2.5"}`}>
             <div className="grid size-10 place-items-center rounded-xl bg-zinc-100 text-sm font-bold text-zinc-900">{initials}</div>
             {!collapsed && (
               <>
@@ -201,7 +201,7 @@ export function Sidebar({ activeLabel = "Chiến dịch" }: SidebarProps) {
                   onClick={handleLogout}
                   aria-label="Đăng xuất"
                   title="Đăng xuất"
-                  className="hidden size-8 cursor-pointer place-items-center rounded-lg text-muted-foreground transition hover:bg-white/[0.08] hover:text-foreground lg:grid"
+                  className="hidden size-8 cursor-pointer place-items-center rounded-lg text-muted-foreground transition hover:bg-surface-2/80 hover:text-foreground lg:grid"
                 >
                   <LogOut className="size-4" />
                 </button>
@@ -214,7 +214,7 @@ export function Sidebar({ activeLabel = "Chiến dịch" }: SidebarProps) {
               onClick={handleLogout}
               aria-label="Đăng xuất"
               title="Đăng xuất"
-              className="mt-2 hidden size-10 w-full cursor-pointer place-items-center rounded-xl text-muted-foreground transition hover:bg-white/[0.08] hover:text-foreground lg:grid"
+              className="mt-2 hidden size-10 w-full cursor-pointer place-items-center rounded-xl text-muted-foreground transition hover:bg-surface-2 hover:text-foreground lg:grid"
             >
               <LogOut className="size-4" />
             </button>

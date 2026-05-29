@@ -7,7 +7,7 @@ type UserHeaderProps = {
 
 export function UserHeader({ total }: UserHeaderProps) {
   return (
-    <header className="mb-5 flex flex-col gap-4 rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5 xl:flex-row xl:items-center xl:justify-between">
+    <header className="glass-card mb-5 flex flex-col gap-4 p-4 sm:p-5 xl:flex-row xl:items-center xl:justify-between">
       <div className="min-w-0">
         <div className="mb-2 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
           <span>Danh mục</span>
@@ -16,7 +16,7 @@ export function UserHeader({ total }: UserHeaderProps) {
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">Quản lý Người dùng</h2>
-          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-400/12 px-3 py-1 text-sm font-semibold text-emerald-200">
+          <span className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/15 px-3 py-1 text-sm font-semibold text-brand">
             <Users className="size-4" />
             {total} người dùng
           </span>

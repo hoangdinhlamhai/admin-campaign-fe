@@ -10,7 +10,7 @@ export function CampaignDetailInstructions({ html }: Props) {
   const device = getPreviewDevice(deviceId);
 
   return (
-    <section className="rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
+    <section className="glass-card p-4 sm:p-5">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <h3 className="text-lg font-semibold text-foreground">Hướng dẫn nhiệm vụ</h3>
         <DevicePreviewToggle selectedId={deviceId} onSelect={setDeviceId} />

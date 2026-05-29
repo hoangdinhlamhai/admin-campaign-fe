@@ -9,7 +9,7 @@ type Props = { campaign: FullCampaign };
 
 export function CampaignDetailInfo({ campaign }: Props) {
   return (
-    <section className="rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
+    <section className="glass-card p-4 sm:p-5">
       <h3 className="mb-4 text-lg font-semibold text-foreground">Thông tin cơ bản</h3>
       <dl className="space-y-3 text-sm">
         <Row label="Mã chiến dịch" value={<span className="rounded-md bg-surface-2 px-2 py-1 font-mono text-xs font-semibold text-foreground">{campaign.code}</span>} />

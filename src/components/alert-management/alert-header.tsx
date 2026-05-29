@@ -7,7 +7,7 @@ type AlertHeaderProps = {
 
 export function AlertHeader({ openCount }: AlertHeaderProps) {
   return (
-    <header className="mb-5 flex flex-col gap-4 rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
+    <header className="glass-card mb-5 flex flex-col gap-4 p-4 sm:p-5">
       <div className="min-w-0">
         <div className="mb-2 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
           <Link className="transition hover:text-foreground" to="/">Danh mục</Link>

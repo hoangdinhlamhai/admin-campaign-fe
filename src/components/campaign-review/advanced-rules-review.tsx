@@ -38,7 +38,7 @@ export function AdvancedRulesReview({ settings }: AdvancedRulesReviewProps) {
 
   return (
     <ReviewCard
-      action={<Link className="text-sm font-semibold text-emerald-200 hover:text-emerald-100" to={`${getCampaignWizardBase()}/advanced`}>Sửa</Link>}
+      action={<Link className="text-sm font-semibold text-brand hover:text-brand/80" to={`${getCampaignWizardBase()}/advanced`}>Sửa</Link>}
       title="Rule nâng cao"
     >
       <div className="space-y-3">
@@ -48,7 +48,7 @@ export function AdvancedRulesReview({ settings }: AdvancedRulesReviewProps) {
           return (
             <div
               className={`flex items-start gap-3 rounded-xl border px-3 py-2 text-sm ${
-                rule.active ? "border-emerald-300/20 bg-emerald-400/10 text-emerald-100" : "border-border bg-white/[0.03] text-muted-foreground"
+                rule.active ? "border-brand/20 bg-brand/10 text-brand" : "border-border bg-surface-2 text-muted-foreground"
               }`}
               key={rule.label}
             >

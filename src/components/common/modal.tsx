@@ -29,7 +29,7 @@ export function Modal({ open, onClose, title, children, footer }: ModalProps) {
       aria-label={title}
     >
       <div
-        className="w-full max-w-md rounded-2xl border border-border bg-surface p-6 shadow-2xl"
+        className="glass-panel w-full max-w-md p-6 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <h3 className="mb-4 text-lg font-semibold text-foreground">{title}</h3>

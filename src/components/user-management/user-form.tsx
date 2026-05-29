@@ -33,7 +33,7 @@ export function UserForm({ form, isEditing, onChange, onSubmit, onCancel }: User
   return (
     <form onSubmit={submitForm} className="flex flex-col gap-4">
       {/* Section 1: Basic info */}
-      <section className="rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
+      <section className="glass-card p-4 sm:p-5">
         <h3 className="mb-4 text-lg font-semibold text-foreground">Thông tin cơ bản</h3>
         <div className="grid gap-4 md:grid-cols-2">
           <label className="block">
@@ -73,7 +73,7 @@ export function UserForm({ form, isEditing, onChange, onSubmit, onCancel }: User
       </section>
 
       {/* Section 2: Role + Status */}
-      <section className="rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
+      <section className="glass-card p-4 sm:p-5">
         <h3 className="mb-4 text-lg font-semibold text-foreground">Vai trò &amp; Trạng thái</h3>
         <div className="grid gap-4 md:grid-cols-2">
           <label className="block">

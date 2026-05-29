@@ -69,7 +69,7 @@ export function InstructionInlineEditor({
       InstructionImage.configure({ allowBase64: false, HTMLAttributes: { class: "instruction-image" } }),
       InstructionVideo,
       CopyBlock,
-      LinkExtension.configure({ openOnClick: false, HTMLAttributes: { class: "text-emerald-200 underline underline-offset-4" } }),
+      LinkExtension.configure({ openOnClick: false, HTMLAttributes: { class: "text-brand underline underline-offset-4" } }),
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       Placeholder.configure({ placeholder: "Nhập hướng dẫn nhiệm vụ cho user..." }),
     ],
@@ -176,7 +176,7 @@ export function InstructionInlineEditor({
       className={
         fullscreen
           ? "fixed inset-0 z-[9999] flex flex-col overflow-hidden bg-background shadow-2xl"
-          : "overflow-hidden rounded-[1.1rem] border border-border bg-surface shadow-2xl backdrop-blur-2xl"
+          : "glass-card overflow-hidden"
       }
     >
       <div className="flex items-center justify-between border-b border-border p-4 sm:p-5">

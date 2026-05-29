@@ -44,8 +44,8 @@ export function ChildDetailInfo({ child, range, onRangeChange }: Props) {
           <span
             className={`ml-2 rounded-full px-2.5 py-0.5 text-xs font-semibold ${
               child.status === "active"
-                ? "bg-emerald-500/15 text-emerald-300"
-                : "bg-zinc-500/15 text-muted-foreground"
+                ? "bg-brand/15 text-brand"
+                : "bg-surface-2 text-muted-foreground"
             }`}
           >
             {child.status === "active" ? "Hoạt động" : "Tạm dừng"}

@@ -115,7 +115,7 @@ export function CategoryFormPage({ categoryId, mode }: CategoryFormPageProps) {
   return (
     <div>
       <AdminShell activeLabel="Danh mục">
-        <header className="mb-5 rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
+        <header className="glass-card mb-5 p-4 sm:p-5">
           <Link
             className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground"
             to={backLink}
@@ -139,7 +139,7 @@ export function CategoryFormPage({ categoryId, mode }: CategoryFormPageProps) {
         </header>
 
         {isEditingMissingCategory ? (
-          <section className="rounded-[1.1rem] border border-border bg-surface p-5 text-muted-foreground shadow-2xl backdrop-blur-2xl">
+          <section className="glass-card p-5 text-muted-foreground">
             Không tìm thấy danh mục cần sửa.
           </section>
         ) : (

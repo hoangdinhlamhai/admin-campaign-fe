@@ -28,7 +28,7 @@ export function ParentDetailInfo({ parent, range, onRangeChange }: Props) {
       {/* Header row */}
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className="grid size-12 shrink-0 place-items-center rounded-xl bg-emerald-500/15 text-lg font-bold text-emerald-300">
+          <div className="grid size-12 shrink-0 place-items-center rounded-xl bg-brand/15 text-lg font-bold text-brand">
             {parent.initials}
           </div>
           <div>
@@ -40,8 +40,8 @@ export function ParentDetailInfo({ parent, range, onRangeChange }: Props) {
           <span
             className={`ml-2 rounded-full px-2.5 py-0.5 text-xs font-semibold ${
               parent.status === "active"
-                ? "bg-emerald-500/15 text-emerald-300"
-                : "bg-zinc-500/15 text-muted-foreground"
+                ? "bg-brand/15 text-brand"
+                : "bg-surface-2 text-muted-foreground"
             }`}
           >
             {parent.status === "active" ? "Hoạt động" : "Tạm dừng"}

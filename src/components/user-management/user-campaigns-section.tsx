@@ -20,11 +20,11 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 const STATUS_CLASS: Record<string, string> = {
-  active: "bg-emerald-400/15 text-emerald-300 border-emerald-300/20",
+  active: "bg-brand/15 text-brand border-brand/20",
   paused: "bg-amber-400/15 text-amber-300 border-amber-300/20",
-  draft: "bg-zinc-500/15 text-zinc-300 border-zinc-400/20",
+  draft: "bg-surface-2 text-muted-foreground border-border",
   stopped: "bg-rose-400/15 text-rose-300 border-rose-300/20",
-  archived: "bg-zinc-700/30 text-zinc-400 border-zinc-500/20",
+  archived: "bg-surface-2 text-muted-foreground border-border",
 };
 
 function formatDate(iso: string): string {

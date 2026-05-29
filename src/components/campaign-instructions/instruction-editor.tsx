@@ -34,7 +34,7 @@ export function InstructionEditor({ content, onChange }: InstructionEditorProps)
       LinkExtension.configure({
         openOnClick: false,
         HTMLAttributes: {
-          class: "text-emerald-200 underline underline-offset-4",
+          class: "text-brand underline underline-offset-4",
         },
       }),
       TextAlign.configure({
@@ -66,7 +66,7 @@ export function InstructionEditor({ content, onChange }: InstructionEditorProps)
   }, [content, editor]);
 
   return (
-    <section className="overflow-hidden rounded-[1.1rem] border border-border bg-surface shadow-2xl backdrop-blur-2xl">
+    <section className="glass-card overflow-hidden">
       <div className="flex items-center justify-between border-b border-border p-4 sm:p-5">
         <div>
           <h3 className="text-lg font-semibold text-foreground">Nội dung hướng dẫn</h3>

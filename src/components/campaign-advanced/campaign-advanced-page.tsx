@@ -51,7 +51,7 @@ export function CampaignAdvancedPage() {
   return (
     <div>
       <AdminShell activeLabel="Chiến dịch">
-        <header className="mb-5 rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
+        <header className="glass-card mb-5 p-4 sm:p-5">
           <div className="min-w-0">
             <Link className="mb-3 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground" to={`${wizardBase}/instructions`}>
               <ArrowLeft className="size-4" />
@@ -149,7 +149,7 @@ export function CampaignAdvancedPage() {
           </div>
 
           <aside className="space-y-5">
-            <section className="rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
+            <section className="glass-card p-4 sm:p-5">
               <h3 className="font-semibold text-foreground">Tóm tắt rule</h3>
               <div className="mt-4 space-y-3 text-sm text-foreground">
                 <SummaryItem icon={<BellRing className="size-4" />} active={settings.notifyLowUsers}>
@@ -185,7 +185,7 @@ export function CampaignAdvancedPage() {
 
 function SummaryItem({ active, children, icon }: { active: boolean; children: React.ReactNode; icon: React.ReactNode }) {
   return (
-    <div className={`flex items-start gap-3 rounded-xl border px-3 py-2 ${active ? "border-emerald-300/20 bg-emerald-400/10 text-emerald-100" : "border-border bg-surface-2 text-muted-foreground"}`}>
+    <div className={`flex items-start gap-3 rounded-xl border px-3 py-2 ${active ? "border-brand/20 bg-brand/10 text-brand" : "border-border bg-surface-2 text-muted-foreground"}`}>
       <span className="mt-0.5">{icon}</span>
       <span>{children}</span>
     </div>

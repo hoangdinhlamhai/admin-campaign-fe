@@ -106,7 +106,7 @@ export function OverviewMetricCards({ data, loading, error }: Props) {
 
         return (
           <article
-            className="rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl"
+            className="glass-card p-4"
             key={metric.id}
           >
             <div className="flex items-start gap-3">

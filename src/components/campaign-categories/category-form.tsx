@@ -41,7 +41,7 @@ export function CategoryForm({
 
   return (
     <section
-      className="rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5"
+      className="glass-card p-4 sm:p-5"
       id="category-form"
     >
       <div className="mb-5">

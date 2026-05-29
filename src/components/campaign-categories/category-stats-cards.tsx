@@ -29,7 +29,7 @@ function getCards(mode: "parent" | "child"): CardConfig[] {
     {
       key: "totalCategoryCount",
       label: mode === "parent" ? "Tổng danh mục cha" : "Tổng danh mục con",
-      tone: "text-lime-200",
+      tone: "text-brand",
       Icon: FolderTree,
     },
     {
@@ -41,13 +41,13 @@ function getCards(mode: "parent" | "child"): CardConfig[] {
     {
       key: "rangeTarget",
       label: "User cần chạy (trong kỳ)",
-      tone: "text-lime-200",
+      tone: "text-brand",
       Icon: Target,
     },
     {
       key: "rangeCompleted",
       label: "Đã hoàn thành (trong kỳ)",
-      tone: "text-emerald-200",
+      tone: "text-brand",
       Icon: ShieldCheck,
     },
     {
@@ -91,7 +91,7 @@ export function CategoryStatsCards({ mode, from, to }: Props) {
         {cards.map(({ key, label, tone, Icon }) => (
           <article
             key={key}
-            className="group rounded-[1.1rem] border border-border bg-surface p-4 shadow-xl backdrop-blur-2xl transition duration-300 hover:-translate-y-1 hover:bg-surface-2"
+            className="glass-card group p-4 transition duration-300 hover:-translate-y-1 hover:bg-surface-2"
           >
             <div className="mb-5 flex items-start justify-between gap-3">
               <p className="text-sm font-medium text-muted-foreground">{label}</p>

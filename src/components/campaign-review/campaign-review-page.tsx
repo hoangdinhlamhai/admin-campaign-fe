@@ -184,7 +184,7 @@ export function CampaignReviewPage() {
   return (
     <div>
       <AdminShell activeLabel="Chiến dịch">
-        <header className="mb-5 rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl sm:p-5">
+        <header className="glass-card mb-5 p-4 sm:p-5">
           <div className="min-w-0">
             <Link className="mb-3 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground" to={`${wizardBase}/advanced`}>
               <ArrowLeft className="size-4" />
@@ -195,7 +195,7 @@ export function CampaignReviewPage() {
               <span className="text-muted-foreground">&gt;</span>
               <span>{category?.name || "Caraluna"}</span>
               <span className="text-muted-foreground">&gt;</span>
-              <span className="font-medium text-lime-100">Xem trước & Xác nhận</span>
+              <span className="font-medium text-brand">Xem trước & Xác nhận</span>
             </div>
             <h2 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">Xem trước & Xác nhận</h2>
             <p className="mt-2 text-sm text-muted-foreground sm:text-base">Kiểm tra toàn bộ cấu hình trước khi tạo chiến dịch.</p>
@@ -213,7 +213,7 @@ export function CampaignReviewPage() {
           <aside className="space-y-5 xl:sticky xl:top-6 xl:self-start">
             <ValidationChecklist items={validationItems} />
             <AdvancedRulesReview settings={settings} />
-            <section className="rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl sm:p-5">
+            <section className="glass-card p-4 sm:p-5">
               <label className="flex cursor-pointer gap-3 rounded-2xl border border-border bg-surface p-4">
                 <input
                   checked={confirmed}
@@ -227,7 +227,7 @@ export function CampaignReviewPage() {
                 </span>
               </label>
               <button
-                className="mt-4 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[hsl(var(--brand))] px-5 text-sm font-bold text-zinc-950 shadow-lg shadow-emerald-950/30 transition hover:bg-emerald-200 disabled:cursor-not-allowed disabled:opacity-45"
+                className="mt-4 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-brand px-5 text-sm font-bold text-brand-foreground shadow-lg transition hover:bg-brand/80 disabled:cursor-not-allowed disabled:opacity-45"
                 disabled={!canCreate || submitting}
                 onClick={createCampaign}
                 type="button"
@@ -238,10 +238,10 @@ export function CampaignReviewPage() {
           </aside>
         </div>
 
-        <div className="mt-5 flex flex-col gap-3 rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl sm:flex-row sm:items-center sm:justify-between sm:p-5">
+        <div className="glass-card mt-5 flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div className="text-sm text-muted-foreground">Xác nhận ở bảng kiểm tra bên phải để {isEditing ? "cập nhật" : "tạo"} chiến dịch.</div>
           <Link
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border bg-white/[0.07] px-4 text-sm font-semibold text-foreground transition hover:bg-white/[0.11]"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border bg-surface-2 px-4 text-sm font-semibold text-foreground transition hover:bg-surface-2/80"
             to={`${wizardBase}/advanced`}
           >
             <ArrowLeft className="size-4" />

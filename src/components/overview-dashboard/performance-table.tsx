@@ -14,12 +14,12 @@ const statusLabel: Record<string, string> = {
 };
 
 const statusClass: Record<string, string> = {
-  draft: "bg-zinc-400/12 text-zinc-300",
-  active: "bg-emerald-400/12 text-emerald-200",
+  draft: "bg-surface-2 text-muted-foreground",
+  active: "bg-brand/15 text-brand",
   paused: "bg-amber-400/12 text-amber-200",
   completed: "bg-sky-400/12 text-sky-200",
   off: "bg-rose-400/12 text-rose-200",
-  running: "bg-emerald-400/12 text-emerald-200",
+  running: "bg-brand/15 text-brand",
 };
 
 type Props = {
@@ -64,7 +64,7 @@ export function PerformanceTable({
   }
 
   return (
-    <section className="rounded-[1.1rem] border border-border bg-surface shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl">
+    <section className="glass-card">
       <div className="flex flex-col gap-4 border-b border-border p-4 lg:p-5">
         <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
           <div>
@@ -76,14 +76,14 @@ export function PerformanceTable({
               <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
               <span className="sr-only">Tìm kiếm chiến dịch</span>
               <input
-                className="h-11 w-full rounded-xl border border-border bg-background pl-10 pr-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-300/60"
+                className="h-11 w-full rounded-xl border border-border bg-background pl-10 pr-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-border-strong"
                 onChange={(event) => onSearchChange(event.target.value)}
                 placeholder="Tìm kiếm chiến dịch..."
                 value={searchQuery}
               />
             </label>
             <select
-              className="h-11 rounded-xl border border-border bg-background px-3 text-sm text-foreground outline-none transition focus:border-emerald-300/60"
+              className="h-11 rounded-xl border border-border bg-background px-3 text-sm text-foreground outline-none transition focus:border-border-strong"
               onChange={(event) => setQuiz(event.target.value)}
               value={quiz}
             >
@@ -93,7 +93,7 @@ export function PerformanceTable({
               ))}
             </select>
             <button
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border bg-white/[0.07] px-3 text-sm font-semibold text-foreground transition hover:bg-white/[0.11] disabled:cursor-not-allowed disabled:opacity-40"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border bg-surface-2 px-3 text-sm font-semibold text-foreground transition hover:bg-surface-2/80 disabled:cursor-not-allowed disabled:opacity-40"
               disabled={filteredItems.length === 0}
               onClick={() => exportTableCsv(filteredItems, rangeFrom, rangeTo)}
               type="button"
@@ -108,7 +108,7 @@ export function PerformanceTable({
       <div className="overflow-x-auto">
         {loading ? (
           <div className="flex items-center justify-center p-12">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-border border-t-emerald-300" />
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-border border-t-brand" />
           </div>
         ) : (
           <table className="w-full min-w-[1160px] border-separate border-spacing-0 text-left text-sm">
@@ -136,7 +136,7 @@ export function PerformanceTable({
                 </tr>
               ) : (
                 filteredItems.map((item) => (
-                  <tr className="text-foreground transition hover:bg-white/[0.055]" key={item.id}>
+                  <tr className="text-foreground transition hover:bg-surface-2" key={item.id}>
                     <BodyCell>
                       <div className="flex items-center gap-3">
                         <div className="grid size-10 shrink-0 place-items-center rounded-xl bg-indigo-400/14 text-xs font-bold text-indigo-100 ring-1 ring-indigo-300/20">
@@ -165,12 +165,12 @@ export function PerformanceTable({
                     </BodyCell>
                     <BodyCell className="text-right font-mono font-semibold">{item.conversionRate.toFixed(2)}%</BodyCell>
                     <BodyCell>
-                      <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-bold ${statusClass[item.status] ?? "bg-zinc-400/12 text-zinc-300"}`}>
+                      <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-bold ${statusClass[item.status] ?? "bg-surface-2 text-muted-foreground"}`}>
                         {statusLabel[item.status] ?? item.status}
                       </span>
                     </BodyCell>
                     <BodyCell>
-                      <button className="ml-auto grid size-8 place-items-center rounded-lg text-muted-foreground transition hover:bg-white/[0.08] hover:text-foreground" type="button">
+                      <button className="ml-auto grid size-8 place-items-center rounded-lg text-muted-foreground transition hover:bg-surface-2 hover:text-foreground" type="button">
                         <MoreHorizontal className="size-4" />
                       </button>
                     </BodyCell>
@@ -185,11 +185,11 @@ export function PerformanceTable({
       <div className="flex flex-col gap-3 border-t border-border p-4 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
         <span>{"Hiển thị "}{filteredItems.length}{" của "}{total}{" chiến dịch"}</span>
         <div className="flex items-center gap-2">
-          <button aria-label="Trang trước" className="grid size-9 place-items-center rounded-lg border border-border bg-white/[0.06] text-muted-foreground transition hover:bg-white/[0.1]" type="button">
+          <button aria-label="Trang trước" className="grid size-9 place-items-center rounded-lg border border-border bg-surface-2 text-muted-foreground transition hover:bg-surface-2/80" type="button">
             <ChevronLeft className="size-4" />
           </button>
-          <span className="rounded-lg bg-emerald-300 px-3 py-1.5 font-bold text-zinc-950">1</span>
-          <button aria-label="Trang sau" className="grid size-9 place-items-center rounded-lg border border-border bg-white/[0.06] text-muted-foreground transition hover:bg-white/[0.1]" type="button">
+          <span className="rounded-lg bg-brand px-3 py-1.5 font-bold text-brand-foreground">1</span>
+          <button aria-label="Trang sau" className="grid size-9 place-items-center rounded-lg border border-border bg-surface-2 text-muted-foreground transition hover:bg-surface-2/80" type="button">
             <ChevronRight className="size-4" />
           </button>
         </div>

@@ -37,7 +37,7 @@ export function UserTable({ users, query, onQueryChange, onEdit, onDelete }: Use
   const handleStatusFilter = (v: string) => { setStatusFilter(v as UserStatus | "all"); setPage(1); };
 
   return (
-    <section className="rounded-[1.1rem] border border-border bg-surface shadow-2xl backdrop-blur-2xl">
+    <section className="glass-card">
       <div className="flex flex-col gap-3 border-b border-border p-4 sm:p-5">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -203,7 +203,7 @@ function UserRow({ user, index, onEdit, onDelete }: { user: UserWithInitials; in
 function RoleBadge({ role }: { role: UserRole }) {
   const isAdmin = role === "admin";
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-bold ${isAdmin ? "bg-emerald-400/12 text-emerald-200" : "bg-blue-400/12 text-blue-200"}`}>
+    <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-bold ${isAdmin ? "bg-brand/15 text-brand" : "bg-blue-400/12 text-blue-200"}`}>
       {roleLabels[role]}
     </span>
   );
@@ -211,8 +211,8 @@ function RoleBadge({ role }: { role: UserRole }) {
 
 function StatusBadge({ status }: { status: UserStatus }) {
   const styles: Record<UserStatus, string> = {
-    active: "bg-emerald-400/12 text-emerald-200",
-    inactive: "bg-zinc-400/12 text-zinc-300",
+    active: "bg-brand/15 text-brand",
+    inactive: "bg-surface-2 text-muted-foreground",
     suspended: "bg-rose-400/12 text-rose-200",
   };
   return (

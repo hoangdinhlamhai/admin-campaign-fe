@@ -14,18 +14,18 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 const STATUS_CLASS: Record<string, string> = {
-  draft: "bg-zinc-500/15 text-zinc-400",
-  active: "bg-emerald-500/15 text-emerald-400",
+  draft: "bg-surface-2 text-muted-foreground",
+  active: "bg-brand/15 text-brand",
   paused: "bg-amber-500/15 text-amber-400",
   stopped: "bg-rose-500/15 text-rose-400",
-  archived: "bg-zinc-500/15 text-zinc-500",
+  archived: "bg-surface-2 text-muted-foreground",
 };
 
 const PRIORITY_LABELS: Record<string, string> = { high: "Cao", medium: "Trung bình", low: "Thấp" };
 const PRIORITY_CLASS: Record<string, string> = {
   high: "bg-rose-500/15 text-rose-400",
   medium: "bg-amber-500/15 text-amber-400",
-  low: "bg-zinc-500/15 text-zinc-400",
+  low: "bg-surface-2 text-muted-foreground",
 };
 
 type Props = {
@@ -54,7 +54,7 @@ export function CampaignDetailHeader({ campaign, onEdit, onPublish, onPause, onD
   const toggleTooltip = "Chỉ người phụ trách hoặc admin mới thao tác được";
 
   return (
-    <header className="rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
+    <header className="glass-card p-4 sm:p-5">
       <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
         <div className="min-w-0">
           <Link className="mb-3 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground" to="/campaigns">
@@ -65,10 +65,10 @@ export function CampaignDetailHeader({ campaign, onEdit, onPublish, onPause, onD
             <span className="rounded-md bg-surface-2 px-2 py-1 font-mono text-xs font-semibold text-muted-foreground">
               {campaign.code}
             </span>
-            <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold ${STATUS_CLASS[campaign.status] ?? "bg-zinc-500/15 text-zinc-400"}`}>
+            <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold ${STATUS_CLASS[campaign.status] ?? "bg-surface-2 text-muted-foreground"}`}>
               {STATUS_LABELS[campaign.status] ?? campaign.status}
             </span>
-            <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold ${PRIORITY_CLASS[campaign.priority] ?? "bg-zinc-500/15 text-zinc-400"}`}>
+            <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold ${PRIORITY_CLASS[campaign.priority] ?? "bg-surface-2 text-muted-foreground"}`}>
               Ưu tiên: {PRIORITY_LABELS[campaign.priority] ?? campaign.priority}
             </span>
           </div>
@@ -116,7 +116,7 @@ export function CampaignDetailHeader({ campaign, onEdit, onPublish, onPause, onD
           {canPublish && (
             canToggle ? (
               <button
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 text-sm font-semibold text-emerald-300 transition hover:bg-emerald-400/20"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-brand/30 bg-brand/10 px-4 text-sm font-semibold text-brand transition hover:bg-brand/20"
                 onClick={onPublish}
                 type="button"
               >
@@ -126,7 +126,7 @@ export function CampaignDetailHeader({ campaign, onEdit, onPublish, onPause, onD
             ) : (
               <Tooltip content={toggleTooltip}>
                 <button
-                  className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 text-sm font-semibold text-emerald-300 opacity-50 cursor-not-allowed"
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-brand/30 bg-brand/10 px-4 text-sm font-semibold text-brand opacity-50 cursor-not-allowed"
                   disabled
                   type="button"
                 >

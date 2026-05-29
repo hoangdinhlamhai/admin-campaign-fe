@@ -61,7 +61,7 @@ export function AlertTable({
   };
 
   return (
-    <section className="rounded-[1.1rem] border border-border bg-surface shadow-2xl backdrop-blur-2xl">
+    <section className="glass-card">
       {/* Filters */}
       <div className="flex flex-wrap gap-3 border-b border-border p-4 sm:p-5">
         <Filter
@@ -271,7 +271,7 @@ function AlertRow({
           {canResolve && (
             <button
               aria-label="Đã xử lý"
-              className="grid size-8 place-items-center rounded-lg text-muted-foreground transition hover:bg-surface-2 hover:text-emerald-300"
+              className="grid size-8 place-items-center rounded-lg text-muted-foreground transition hover:bg-surface-2 hover:text-brand"
               onClick={onResolve}
               title="Đã xử lý"
               type="button"

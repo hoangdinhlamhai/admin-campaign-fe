@@ -9,17 +9,17 @@ type Props = {
 function statusBadge(status: ChildDetailCampaignDto["status"]) {
   switch (status) {
     case "active":
-      return { label: "Hoạt động", cls: "bg-emerald-500/15 text-emerald-300" };
+      return { label: "Hoạt động", cls: "bg-brand/15 text-brand" };
     case "paused":
       return { label: "Tạm dừng", cls: "bg-amber-500/15 text-amber-300" };
     case "draft":
-      return { label: "Bản nháp", cls: "bg-zinc-500/15 text-zinc-400" };
+      return { label: "Bản nháp", cls: "bg-surface-2 text-muted-foreground" };
     case "stopped":
       return { label: "Đã dừng", cls: "bg-rose-500/15 text-rose-300" };
     case "archived":
-      return { label: "Lưu trữ", cls: "bg-zinc-500/15 text-zinc-500" };
+      return { label: "Lưu trữ", cls: "bg-surface-2 text-muted-foreground" };
     default:
-      return { label: status ?? "—", cls: "bg-zinc-500/15 text-zinc-400" };
+      return { label: status ?? "—", cls: "bg-surface-2 text-muted-foreground" };
   }
 }
 
@@ -32,7 +32,7 @@ export function ChildCampaignsSection({ campaigns }: Props) {
         Danh sách chiến dịch
       </h2>
 
-      <div className="overflow-x-auto rounded-[1.1rem] border border-border bg-surface shadow-xl backdrop-blur-2xl">
+      <div className="glass-card overflow-x-auto">
         <table className="w-full text-left text-sm">
           <thead>
             <tr className="border-b border-border text-xs font-medium uppercase tracking-wider text-muted-foreground">
@@ -80,7 +80,7 @@ export function ChildCampaignsSection({ campaigns }: Props) {
                   <td className="px-4 py-3 text-right font-mono text-foreground">
                     {formatNumber(campaign.dailyUserTarget)}
                   </td>
-                  <td className="px-4 py-3 text-right font-mono text-emerald-300">
+                  <td className="px-4 py-3 text-right font-mono text-brand">
                     {formatNumber(campaign.completedCount)}
                   </td>
                   <td className="px-4 py-3 text-right font-mono text-amber-300">

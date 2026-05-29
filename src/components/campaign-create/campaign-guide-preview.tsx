@@ -40,20 +40,20 @@ export function CampaignGuidePreview({ form, instructionHtml }: CampaignGuidePre
   }, [fullscreen]);
 
   return (
-    <section className="rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl sm:p-5">
+    <section className="glass-card p-4 sm:p-5">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <h3 className="text-lg font-semibold text-foreground">Xem trước hướng dẫn (Preview)</h3>
         <div className="flex flex-wrap gap-2">
           <DevicePreviewToggle selectedId={deviceId} onSelect={setDeviceId} />
           <Link
             to={`${wizardBase}/instructions`}
-            className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-border bg-white/[0.07] px-3 text-sm font-semibold text-foreground transition hover:bg-white/[0.11]"
+            className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-border bg-surface-2 px-3 text-sm font-semibold text-foreground transition hover:bg-surface-2/80"
           >
             <Edit3 className="size-4" />
             Chỉnh sửa
           </Link>
           <button
-            className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-border bg-white/[0.07] px-3 text-sm font-semibold text-foreground transition hover:bg-white/[0.11]"
+            className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-border bg-surface-2 px-3 text-sm font-semibold text-foreground transition hover:bg-surface-2/80"
             onClick={() => setFullscreen(true)}
             type="button"
           >
@@ -95,7 +95,7 @@ export function CampaignGuidePreview({ form, instructionHtml }: CampaignGuidePre
                 <div className="flex items-center gap-2">
                   <DevicePreviewToggle selectedId={fullscreenDeviceId} onSelect={setFullscreenDeviceId} />
                   <button
-                    className="inline-flex size-9 items-center justify-center rounded-lg border border-border bg-white/[0.07] text-foreground transition hover:bg-white/[0.14]"
+                    className="inline-flex size-9 items-center justify-center rounded-lg border border-border bg-surface-2 text-foreground transition hover:bg-surface-2/80"
                     onClick={() => setFullscreen(false)}
                     type="button"
                     aria-label="Đóng"

@@ -42,11 +42,11 @@ const STATUS_LABELS: Record<CampaignStatus, string> = {
 };
 
 const STATUS_CLASS: Record<CampaignStatus, string> = {
-  draft: "bg-zinc-500/15 text-muted-foreground",
-  active: "bg-emerald-500/15 text-emerald-400",
+  draft: "bg-surface-2 text-muted-foreground",
+  active: "bg-brand/15 text-brand",
   paused: "bg-amber-500/15 text-amber-400",
   stopped: "bg-rose-500/15 text-rose-400",
-  archived: "bg-zinc-500/15 text-zinc-500 line-through",
+  archived: "bg-surface-2 text-muted-foreground line-through",
 };
 
 const STATUS_FILTER_OPTIONS: { value: "all" | CampaignStatus; label: string }[] = [
@@ -98,19 +98,19 @@ export function CampaignTable({
   };
 
   return (
-    <section className="mb-5 rounded-[1.1rem] border border-border bg-surface shadow-2xl shadow-zinc-950/25 backdrop-blur-2xl">
+    <section className="glass-card mb-5">
       <div className="flex flex-col gap-4 border-b border-border p-4 lg:p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="inline-flex rounded-xl border border-border bg-surface-2 p-1">
             <button
-              className={`rounded-lg px-3 py-2 text-sm font-semibold transition ${activeTab === "campaigns" ? "bg-emerald-300 text-zinc-950" : "text-muted-foreground hover:text-foreground"}`}
+              className={`rounded-lg px-3 py-2 text-sm font-semibold transition ${activeTab === "campaigns" ? "bg-brand text-brand-foreground" : "text-muted-foreground hover:text-foreground"}`}
               onClick={() => setActiveTab("campaigns")}
               type="button"
             >
               Chiến dịch ({campaigns.length})
             </button>
             <button
-              className={`rounded-lg px-3 py-2 text-sm font-semibold transition ${activeTab === "history" ? "bg-emerald-300 text-zinc-950" : "text-muted-foreground hover:text-foreground"}`}
+              className={`rounded-lg px-3 py-2 text-sm font-semibold transition ${activeTab === "history" ? "bg-brand text-brand-foreground" : "text-muted-foreground hover:text-foreground"}`}
               onClick={() => setActiveTab("history")}
               type="button"
             >
@@ -125,7 +125,7 @@ export function CampaignTable({
               <span className="sr-only">Tìm kiếm chiến dịch</span>
               <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
               <input
-                className="h-11 w-full rounded-xl border border-border bg-background pl-10 pr-3 text-base text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-300/45"
+                className="h-11 w-full rounded-xl border border-border bg-background pl-10 pr-3 text-base text-foreground outline-none transition placeholder:text-muted-foreground focus:border-border-strong"
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Tìm theo tên, mã chiến dịch..."
                 type="search"
@@ -133,7 +133,7 @@ export function CampaignTable({
               />
             </label>
             <select
-              className="h-11 rounded-xl border border-border bg-background px-3 text-base text-foreground outline-none transition focus:border-emerald-300/45"
+              className="h-11 rounded-xl border border-border bg-background px-3 text-base text-foreground outline-none transition focus:border-border-strong"
               onChange={(e) => setStatusFilter(e.target.value as "all" | CampaignStatus)}
               value={statusFilter}
             >
@@ -143,7 +143,7 @@ export function CampaignTable({
             </select>
             <select
               aria-label="Lọc theo danh mục cha"
-              className="h-11 rounded-xl border border-border bg-background px-3 text-base text-foreground outline-none transition focus:border-emerald-300/45"
+              className="h-11 rounded-xl border border-border bg-background px-3 text-base text-foreground outline-none transition focus:border-border-strong"
               onChange={(e) => {
                 setParentFilter(e.target.value);
                 setChildFilter("all");
@@ -157,7 +157,7 @@ export function CampaignTable({
             </select>
             <select
               aria-label="Lọc theo danh mục con"
-              className="h-11 rounded-xl border border-border bg-background px-3 text-base text-foreground outline-none transition focus:border-emerald-300/45 disabled:opacity-50"
+              className="h-11 rounded-xl border border-border bg-background px-3 text-base text-foreground outline-none transition focus:border-border-strong disabled:opacity-50"
               disabled={filteredChildOptions.length === 0}
               onChange={(e) => setChildFilter(e.target.value)}
               value={childFilter}
@@ -168,21 +168,21 @@ export function CampaignTable({
               ))}
             </select>
             <input
-              className="h-11 rounded-xl border border-border bg-background px-3 text-sm text-foreground outline-none transition focus:border-emerald-300/45 disabled:opacity-50"
+              className="h-11 rounded-xl border border-border bg-background px-3 text-sm text-foreground outline-none transition focus:border-border-strong disabled:opacity-50"
               disabled={isAllTime}
               onChange={(e) => onDateFilterChange(e.target.value)}
               type="date"
               value={isAllTime ? "" : dateFilter}
             />
             <button
-              className={`inline-flex h-11 items-center justify-center gap-2 rounded-xl px-3 text-sm font-semibold transition ${isAllTime ? "bg-emerald-300 text-zinc-950" : "border border-border bg-white/[0.07] text-foreground hover:bg-white/[0.11]"}`}
+              className={`inline-flex h-11 items-center justify-center gap-2 rounded-xl px-3 text-sm font-semibold transition ${isAllTime ? "bg-brand text-brand-foreground" : "border border-border bg-surface-2 text-foreground hover:bg-surface-2/80"}`}
               onClick={() => onDateFilterChange(isAllTime ? new Date().toISOString().slice(0, 10) : "all")}
               type="button"
             >
               {isAllTime ? "Theo ngày" : "Tổng tất cả"}
             </button>
             <button
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border bg-white/[0.07] px-3 text-sm font-semibold text-foreground transition hover:bg-white/[0.11]"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border bg-surface-2 px-3 text-sm font-semibold text-foreground transition hover:bg-surface-2/80"
               onClick={handleExport}
               type="button"
             >
@@ -242,11 +242,11 @@ export function CampaignTable({
           <div className="flex flex-col gap-3 border-t border-border p-4 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
             <span>Hiển thị 1 - {filtered.length} của {campaigns.length} chiến dịch {isAllTime ? "(tổng tất cả)" : `(ngày ${dateFilter})`}</span>
             <div className="flex items-center gap-2">
-              <button aria-label="Trang trước" className="grid size-9 place-items-center rounded-lg border border-border bg-white/[0.06] text-muted-foreground transition hover:bg-white/[0.1]" type="button">
+              <button aria-label="Trang trước" className="grid size-9 place-items-center rounded-lg border border-border bg-surface-2 text-muted-foreground transition hover:bg-surface-2/80" type="button">
                 <ChevronLeft className="size-4" />
               </button>
-              <span className="rounded-lg bg-emerald-300 px-3 py-1.5 font-bold text-zinc-950">1</span>
-              <button aria-label="Trang sau" className="grid size-9 place-items-center rounded-lg border border-border bg-white/[0.06] text-muted-foreground transition hover:bg-white/[0.1]" type="button">
+              <span className="rounded-lg bg-brand px-3 py-1.5 font-bold text-brand-foreground">1</span>
+              <button aria-label="Trang sau" className="grid size-9 place-items-center rounded-lg border border-border bg-surface-2 text-muted-foreground transition hover:bg-surface-2/80" type="button">
                 <ChevronRight className="size-4" />
               </button>
               <select className="h-9 rounded-lg border border-border bg-background px-2 text-foreground">
@@ -288,13 +288,13 @@ function CampaignRow({ campaign, index, onEdit, onPublish, onPause, onDelete, on
   const totalEntries = campaign.wrongEntryCount + campaign.validEntryCount;
   const wrongRate = totalEntries > 0 ? (campaign.wrongEntryCount / totalEntries) * 100 : 0;
 
-  const progressColor = progress >= 80 ? "bg-emerald-400" : progress >= 50 ? "bg-amber-400" : "bg-rose-400";
-  const progressTextColor = progress >= 80 ? "text-emerald-400" : progress >= 50 ? "text-amber-400" : "text-rose-400";
+  const progressColor = progress >= 80 ? "bg-brand" : progress >= 50 ? "bg-amber-400" : "bg-rose-400";
+  const progressTextColor = progress >= 80 ? "text-brand" : progress >= 50 ? "text-amber-400" : "text-rose-400";
   const wrongRateColor = wrongRate >= 30 ? "text-rose-400" : wrongRate >= 15 ? "text-amber-400" : "text-muted-foreground";
 
   return (
     <tr
-      className="group cursor-pointer text-foreground transition hover:bg-white/[0.055]"
+      className="group cursor-pointer text-foreground transition hover:bg-surface-2"
       onClick={onViewDetail}
     >
       <BodyCell>
@@ -321,7 +321,7 @@ function CampaignRow({ campaign, index, onEdit, onPublish, onPause, onDelete, on
         <span className="font-mono font-semibold">{target}</span>
       </BodyCell>
       <BodyCell className="text-center">
-        <span className="font-mono font-semibold text-emerald-300">{completed}</span>
+        <span className="font-mono font-semibold text-brand">{completed}</span>
       </BodyCell>
       <BodyCell className="text-center">
         <span className={`font-mono font-semibold ${campaign.missingCount > 0 ? "text-rose-300" : "text-muted-foreground"}`}>
@@ -354,7 +354,7 @@ function CampaignRow({ campaign, index, onEdit, onPublish, onPause, onDelete, on
           {canEdit ? (
             <button
               aria-label={`Chỉnh sửa ${campaign.name}`}
-              className="grid size-8 place-items-center rounded-lg text-muted-foreground transition hover:bg-white/[0.08] hover:text-foreground"
+              className="grid size-8 place-items-center rounded-lg text-muted-foreground transition hover:bg-surface-2 hover:text-foreground"
               onClick={onEdit}
               type="button"
             >
@@ -376,7 +376,7 @@ function CampaignRow({ campaign, index, onEdit, onPublish, onPause, onDelete, on
             canToggle ? (
               <button
                 aria-label={`Xuất bản ${campaign.name}`}
-                className="grid size-8 place-items-center rounded-lg text-muted-foreground transition hover:bg-emerald-400/15 hover:text-emerald-400"
+                className="grid size-8 place-items-center rounded-lg text-muted-foreground transition hover:bg-brand/15 hover:text-brand"
                 onClick={onPublish}
                 type="button"
               >
@@ -469,11 +469,11 @@ function PassCodeCell({ value }: { value: string | null }) {
       </span>
       <button
         aria-label="Sao chép pass"
-        className="grid size-7 place-items-center rounded-lg text-muted-foreground transition hover:bg-white/[0.08] hover:text-foreground"
+        className="grid size-7 place-items-center rounded-lg text-muted-foreground transition hover:bg-surface-2 hover:text-foreground"
         onClick={handleCopy}
         type="button"
       >
-        {copied ? <Check className="size-3.5 text-emerald-400" /> : <Copy className="size-3.5" />}
+        {copied ? <Check className="size-3.5 text-brand" /> : <Copy className="size-3.5" />}
       </button>
     </div>
   );

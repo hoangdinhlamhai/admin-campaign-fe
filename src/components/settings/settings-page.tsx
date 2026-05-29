@@ -14,7 +14,7 @@ export function SettingsPage() {
   return (
     <AdminShell activeLabel="Cài đặt">
       {loading ? (
-        <div className="flex h-64 items-center justify-center rounded-[1.1rem] border border-border bg-surface backdrop-blur-2xl">
+        <div className="flex h-64 items-center justify-center rounded-[1.1rem] border border-border bg-surface">
           <Loader2 className="size-8 animate-spin text-brand" />
         </div>
       ) : !draft ? (

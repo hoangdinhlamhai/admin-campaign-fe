@@ -9,7 +9,7 @@ type ReviewCardProps = {
 
 export function ReviewCard({ action, children, description, title }: ReviewCardProps) {
   return (
-    <section className="rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl shadow-zinc-950/20 backdrop-blur-2xl sm:p-5">
+    <section className="glass-card p-4 sm:p-5">
       <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
         <div>
           <h3 className="text-lg font-semibold text-foreground">{title}</h3>

@@ -50,7 +50,7 @@ export function CampaignDetailStats({ campaignId, dailyTarget }: Props) {
   const progress = dailyTarget > 0 ? Math.min(100, Math.round((stats.completed / dailyTarget) * 100)) : 0;
 
   return (
-    <section className="rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
+    <section className="glass-card p-4 sm:p-5">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <h3 className="text-lg font-semibold text-foreground">Số liệu hoạt động</h3>
         <div className="flex flex-wrap items-center gap-2">
@@ -119,8 +119,8 @@ function FilterChip({ active, onClick, children }: { active: boolean; onClick: (
 }
 
 const TONE_BG: Record<string, string> = {
-  brand: "bg-emerald-300/12 text-emerald-300",
-  success: "bg-lime-300/12 text-lime-300",
+  brand: "bg-brand/15 text-brand",
+  success: "bg-brand/15 text-brand",
   warning: "bg-amber-400/12 text-amber-300",
   danger: "bg-rose-400/12 text-rose-300",
 };

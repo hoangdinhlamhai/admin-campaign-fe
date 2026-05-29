@@ -14,7 +14,7 @@ export function AdvancedSettingToggle({ checked, description, label, onChange }:
       </div>
       <button
         aria-pressed={checked}
-        className="inline-flex h-9 w-16 shrink-0 items-center rounded-full border border-border bg-surface-2 p-1 transition data-[checked=true]:bg-emerald-400"
+        className="inline-flex h-9 w-16 shrink-0 items-center rounded-full border border-border bg-surface-2 p-1 transition data-[checked=true]:bg-brand"
         data-checked={checked}
         onClick={() => onChange(!checked)}
         type="button"

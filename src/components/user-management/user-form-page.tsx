@@ -94,7 +94,7 @@ export function UserFormPage({ userId }: UserFormPageProps) {
   return (
     <div>
       <AdminShell activeLabel="Người dùng">
-        <header className="mb-5 rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
+        <header className="glass-card mb-5 p-4 sm:p-5">
           <Link
             className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground"
             to="/users"
@@ -120,14 +120,14 @@ export function UserFormPage({ userId }: UserFormPageProps) {
         </header>
 
         {loadingUser ? (
-          <section className="rounded-[1.1rem] border border-border bg-surface p-5 text-muted-foreground shadow-2xl backdrop-blur-2xl">
+          <section className="glass-card p-5 text-muted-foreground">
             <div className="flex items-center gap-3">
               <div className="size-5 animate-spin rounded-full border-2 border-brand border-t-transparent" />
               <span>Đang tải thông tin...</span>
             </div>
           </section>
         ) : isEditingMissing ? (
-          <section className="rounded-[1.1rem] border border-border bg-surface p-5 text-muted-foreground shadow-2xl backdrop-blur-2xl">
+          <section className="glass-card p-5 text-muted-foreground">
             Không tìm thấy người dùng cần sửa.
           </section>
         ) : (
@@ -143,7 +143,7 @@ export function UserFormPage({ userId }: UserFormPageProps) {
             </div>
 
             {userId && (
-              <section className="mb-8 rounded-[1.1rem] border border-border bg-surface p-4 shadow-2xl backdrop-blur-2xl sm:p-5">
+              <section className="glass-card mb-8 p-4 sm:p-5">
                 <h3 className="mb-4 text-lg font-semibold text-foreground">
                   Chiến dịch đang phụ trách
                 </h3>
