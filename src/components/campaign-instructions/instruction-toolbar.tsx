@@ -1,5 +1,6 @@
 import type { Editor } from "@tiptap/react";
 import { useEffect, useRef, useState } from "react";
+import { UnlockGateToolbarButton } from "./unlock-gate-toolbar-button";
 import {
   AlignCenter,
   AlignLeft,
@@ -238,6 +239,7 @@ export function InstructionToolbar({ editor, onUploadImage, onUploadVideo }: Ins
       <ToolbarButton label="Copy block" onClick={insertCopyBlock}>
         <ClipboardCopy className="size-4" />
       </ToolbarButton>
+      <UnlockGateToolbarButton editor={editor} />
       <ToolbarButton label="Clear format" onClick={() => editor.chain().focus().unsetAllMarks().clearNodes().run()}>
         <RemoveFormatting className="size-4" />
       </ToolbarButton>

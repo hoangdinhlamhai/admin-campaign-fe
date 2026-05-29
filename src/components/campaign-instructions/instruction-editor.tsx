@@ -7,6 +7,8 @@ import StarterKit from "@tiptap/starter-kit";
 import { useEffect } from "react";
 import { InstructionImage } from "./instruction-image-extension";
 import { InstructionToolbar } from "./instruction-toolbar";
+import { UnlockGateExtension } from "./unlock-gate-extension";
+import { UnlockGateBubbleMenu } from "./unlock-gate-bubble-menu";
 
 type InstructionEditorProps = {
   content: string;
@@ -41,6 +43,7 @@ export function InstructionEditor({ content, onChange }: InstructionEditorProps)
       Placeholder.configure({
         placeholder: "Nhập hướng dẫn nhiệm vụ cho user...",
       }),
+      UnlockGateExtension,
     ],
     content,
     editorProps: {
@@ -71,6 +74,7 @@ export function InstructionEditor({ content, onChange }: InstructionEditorProps)
         </div>
       </div>
       <InstructionToolbar editor={editor} />
+      <UnlockGateBubbleMenu editor={editor} />
       <EditorContent className="instruction-editor instruction-light" editor={editor} />
       <div className="border-t border-border px-4 py-3 text-xs text-muted-foreground">
         Nội dung sẽ được dùng cho phần preview hướng dẫn của chiến dịch.

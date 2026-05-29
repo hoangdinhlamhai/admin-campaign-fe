@@ -16,7 +16,7 @@ export function InstructionReviewPreview({ content }: InstructionReviewPreviewPr
 
   return (
     <ReviewCard
-      action={<Link className="text-sm font-semibold text-emerald-200 hover:text-emerald-100" to={`${getCampaignWizardBase()}/instructions`}>Sửa</Link>}
+      action={<Link className="text-sm font-semibold text-brand hover:opacity-80" to={`${getCampaignWizardBase()}/instructions`}>Sửa</Link>}
       description="Preview readonly nội dung user sẽ nhìn thấy khi làm nhiệm vụ."
       title="Preview hướng dẫn user"
     >

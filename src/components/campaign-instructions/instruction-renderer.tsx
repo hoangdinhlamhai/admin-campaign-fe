@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useUnlockGateHydration } from "./use-unlock-gate-hydration";
 
 type InstructionRendererProps = {
   html: string;
@@ -9,8 +10,7 @@ export function InstructionRenderer({ html, className = "" }: InstructionRendere
   const ref = useRef<HTMLDivElement>(null);
   const [toast, setToast] = useState<string | null>(null);
 
-  // FE-D will add: import { useUnlockGateHydration } from "./use-unlock-gate-hydration";
-  // And: useUnlockGateHydration(ref);
+  useUnlockGateHydration(ref);
 
   useEffect(() => {
     const root = ref.current;
