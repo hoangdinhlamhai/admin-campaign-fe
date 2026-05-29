@@ -62,7 +62,10 @@ export const campaignCreateSteps = [
   },
 ];
 
+const defaultUnlockGateHtml = `<div data-unlock-gate data-code="12345" data-prompt="Hoàn thành thử thách nhanh dưới đây để mở khoá nhé!" data-placeholder="Nhập mã mở khoá vào đây..." data-button-label="Mở Khoá Ngay!"></div>`;
+
 export const defaultInstructionHtml = `
+  ${defaultUnlockGateHtml}
   <h2 style="text-align: center; color: rgb(252, 211, 211);">LÀM THEO HƯỚNG DẪN ĐỂ LẤY PASS XÁC MINH DANH TÍNH</h2>
   <p>✅ Vào GOOGLE.COM.VN</p>
   <p>✅ Copy hoặc Gõ từ khóa: <strong data-instruction-keyword="true">dây chuyền bạc nữ</strong></p>
@@ -75,6 +78,7 @@ export const defaultInstructionHtml = `
 export function generateInstructionHtml(form: CampaignCreateForm): string {
   const keyword = form.keyword || "từ khóa chiến dịch";
   return `
+  ${defaultUnlockGateHtml}
   <h2 style="text-align: center; color: rgb(252, 211, 211);">LÀM THEO HƯỚNG DẪN ĐỂ LẤY PASS XÁC MINH DANH TÍNH</h2>
   <p>✅ Vào GOOGLE.COM.VN</p>
   <p>✅ Copy hoặc Gõ từ khóa: <strong data-instruction-keyword="true">${keyword}</strong></p>
