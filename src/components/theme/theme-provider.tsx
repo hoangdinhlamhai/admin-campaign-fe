@@ -10,7 +10,7 @@ type ThemeContextValue = {
 };
 
 const STORAGE_KEY = "senlyzer-theme";
-const DEFAULT_THEME: Theme = "system";
+const DEFAULT_THEME: Theme = "light";
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 

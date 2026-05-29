@@ -4,31 +4,79 @@
 
 :root {
   --background: 0 0% 100%;
-  --foreground: 222 47% 11%;
+  --foreground: 222 20% 11%;
+  --surface: 141 30% 98%;
+  --surface-2: 141 25% 95%;
+  --muted: 220 9% 46%;
+  --muted-foreground: 220 9% 35%;
+  --border: 141 40% 85%;
+  --border-strong: 141 60% 55%;
+  --input: 141 30% 90%;
+  --ring: 141 60% 55%;
   --brand: 141 74% 42%;
+  --brand-foreground: 0 0% 100%;
   --accent: 72 88% 40%;
   --success: 151 72% 40%;
   --warning: 39 93% 48%;
   --danger: 348 83% 50%;
-  --surface: 220 14% 96%;
-  --muted: 217 18% 45%;
 }
 
 .dark {
   --background: 150 24% 8%;
   --foreground: 210 40% 96%;
+  --surface: 221 35% 13%;
+  --surface-2: 221 30% 17%;
+  --muted: 217 18% 62%;
+  --muted-foreground: 217 18% 70%;
+  --border: 220 15% 20%;
+  --border-strong: 141 74% 56%;
+  --input: 220 15% 22%;
+  --ring: 141 74% 56%;
   --brand: 141 74% 56%;
+  --brand-foreground: 150 24% 8%;
   --accent: 72 88% 63%;
   --success: 151 72% 50%;
   --warning: 39 93% 58%;
   --danger: 348 83% 61%;
-  --surface: 221 35% 13%;
-  --muted: 217 18% 62%;
+}
+
+.instruction-light,
+.instruction-light * {
+  color-scheme: light;
+}
+.instruction-light {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 9%;
+  --surface: 0 0% 98%;
+  --surface-2: 0 0% 96%;
+  --border: 141 40% 85%;
+  --border-strong: 141 60% 55%;
+  --input: 141 30% 90%;
+  --muted: 220 9% 30%;
+  --muted-foreground: 220 9% 25%;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-surface: hsl(var(--surface));
+  --color-surface-2: hsl(var(--surface-2));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-border: hsl(var(--border));
+  --color-border-strong: hsl(var(--border-strong));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-brand: hsl(var(--brand));
+  --color-brand-foreground: hsl(var(--brand-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-success: hsl(var(--success));
+  --color-warning: hsl(var(--warning));
+  --color-danger: hsl(var(--danger));
   --font-sans: 'Geist Variable', Arial, Helvetica, sans-serif;
   --font-mono: 'Geist Mono Variable', monospace;
 }
@@ -134,7 +182,7 @@ select {
 .instruction-editor .ProseMirror code,
 .instruction-preview code {
   border-radius: 0.4rem;
-  background: rgba(255, 255, 255, 0.08);
+  background: hsl(var(--foreground) / 0.08);
   padding: 0.1rem 0.35rem;
   font-family: 'Geist Mono Variable', monospace;
 }
@@ -146,9 +194,9 @@ select {
   height: auto;
   margin-top: 1rem;
   margin-bottom: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid hsl(var(--border));
   border-radius: 1rem;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 18px 40px hsl(var(--foreground) / 0.12);
 }
 
 .instruction-editor .ProseMirror img:not([data-align]),
@@ -177,7 +225,7 @@ select {
 }
 
 .instruction-editor .ProseMirror p.is-editor-empty:first-child::before {
-  color: rgb(113 113 122);
+  color: hsl(var(--muted));
   content: attr(data-placeholder);
   float: left;
   height: 0;
@@ -192,8 +240,8 @@ select {
   overflow: hidden;
   border-radius: 1rem;
   margin: 1rem 0;
-  background: rgb(9 9 11);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: hsl(var(--surface-2));
+  border: 1px solid hsl(var(--border));
 }
 
 .instruction-video iframe,
@@ -217,10 +265,10 @@ select {
   gap: 0.4rem;
   padding: 0.15rem 0.45rem 0.15rem 0.65rem;
   border-radius: 0.5rem;
-  background: rgba(99, 102, 241, 0.12);
-  border: 1px solid rgba(99, 102, 241, 0.32);
+  background: hsl(var(--brand) / 0.12);
+  border: 1px solid hsl(var(--brand) / 0.32);
   font-weight: 600;
-  color: rgb(199, 210, 254);
+  color: hsl(var(--brand));
   vertical-align: middle;
   line-height: 1.4;
 }
@@ -234,9 +282,9 @@ select {
   align-items: center;
   padding: 0.1rem 0.45rem;
   border-radius: 0.35rem;
-  background: rgba(255, 255, 255, 0.08);
+  background: hsl(var(--foreground) / 0.06);
   font-size: 0.7rem;
-  color: rgb(199, 210, 254);
+  color: hsl(var(--brand));
   cursor: pointer;
   border: 0;
   font-weight: 600;
@@ -245,10 +293,30 @@ select {
 }
 
 .copy-block .copy-btn:hover {
-  background: rgba(255, 255, 255, 0.14);
+  background: hsl(var(--foreground) / 0.12);
 }
 
 .instruction-editor .ProseMirror .copy-block.ProseMirror-selectednode {
-  outline: 2px solid rgba(99, 102, 241, 0.7);
+  outline: 2px solid hsl(var(--brand) / 0.7);
   outline-offset: 2px;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+.animate-shake { animation: shake 0.4s ease-in-out; }
+
+.instruction-editor [data-unlock-gate]::before {
+  content: "🔒 Ô mở khoá — mã: " attr(data-code);
+  display: block;
+  padding: 1rem;
+  background: hsl(141 30% 95%);
+  border: 2px dashed hsl(var(--border-strong));
+  border-radius: 0.75rem;
+  text-align: center;
+  font-weight: 600;
+  color: hsl(var(--brand));
+  margin: 1rem 0;
 }
