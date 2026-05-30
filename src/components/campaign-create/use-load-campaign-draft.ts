@@ -67,10 +67,9 @@ export function useLoadCampaignDraft(campaignId: string | undefined): LoadFullCa
           window.localStorage.setItem(campaignInstructionDraftStorageKey, html);
         }
 
-        const s = (res.settings as Partial<CampaignAdvancedSettings & { lowUsersThreshold: number; maxWrongPassAttempts: number; noValidEntryDisplays: number }>) ?? {};
+        const s = (res.settings as Partial<CampaignAdvancedSettings & { maxWrongPassAttempts: number; noValidEntryDisplays: number }>) ?? {};
         const advanced: CampaignAdvancedSettings = {
-          notifyLowUsers: Boolean(s.notifyLowUsers ?? defaultAdvancedSettings.notifyLowUsers),
-          lowUsersThreshold: s.lowUsersThreshold != null ? String(s.lowUsersThreshold) : defaultAdvancedSettings.lowUsersThreshold,
+          notifyTargetReached: Boolean(s.notifyTargetReached ?? defaultAdvancedSettings.notifyTargetReached),
           notifyCampaignPaused: Boolean(s.notifyCampaignPaused ?? defaultAdvancedSettings.notifyCampaignPaused),
           autoReactivateNextDay: Boolean(s.autoReactivateNextDay ?? defaultAdvancedSettings.autoReactivateNextDay),
           limitWrongPass: Boolean(s.limitWrongPass ?? defaultAdvancedSettings.limitWrongPass),

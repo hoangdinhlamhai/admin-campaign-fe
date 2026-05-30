@@ -19,8 +19,7 @@ type UseGlobalSettingsReturn = {
 
 function extractSettings(response: GlobalSettingsResponse): GlobalSettings {
   return {
-    notify_low_users: response.notify_low_users,
-    low_users_threshold: response.low_users_threshold,
+    notify_target_reached: response.notify_target_reached,
     notify_campaign_paused: response.notify_campaign_paused,
     auto_reactivate_next_day: response.auto_reactivate_next_day,
     limit_wrong_pass: response.limit_wrong_pass,

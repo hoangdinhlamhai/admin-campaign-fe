@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import type { CampaignCategory } from "@/lib/campaign-categories-data";
 import { formatNumber } from "@/lib/format-currency";
+import { useAuth } from "@/lib/auth/auth-context";
 
 type CategoryTableProps = {
   categories: CampaignCategory[];
@@ -179,6 +180,7 @@ function CategoryRow({
   const completed = category.rangeCompleted ?? 0;
   const missing = category.rangeMissing ?? 0;
   const progress = getProgress(completed, target);
+  const { isAdmin } = useAuth();
 
   return (
     <tr
@@ -256,22 +258,26 @@ function CategoryRow({
               <Eye className="size-4" />
             </button>
           )}
-          <button
-            aria-label={`Sửa ${category.name}`}
-            className="grid size-9 place-items-center rounded-lg text-muted-foreground transition hover:bg-surface-2 hover:text-foreground"
-            onClick={onEdit}
-            type="button"
-          >
-            <Edit3 className="size-4" />
-          </button>
-          <button
-            aria-label={`Xoá ${category.name}`}
-            className="grid size-9 place-items-center rounded-lg text-muted-foreground transition hover:bg-rose-400/12 hover:text-rose-100"
-            onClick={onDelete}
-            type="button"
-          >
-            <Trash2 className="size-4" />
-          </button>
+          {isAdmin && (
+            <>
+              <button
+                aria-label={`Sửa ${category.name}`}
+                className="grid size-9 place-items-center rounded-lg text-muted-foreground transition hover:bg-surface-2 hover:text-foreground"
+                onClick={onEdit}
+                type="button"
+              >
+                <Edit3 className="size-4" />
+              </button>
+              <button
+                aria-label={`Xoá ${category.name}`}
+                className="grid size-9 place-items-center rounded-lg text-muted-foreground transition hover:bg-rose-400/12 hover:text-rose-100"
+                onClick={onDelete}
+                type="button"
+              >
+                <Trash2 className="size-4" />
+              </button>
+            </>
+          )}
         </div>
       </BodyCell>
     </tr>

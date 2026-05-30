@@ -37,6 +37,11 @@ export type Campaign = {
   assignedTo: string | null;
   assignedToName: string | null;
   isOwner: boolean;
+  lockDisplayed: number;
+  unlockClicked: number;
+  unlocked: number;
+  passInvalid: number;
+  conversionRate: number;
 };
 
 

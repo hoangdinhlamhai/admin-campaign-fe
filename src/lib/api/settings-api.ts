@@ -1,8 +1,7 @@
 import { apiFetch } from "./config";
 
 export type GlobalSettings = {
-  notify_low_users: boolean;
-  low_users_threshold: number;
+  notify_target_reached: boolean;
   notify_campaign_paused: boolean;
   auto_reactivate_next_day: boolean;
   limit_wrong_pass: boolean;

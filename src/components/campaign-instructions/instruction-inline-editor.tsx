@@ -1,7 +1,9 @@
 import { Maximize2, Minimize2 } from "lucide-react";
+import { Color } from "@tiptap/extension-color";
 import LinkExtension from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from "@tiptap/extension-text-align";
+import { TextStyle } from "@tiptap/extension-text-style";
 import UnderlineExtension from "@tiptap/extension-underline";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -66,6 +68,8 @@ export function InstructionInlineEditor({
         underline: false,
       }),
       UnderlineExtension,
+      TextStyle,
+      Color,
       InstructionImage.configure({ allowBase64: false, HTMLAttributes: { class: "instruction-image" } }),
       InstructionVideo,
       CopyBlock,

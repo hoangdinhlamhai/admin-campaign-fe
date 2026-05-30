@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
-import { ChevronLeft, ChevronRight, Download, MoreHorizontal, Search } from "lucide-react";
+import { useNavigate } from "react-router";
+import { ChevronLeft, ChevronRight, Download, Eye, Search } from "lucide-react";
 import type { OverviewTableItem } from "@/lib/api/stats-api";
 import { formatVND, formatNumber } from "@/lib/format-currency";
 import { exportTableCsv } from "./export-table-csv";
@@ -43,6 +44,7 @@ export function PerformanceTable({
   rangeFrom,
   rangeTo,
 }: Props) {
+  const navigate = useNavigate();
   const [quiz, setQuiz] = useState("all");
 
   const quizOptions = useMemo(
@@ -119,8 +121,6 @@ export function PerformanceTable({
                 <HeaderCell className="w-32">Danh mục</HeaderCell>
                 <HeaderCell className="w-28 text-right">Chi phí (đ)</HeaderCell>
                 <HeaderCell className="w-28 text-right">Lượt click</HeaderCell>
-                <HeaderCell className="w-32 text-right">Hoàn thành quiz</HeaderCell>
-                <HeaderCell className="w-40 text-right">Hoàn thành nhiệm vụ</HeaderCell>
                 <HeaderCell className="w-24 text-right">CPA (đ)</HeaderCell>
                 <HeaderCell className="w-28 text-right">Tỷ lệ chuyển đổi</HeaderCell>
                 <HeaderCell className="w-28">Trạng thái</HeaderCell>
@@ -130,7 +130,7 @@ export function PerformanceTable({
             <tbody>
               {filteredItems.length === 0 ? (
                 <tr>
-                  <td colSpan={11} className="px-4 py-12 text-center text-sm text-muted-foreground">
+                  <td colSpan={9} className="px-4 py-12 text-center text-sm text-muted-foreground">
                     Không có dữ liệu
                   </td>
                 </tr>
@@ -158,8 +158,6 @@ export function PerformanceTable({
                     <BodyCell className="text-right font-mono">
                       {item.clicks != null && item.clicks > 0 ? formatNumber(item.clicks) : "—"}
                     </BodyCell>
-                    <BodyCell className="text-right font-mono">{formatNumber(item.valid)}</BodyCell>
-                    <BodyCell className="text-right font-mono">{formatNumber(item.completed)}</BodyCell>
                     <BodyCell className="text-right font-mono">
                       {item.cpa != null && item.cpa > 0 ? formatVND(item.cpa) : "—"}
                     </BodyCell>
@@ -170,8 +168,15 @@ export function PerformanceTable({
                       </span>
                     </BodyCell>
                     <BodyCell>
-                      <button className="ml-auto grid size-8 place-items-center rounded-lg text-muted-foreground transition hover:bg-surface-2 hover:text-foreground" type="button">
-                        <MoreHorizontal className="size-4" />
+                      <button
+                        aria-label={`Xem chi tiết ${item.name}`}
+                        className="ml-auto inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface-2 px-2.5 py-1.5 text-xs font-semibold text-foreground transition hover:border-border-strong hover:bg-surface-2/80"
+                        onClick={() => navigate(`/campaigns/${item.id}`)}
+                        title="Xem chi tiết"
+                        type="button"
+                      >
+                        <Eye className="size-3.5" />
+                        Chi tiết
                       </button>
                     </BodyCell>
                   </tr>

@@ -336,15 +336,4 @@ select {
 }
 .animate-shake { animation: shake 0.4s ease-in-out; }
 
-.instruction-editor [data-unlock-gate]::before {
-  content: "🔒 Ô mở khoá — mã: " attr(data-code);
-  display: block;
-  padding: 1rem;
-  background: hsl(141 30% 95%);
-  border: 2px dashed hsl(var(--border-strong));
-  border-radius: 0.75rem;
-  text-align: center;
-  font-weight: 600;
-  color: hsl(var(--brand));
-  margin: 1rem 0;
-}
+

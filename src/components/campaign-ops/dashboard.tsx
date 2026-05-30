@@ -6,7 +6,6 @@ import type { DateRangeValue } from "@/components/common/date-range-picker";
 import { useCampaignsApi } from "./use-campaigns-api";
 import { AdminShell } from "./admin-shell";
 import { AutomationRules } from "./automation-rules";
-import { CampaignHealth } from "./campaign-health";
 import { CampaignTable } from "./campaign-table";
 import { DashboardHeader } from "./dashboard-header";
 import { StatsCards } from "./stats-cards";
@@ -27,8 +26,8 @@ export function CampaignOpsDashboard() {
   const dateFrom = dateToISO(dateRange.from);
   const dateTo = dateToISO(dateRange.to);
 
-  const [dateFilter, setDateFilter] = useState<string>(dateFrom);
-  const { campaigns, loading, error, publishCampaign, pauseCampaign, deleteCampaign } = useCampaignsApi(dateFilter);
+  const [dateFilter] = useState<string>(dateFrom);
+  const { campaigns, loading, error, publishCampaign, pauseCampaign, deleteCampaign } = useCampaignsApi(dateFilter, dateFrom, dateTo);
 
   const [statsRefetchTrigger, setStatsRefetchTrigger] = useState(0);
   const bumpStats = useCallback(() => setStatsRefetchTrigger((n) => n + 1), []);
@@ -87,7 +86,6 @@ export function CampaignOpsDashboard() {
               dateFilter={dateFilter}
               dateFrom={dateFrom}
               dateTo={dateTo}
-              onDateFilterChange={setDateFilter}
               onDelete={handleDelete}
               onEdit={handleEdit}
               onPause={handlePause}
@@ -96,9 +94,8 @@ export function CampaignOpsDashboard() {
             />
           </>
         )}
-        <section className="grid gap-4 pb-8 xl:grid-cols-[1.08fr_0.92fr_1fr]">
+        <section className="grid gap-4 pb-8 xl:grid-cols-2">
           <SystemAlerts />
-          <CampaignHealth campaigns={campaigns} />
           <AutomationRules rules={automationRules} />
         </section>
       </AdminShell>

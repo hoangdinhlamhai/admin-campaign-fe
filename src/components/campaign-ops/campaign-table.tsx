@@ -13,7 +13,7 @@ import {
   Trash2,
 } from "lucide-react";
 import type { Campaign, CampaignStatus } from "@/lib/campaign-ops-data";
-import { filterCampaigns, formatPercent } from "@/lib/campaign-ops-utils";
+import { filterCampaigns } from "@/lib/campaign-ops-utils";
 import { useParentCategoriesApi } from "@/components/campaign-categories/use-parent-categories-api";
 import { useChildCategoriesApi } from "@/components/campaign-categories/use-child-categories-api";
 import { Tooltip } from "@/components/common/tooltip";
@@ -23,7 +23,6 @@ import { exportCampaignsCsv } from "./export-campaigns-csv";
 type CampaignTableProps = {
   campaigns: Campaign[];
   dateFilter: string;
-  onDateFilterChange: (value: string) => void;
   onPublish: (id: string) => void;
   onPause: (id: string) => void;
   onDelete: (id: string) => void;
@@ -61,7 +60,6 @@ const STATUS_FILTER_OPTIONS: { value: "all" | CampaignStatus; label: string }[] 
 export function CampaignTable({
   campaigns,
   dateFilter,
-  onDateFilterChange,
   onPublish,
   onPause,
   onDelete,
@@ -109,13 +107,13 @@ export function CampaignTable({
             >
               Chiến dịch ({campaigns.length})
             </button>
-            <button
+            {/* <button
               className={`rounded-lg px-3 py-2 text-sm font-semibold transition ${activeTab === "history" ? "bg-brand text-brand-foreground" : "text-muted-foreground hover:text-foreground"}`}
               onClick={() => setActiveTab("history")}
               type="button"
             >
               Lịch sử hoạt động
-            </button>
+            </button> */}
           </div>
         </div>
 
@@ -167,20 +165,20 @@ export function CampaignTable({
                 <option key={cat.id} value={cat.id}>{cat.name}</option>
               ))}
             </select>
-            <input
+            {/* <input
               className="h-11 rounded-xl border border-border bg-background px-3 text-sm text-foreground outline-none transition focus:border-border-strong disabled:opacity-50"
               disabled={isAllTime}
               onChange={(e) => onDateFilterChange(e.target.value)}
               type="date"
               value={isAllTime ? "" : dateFilter}
-            />
-            <button
+            /> */}
+            {/* <button
               className={`inline-flex h-11 items-center justify-center gap-2 rounded-xl px-3 text-sm font-semibold transition ${isAllTime ? "bg-brand text-brand-foreground" : "border border-border bg-surface-2 text-foreground hover:bg-surface-2/80"}`}
               onClick={() => onDateFilterChange(isAllTime ? new Date().toISOString().slice(0, 10) : "all")}
               type="button"
             >
               {isAllTime ? "Theo ngày" : "Tổng tất cả"}
-            </button>
+            </button> */}
             <button
               className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border bg-surface-2 px-3 text-sm font-semibold text-foreground transition hover:bg-surface-2/80"
               onClick={handleExport}
@@ -207,11 +205,12 @@ export function CampaignTable({
                   <HeaderCell className="w-40">Người phụ trách</HeaderCell>
                   <HeaderCell className="w-28">Mật khẩu</HeaderCell>
                   <HeaderCell className="w-28 text-center">Mục tiêu</HeaderCell>
+                  <HeaderCell className="w-28 text-center">Lượt click</HeaderCell>
                   <HeaderCell className="w-28 text-center">Đã xong</HeaderCell>
                   <HeaderCell className="w-28 text-center">Còn thiếu</HeaderCell>
                   <HeaderCell className="w-32 text-center">Tiến độ</HeaderCell>
+                  <HeaderCell className="w-24 text-center">Tỷ lệ</HeaderCell>
                   <HeaderCell className="w-24 text-center">Nhập sai</HeaderCell>
-                  <HeaderCell className="w-24 text-center">Tỷ lệ sai</HeaderCell>
                   <HeaderCell className="w-28">Trạng thái</HeaderCell>
                   <HeaderCell className="w-28 text-right">Thao tác</HeaderCell>
                 </tr>
@@ -231,7 +230,7 @@ export function CampaignTable({
                 ))}
                 {filtered.length === 0 && (
                   <tr>
-                    <td className="px-4 py-10 text-center text-muted-foreground" colSpan={13}>
+                    <td className="px-4 py-10 text-center text-muted-foreground" colSpan={14}>
                       Không tìm thấy chiến dịch phù hợp.
                     </td>
                   </tr>
@@ -283,14 +282,12 @@ function CampaignRow({ campaign, index, onEdit, onPublish, onPause, onDelete, on
   const toggleTooltip = "Chỉ người phụ trách hoặc admin mới thao tác được";
 
   const target = campaign.dailyUserTarget || 0;
-  const completed = campaign.completedCount || 0;
-  const progress = target > 0 ? Math.min(100, Math.round((completed / target) * 100)) : 0;
-  const totalEntries = campaign.wrongEntryCount + campaign.validEntryCount;
-  const wrongRate = totalEntries > 0 ? (campaign.wrongEntryCount / totalEntries) * 100 : 0;
+  const unlocked = campaign.unlocked || 0;
+  const missing = Math.max(0, target - unlocked);
+  const progress = target > 0 ? Math.min(100, Math.round((unlocked / target) * 100)) : 0;
 
   const progressColor = progress >= 80 ? "bg-brand" : progress >= 50 ? "bg-amber-400" : "bg-rose-400";
   const progressTextColor = progress >= 80 ? "text-brand" : progress >= 50 ? "text-amber-400" : "text-rose-400";
-  const wrongRateColor = wrongRate >= 30 ? "text-rose-400" : wrongRate >= 15 ? "text-amber-400" : "text-muted-foreground";
 
   return (
     <tr
@@ -321,11 +318,14 @@ function CampaignRow({ campaign, index, onEdit, onPublish, onPause, onDelete, on
         <span className="font-mono font-semibold">{target}</span>
       </BodyCell>
       <BodyCell className="text-center">
-        <span className="font-mono font-semibold text-brand">{completed}</span>
+        <span className="font-mono font-semibold text-foreground">{campaign.unlockClicked.toLocaleString('vi-VN')}</span>
       </BodyCell>
       <BodyCell className="text-center">
-        <span className={`font-mono font-semibold ${campaign.missingCount > 0 ? "text-rose-300" : "text-muted-foreground"}`}>
-          {campaign.missingCount}
+        <span className="font-mono font-semibold text-brand">{campaign.unlocked.toLocaleString('vi-VN')}</span>
+      </BodyCell>
+      <BodyCell className="text-center">
+        <span className={`font-mono font-semibold ${missing > 0 ? "text-rose-300" : "text-muted-foreground"}`}>
+          {missing}
         </span>
       </BodyCell>
       <BodyCell className="text-center">
@@ -337,12 +337,10 @@ function CampaignRow({ campaign, index, onEdit, onPublish, onPause, onDelete, on
         </div>
       </BodyCell>
       <BodyCell className="text-center">
-        <span className="font-mono text-muted-foreground">{campaign.wrongEntryCount}</span>
+        <span className="font-mono text-xs font-bold text-foreground">{`${(campaign.conversionRate * 100).toFixed(1)}%`}</span>
       </BodyCell>
       <BodyCell className="text-center">
-        <span className={`font-mono text-xs font-bold ${wrongRateColor}`}>
-          {totalEntries > 0 ? formatPercent(wrongRate / 100) : "-"}
-        </span>
+        <span className="font-mono text-muted-foreground">{campaign.passInvalid.toLocaleString('vi-VN')}</span>
       </BodyCell>
       <BodyCell>
         <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold ${STATUS_CLASS[campaign.status]}`}>

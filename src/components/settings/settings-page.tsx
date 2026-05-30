@@ -3,7 +3,7 @@ import { AdminShell } from "@/components/campaign-ops/admin-shell";
 import { SettingsHeader } from "./settings-header";
 import { SettingsSectionWrongPass } from "./settings-section-wrong-pass";
 import { SettingsSectionNoValidEntry } from "./settings-section-no-valid-entry";
-import { SettingsSectionLowUsers } from "./settings-section-low-users";
+import { SettingsSectionTargetReached } from "./settings-section-target-reached";
 import { SettingsSectionNotifications } from "./settings-section-notifications";
 import { useGlobalSettings } from "./use-global-settings";
 
@@ -34,7 +34,7 @@ export function SettingsPage() {
           <div className="grid gap-4 pb-8 lg:grid-cols-2">
             <SettingsSectionWrongPass draft={draft} onChange={update} />
             <SettingsSectionNoValidEntry draft={draft} onChange={update} />
-            <SettingsSectionLowUsers draft={draft} onChange={update} />
+            <SettingsSectionTargetReached draft={draft} onChange={update} />
             <SettingsSectionNotifications draft={draft} onChange={update} />
           </div>
         </>

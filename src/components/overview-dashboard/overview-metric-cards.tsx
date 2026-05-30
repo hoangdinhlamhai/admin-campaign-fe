@@ -1,11 +1,4 @@
-import {
-  CheckSquare,
-  DollarSign,
-  Gift,
-  MousePointer2,
-  Target,
-  TrendingUp,
-} from "lucide-react";
+import { DollarSign, MousePointer2, Target, TrendingUp } from "lucide-react";
 import { toneClass, type MetricTone } from "@/lib/overview-dashboard-data";
 import { formatVND, formatNumber } from "@/lib/format-currency";
 import type { DashboardResponse } from "@/lib/api/stats-api";
@@ -26,11 +19,14 @@ type MetricConfig = {
   formatValue: (v: number) => string;
 };
 
+// Cards bị bỏ: "Hoàn thành quiz" (cần quiz BE integration),
+// "Hoàn thành nhiệm vụ" (đã có ở /campaigns table). Chi phí + Lượt click + CPA
+// vẫn để "—" cho tới khi tích hợp Google Ads.
 const metrics: MetricConfig[] = [
   {
     id: "ad-cost",
     label: "Chi phí quảng cáo",
-    meta: "Tổng chi tiêu",
+    meta: "Cần Google Ads",
     tone: "blue",
     icon: DollarSign,
     getValue: (s) => s.totalCost,
@@ -39,34 +35,16 @@ const metrics: MetricConfig[] = [
   {
     id: "clicks",
     label: "Lượt click",
-    meta: "Tổng click",
+    meta: "Cần Google Ads",
     tone: "emerald",
     icon: MousePointer2,
     getValue: (s) => s.totalClicks,
     formatValue: (v) => (v > 0 ? formatNumber(v) : "—"),
   },
   {
-    id: "quiz-completed",
-    label: "Hoàn thành quiz",
-    meta: "Số người hoàn thành",
-    tone: "indigo",
-    icon: CheckSquare,
-    getValue: (s) => s.totalValid,
-    formatValue: (v) => formatNumber(v),
-  },
-  {
-    id: "tasks-completed",
-    label: "Hoàn thành nhiệm vụ",
-    meta: "Số lần hoàn thành",
-    tone: "amber",
-    icon: Gift,
-    getValue: (s) => s.totalCompleted,
-    formatValue: (v) => formatNumber(v),
-  },
-  {
     id: "cpa",
     label: "CPA",
-    meta: "Chi phí / 1 nhiệm vụ",
+    meta: "Cần Google Ads",
     tone: "rose",
     icon: Target,
     getValue: (s) => s.cpa,
@@ -75,7 +53,7 @@ const metrics: MetricConfig[] = [
   {
     id: "conversion",
     label: "Tỷ lệ chuyển đổi",
-    meta: "Completed / Clicks",
+    meta: "Hoàn thành / Hiển thị lock",
     tone: "teal",
     icon: TrendingUp,
     getValue: (s) => s.conversionRate,
@@ -93,7 +71,7 @@ export function OverviewMetricCards({ data, loading, error }: Props) {
   }
 
   return (
-    <section className="mb-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
+    <section className="mb-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {metrics.map((metric) => {
         const Icon = metric.icon;
         const isLoading = loading || !data;

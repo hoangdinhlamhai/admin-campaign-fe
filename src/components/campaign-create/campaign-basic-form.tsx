@@ -134,7 +134,7 @@ export function CampaignBasicForm({ categories, form, onChange, onGeneratePass, 
           </div>
         </label>
 
-        <label className="block">
+        {/* <label className="block">
           <span className="text-sm font-medium text-foreground">Ưu tiên hiển thị</span>
           <select
             className="mt-2 h-11 w-full rounded-xl border border-border bg-background px-3 text-sm text-foreground outline-none transition focus:border-border-strong"
@@ -145,7 +145,7 @@ export function CampaignBasicForm({ categories, form, onChange, onGeneratePass, 
             <option value="medium">Trung bình</option>
             <option value="high">Cao</option>
           </select>
-        </label>
+        </label> */}
 
         <label className="block md:col-span-2">
           <span className="text-sm font-medium text-foreground">Số lần nhập sai tối đa cho 1 user <span className="text-rose-300">*</span></span>

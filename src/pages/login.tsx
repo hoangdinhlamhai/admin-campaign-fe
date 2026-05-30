@@ -7,7 +7,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const { user, login } = useAuth();
   const [params] = useSearchParams();
-  const [email, setEmail] = useState("admin@senlyzer.io");
+  const [email, setEmail] = useState("lamhaixyz81@gmail.com");
   const [password, setPassword] = useState("123456");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);

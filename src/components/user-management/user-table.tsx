@@ -2,6 +2,7 @@ import { useState, useMemo, type ReactNode } from "react";
 import { ChevronLeft, ChevronRight, Edit3, Search, Trash2 } from "lucide-react";
 import type { UserRole, UserStatus } from "@/lib/user-management-data";
 import { roleLabels, statusLabels } from "@/lib/user-management-data";
+import { useAuth } from "@/lib/auth/auth-context";
 import type { UserWithInitials } from "./use-users";
 
 type UserTableProps = {
@@ -144,6 +145,7 @@ export function UserTable({ users, query, onQueryChange, onEdit, onDelete }: Use
 }
 
 function UserRow({ user, index, onEdit, onDelete }: { user: UserWithInitials; index: number; onEdit: () => void; onDelete: () => void }) {
+  const { isAdmin: viewerIsAdmin } = useAuth();
   return (
     <tr className="border-b border-border/60 text-foreground transition hover:bg-surface-2">
       <BodyCell>
@@ -178,22 +180,28 @@ function UserRow({ user, index, onEdit, onDelete }: { user: UserWithInitials; in
       </BodyCell>
       <BodyCell>
         <div className="flex justify-end gap-1">
-          <button
-            aria-label={`Sửa ${user.name}`}
-            className="grid size-9 place-items-center rounded-lg text-muted-foreground transition hover:bg-surface-2 hover:text-foreground"
-            onClick={onEdit}
-            type="button"
-          >
-            <Edit3 className="size-4" />
-          </button>
-          <button
-            aria-label={`Xoá ${user.name}`}
-            className="grid size-9 place-items-center rounded-lg text-muted-foreground transition hover:bg-rose-400/12 hover:text-rose-100"
-            onClick={onDelete}
-            type="button"
-          >
-            <Trash2 className="size-4" />
-          </button>
+          {viewerIsAdmin ? (
+            <>
+              <button
+                aria-label={`Sửa ${user.name}`}
+                className="grid size-9 place-items-center rounded-lg text-muted-foreground transition hover:bg-surface-2 hover:text-foreground"
+                onClick={onEdit}
+                type="button"
+              >
+                <Edit3 className="size-4" />
+              </button>
+              <button
+                aria-label={`Xoá ${user.name}`}
+                className="grid size-9 place-items-center rounded-lg text-muted-foreground transition hover:bg-rose-400/12 hover:text-rose-100"
+                onClick={onDelete}
+                type="button"
+              >
+                <Trash2 className="size-4" />
+              </button>
+            </>
+          ) : (
+            <span className="text-xs text-muted-foreground/60">—</span>
+          )}
         </div>
       </BodyCell>
     </tr>

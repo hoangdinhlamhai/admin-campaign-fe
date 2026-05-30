@@ -12,7 +12,6 @@ import {
   Target,
   ShieldCheck,
   AlertTriangle,
-  Users,
   PauseCircle,
 } from "lucide-react";
 
@@ -45,7 +44,6 @@ export default function ChildDetailPage() {
   const cards = child
     ? [
         { label: "Tổng chiến dịch", value: child.campaignCount, Icon: Megaphone, tone: "text-sky-200" },
-        { label: "User cần chạy / ngày", value: child.dailyUserTarget, Icon: Users, tone: "text-lime-200" },
         { label: "User cần chạy", value: child.rangeStats.target, Icon: Target, tone: "text-lime-200" },
         { label: "Đã hoàn thành", value: child.rangeStats.completed, Icon: ShieldCheck, tone: "text-emerald-200" },
         { label: "Còn thiếu", value: child.rangeStats.missing, Icon: AlertTriangle, tone: "text-amber-200" },

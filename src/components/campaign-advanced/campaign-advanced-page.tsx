@@ -74,22 +74,14 @@ export function CampaignAdvancedPage() {
         <div className="grid gap-5 pb-8 xl:grid-cols-[minmax(0,1fr)_360px]">
           <div className="space-y-5">
             <AdvancedSettingsCard
-              description="Thông báo cho admin khi chiến dịch có dấu hiệu thiếu user hoặc bị tạm dừng."
+              description="Tự pause campaign khi đạt target & gửi mail thông báo người phụ trách."
               title="Cảnh báo admin"
             >
               <AdvancedSettingToggle
-                checked={settings.notifyLowUsers}
-                description="Gửi cảnh báo nếu số user còn thiếu vượt ngưỡng đã đặt."
-                label="Gửi thông báo khi thiếu user nhiều"
-                onChange={(checked) => updateSettings({ notifyLowUsers: checked })}
-              />
-              <AdvancedNumberField
-                disabled={!settings.notifyLowUsers}
-                help="Ví dụ: còn thiếu từ 5 user trở lên thì cảnh báo."
-                label="Ngưỡng thiếu user"
-                onChange={(value) => updateSettings({ lowUsersThreshold: value })}
-                suffix="user"
-                value={settings.lowUsersThreshold}
+                checked={settings.notifyTargetReached}
+                description="Khi số user hoàn thành ≥ User cần chạy/ngày, tự pause campaign và gửi email cho người phụ trách."
+                label="Tự pause & gửi mail khi đạt target"
+                onChange={(checked) => updateSettings({ notifyTargetReached: checked })}
               />
               <AdvancedSettingToggle
                 checked={settings.notifyCampaignPaused}
@@ -152,8 +144,8 @@ export function CampaignAdvancedPage() {
             <section className="glass-card p-4 sm:p-5">
               <h3 className="font-semibold text-foreground">Tóm tắt rule</h3>
               <div className="mt-4 space-y-3 text-sm text-foreground">
-                <SummaryItem icon={<BellRing className="size-4" />} active={settings.notifyLowUsers}>
-                  Cảnh báo thiếu từ {settings.lowUsersThreshold || 0} user.
+                <SummaryItem icon={<BellRing className="size-4" />} active={settings.notifyTargetReached}>
+                  Tự pause & gửi mail khi đạt target.
                 </SummaryItem>
                 <SummaryItem icon={<ShieldAlert className="size-4" />} active={settings.notifyCampaignPaused}>
                   Cảnh báo khi campaign dừng.

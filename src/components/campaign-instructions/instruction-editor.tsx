@@ -2,13 +2,16 @@ import LinkExtension from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from "@tiptap/extension-text-align";
 import UnderlineExtension from "@tiptap/extension-underline";
+import { TextStyle } from "@tiptap/extension-text-style";
+import { Color } from "@tiptap/extension-color";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useEffect } from "react";
 import { InstructionImage } from "./instruction-image-extension";
+import { InstructionVideo } from "./instruction-video-extension";
 import { InstructionToolbar } from "./instruction-toolbar";
-import { UnlockGateExtension } from "./unlock-gate-extension";
-import { UnlockGateBubbleMenu } from "./unlock-gate-bubble-menu";
+import { CopyBlock } from "./copy-block-extension";
+import { CopyBlockBubbleMenu } from "./copy-block-bubble-menu";
 
 type InstructionEditorProps = {
   content: string;
@@ -31,6 +34,8 @@ export function InstructionEditor({ content, onChange }: InstructionEditorProps)
           class: "instruction-image",
         },
       }),
+      InstructionVideo,
+      CopyBlock,
       LinkExtension.configure({
         openOnClick: false,
         HTMLAttributes: {
@@ -40,10 +45,11 @@ export function InstructionEditor({ content, onChange }: InstructionEditorProps)
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
+      TextStyle,
+      Color.configure({ types: ["textStyle"] }),
       Placeholder.configure({
         placeholder: "Nhập hướng dẫn nhiệm vụ cho user...",
       }),
-      UnlockGateExtension,
     ],
     content,
     editorProps: {
@@ -74,8 +80,8 @@ export function InstructionEditor({ content, onChange }: InstructionEditorProps)
         </div>
       </div>
       <InstructionToolbar editor={editor} />
-      <UnlockGateBubbleMenu editor={editor} />
       <EditorContent className="instruction-editor instruction-light" editor={editor} />
+      <CopyBlockBubbleMenu editor={editor} />
       <div className="border-t border-border px-4 py-3 text-xs text-muted-foreground">
         Nội dung sẽ được dùng cho phần preview hướng dẫn của chiến dịch.
       </div>

@@ -87,8 +87,7 @@ export function CreateCampaignPage({ campaignId }: CreateCampaignPageProps = {})
       .then((g) => {
         if (cancelled) return;
         const merged: CampaignAdvancedSettings = {
-          notifyLowUsers: g.notify_low_users,
-          lowUsersThreshold: String(g.low_users_threshold),
+          notifyTargetReached: g.notify_target_reached,
           notifyCampaignPaused: g.notify_campaign_paused,
           autoReactivateNextDay: g.auto_reactivate_next_day,
           limitWrongPass: g.limit_wrong_pass,
@@ -144,10 +143,9 @@ export function CreateCampaignPage({ campaignId }: CreateCampaignPageProps = {})
           setInstructionHtml("");
         }
 
-        const s = (res.settings as Partial<CampaignAdvancedSettings & { lowUsersThreshold: number; maxWrongPassAttempts: number; noValidEntryDisplays: number }>) ?? {};
+        const s = (res.settings as Partial<CampaignAdvancedSettings & { maxWrongPassAttempts: number; noValidEntryDisplays: number }>) ?? {};
         const advanced: CampaignAdvancedSettings = {
-          notifyLowUsers: Boolean(s.notifyLowUsers ?? defaultAdvancedSettings.notifyLowUsers),
-          lowUsersThreshold: s.lowUsersThreshold != null ? String(s.lowUsersThreshold) : defaultAdvancedSettings.lowUsersThreshold,
+          notifyTargetReached: Boolean(s.notifyTargetReached ?? defaultAdvancedSettings.notifyTargetReached),
           notifyCampaignPaused: Boolean(s.notifyCampaignPaused ?? defaultAdvancedSettings.notifyCampaignPaused),
           autoReactivateNextDay: Boolean(s.autoReactivateNextDay ?? defaultAdvancedSettings.autoReactivateNextDay),
           limitWrongPass: Boolean(s.limitWrongPass ?? defaultAdvancedSettings.limitWrongPass),

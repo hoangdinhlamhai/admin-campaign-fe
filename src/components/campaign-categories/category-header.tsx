@@ -1,5 +1,6 @@
 import { FolderTree, Plus } from "lucide-react";
 import { Link } from "react-router";
+import { useAuth } from "@/lib/auth/auth-context";
 
 type CategoryHeaderProps = {
   mode: "parent" | "child";
@@ -7,6 +8,7 @@ type CategoryHeaderProps = {
 };
 
 export function CategoryHeader({ mode, total }: CategoryHeaderProps) {
+  const { isAdmin } = useAuth();
   const label = mode === "parent" ? "Danh mục cha" : "Danh mục con";
   const newLink = mode === "parent" ? "/categories/parents/new" : "/categories/children/new";
 
@@ -25,16 +27,20 @@ export function CategoryHeader({ mode, total }: CategoryHeaderProps) {
             {total} mục
           </span>
         </div>
-        <p className="mt-2 text-sm text-muted-foreground sm:text-base">Tạo, sửa, xoá và phân cấp nhóm chiến dịch.</p>
+        <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+          {isAdmin ? "Tạo, sửa, xoá và phân cấp nhóm chiến dịch." : "Xem danh sách nhóm chiến dịch."}
+        </p>
       </div>
 
-      <Link
-        className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-brand px-4 text-sm font-bold text-brand-foreground shadow-lg transition hover:-translate-y-0.5 hover:bg-brand/80"
-        to={newLink}
-      >
-        <Plus className="size-4" />
-        Thêm mới
-      </Link>
+      {isAdmin && (
+        <Link
+          className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-brand px-4 text-sm font-bold text-brand-foreground shadow-lg transition hover:-translate-y-0.5 hover:bg-brand/80"
+          to={newLink}
+        >
+          <Plus className="size-4" />
+          Thêm mới
+        </Link>
+      )}
     </header>
   );
 }

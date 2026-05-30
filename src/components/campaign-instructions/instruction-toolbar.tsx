@@ -1,6 +1,5 @@
 import type { Editor } from "@tiptap/react";
 import { useEffect, useRef, useState } from "react";
-import { UnlockGateToolbarButton } from "./unlock-gate-toolbar-button";
 import {
   AlignCenter,
   AlignLeft,
@@ -15,6 +14,7 @@ import {
   Link,
   List,
   ListOrdered,
+  Palette,
   Quote,
   Redo2,
   RemoveFormatting,
@@ -34,7 +34,9 @@ type InstructionToolbarProps = {
 export function InstructionToolbar({ editor, onUploadImage, onUploadVideo }: InstructionToolbarProps) {
   const [, forceRender] = useState(0);
   const [videoMenuOpen, setVideoMenuOpen] = useState(false);
+  const [colorMenuOpen, setColorMenuOpen] = useState(false);
   const videoMenuRef = useRef<HTMLDivElement>(null);
+  const colorMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!videoMenuOpen) return;
@@ -46,6 +48,17 @@ export function InstructionToolbar({ editor, onUploadImage, onUploadVideo }: Ins
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, [videoMenuOpen]);
+
+  useEffect(() => {
+    if (!colorMenuOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (colorMenuRef.current && !colorMenuRef.current.contains(e.target as Node)) {
+        setColorMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [colorMenuOpen]);
 
   useEffect(() => {
     if (!editor) {
@@ -239,7 +252,64 @@ export function InstructionToolbar({ editor, onUploadImage, onUploadVideo }: Ins
       <ToolbarButton label="Copy block" onClick={insertCopyBlock}>
         <ClipboardCopy className="size-4" />
       </ToolbarButton>
-      <UnlockGateToolbarButton editor={editor} />
+      <div className="relative" ref={colorMenuRef}>
+        <button
+          aria-label="Text color"
+          className="flex h-9 items-center gap-1 rounded-lg px-2 text-muted-foreground transition hover:bg-surface-2 hover:text-foreground"
+          onClick={() => setColorMenuOpen((v) => !v)}
+          onMouseDown={(e) => e.preventDefault()}
+          title="Màu chữ"
+          type="button"
+        >
+          <Palette className="size-4" />
+          <span
+            className="h-1 w-4 rounded-full"
+            style={{ background: (editor.getAttributes("textStyle").color as string) ?? "currentColor" }}
+          />
+          <ChevronDown className="size-3" />
+        </button>
+        {colorMenuOpen && (
+          <div className="absolute left-0 top-full z-30 mt-1 w-56 overflow-hidden rounded-lg border border-border bg-surface p-3 shadow-xl">
+            <div className="grid grid-cols-7 gap-1.5">
+              {TEXT_COLORS.map((c) => (
+                <button
+                  key={c}
+                  aria-label={`Color ${c}`}
+                  className="size-6 rounded-md border border-border ring-offset-1 transition hover:ring-2 hover:ring-ring"
+                  onClick={() => {
+                    editor.chain().focus().setColor(c).run();
+                    setColorMenuOpen(false);
+                  }}
+                  onMouseDown={(e) => e.preventDefault()}
+                  style={{ background: c }}
+                  type="button"
+                />
+              ))}
+            </div>
+            <div className="mt-2 flex items-center justify-between gap-2 border-t border-border pt-2">
+              <input
+                aria-label="Custom color"
+                className="size-7 cursor-pointer rounded border border-border"
+                onChange={(e) => editor.chain().focus().setColor(e.target.value).run()}
+                onMouseDown={(e) => e.preventDefault()}
+                type="color"
+                value={(editor.getAttributes("textStyle").color as string) ?? "#000000"}
+              />
+              <button
+                className="rounded-md px-2 py-1 text-xs text-muted-foreground hover:bg-surface-2"
+                onClick={() => {
+                  editor.chain().focus().unsetColor().run();
+                  setColorMenuOpen(false);
+                }}
+                onMouseDown={(e) => e.preventDefault()}
+                type="button"
+              >
+                Xoá màu
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
       <ToolbarButton label="Clear format" onClick={() => editor.chain().focus().unsetAllMarks().clearNodes().run()}>
         <RemoveFormatting className="size-4" />
       </ToolbarButton>
@@ -287,3 +357,20 @@ function ToolbarButton({
 function Divider() {
   return <span className="mx-1 h-6 w-px bg-border" />;
 }
+
+const TEXT_COLORS = [
+  "#0f172a", // slate-900
+  "#dc2626", // red-600
+  "#ea580c", // orange-600
+  "#facc15", // yellow-400
+  "#16a34a", // green-600
+  "#0891b2", // cyan-600
+  "#2563eb", // blue-600
+  "#7c3aed", // violet-600
+  "#db2777", // pink-600
+  "#64748b", // slate-500
+  "#dcfce7", // green-100
+  "#fed7aa", // orange-200
+  "#bfdbfe", // blue-200
+  "#ffffff", // white
+];

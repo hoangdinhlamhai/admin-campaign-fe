@@ -146,8 +146,7 @@ export function CampaignReviewPage() {
       assignedTo: form.assigneeId ?? null,
       instructions: { contentHtml: instruction },
       settings: {
-        notifyLowUsers: settings.notifyLowUsers,
-        lowUsersThreshold: Number(settings.lowUsersThreshold) || null,
+        notifyTargetReached: settings.notifyTargetReached,
         notifyCampaignPaused: settings.notifyCampaignPaused,
         autoReactivateNextDay: settings.autoReactivateNextDay,
         limitWrongPass: settings.limitWrongPass,

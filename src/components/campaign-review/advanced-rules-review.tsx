@@ -10,9 +10,9 @@ type AdvancedRulesReviewProps = {
 export function AdvancedRulesReview({ settings }: AdvancedRulesReviewProps) {
   const rules = [
     {
-      active: settings.notifyLowUsers,
+      active: settings.notifyTargetReached,
       icon: BellRing,
-      label: `Cảnh báo admin khi còn thiếu từ ${settings.lowUsersThreshold || 0} user`,
+      label: "Tự pause & gửi mail khi đạt target",
     },
     {
       active: settings.notifyCampaignPaused,

@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { useUnlockGateHydration } from "./use-unlock-gate-hydration";
 
 type InstructionRendererProps = {
   html: string;
@@ -9,8 +8,6 @@ type InstructionRendererProps = {
 export function InstructionRenderer({ html, className = "" }: InstructionRendererProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [toast, setToast] = useState<string | null>(null);
-
-  useUnlockGateHydration(ref);
 
   useEffect(() => {
     const root = ref.current;

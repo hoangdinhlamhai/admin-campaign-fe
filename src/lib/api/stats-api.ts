@@ -97,13 +97,17 @@ export function fetchOverviewTable(
 }
 
 export type CampaignsSummaryResponse = {
-  from: string;
-  to: string;
+  from?: string;
+  to?: string;
   totalUserTarget: number;
   totalCompleted: number;
   totalMissing: number;
   pausedCount: number;
   totalWrongEntries: number;
+  totalLockDisplayed?: number;
+  totalUnlockClicked?: number;
+  totalAbandoned?: number;
+  conversionRate?: number;
 };
 
 export function fetchCampaignsSummary(
@@ -112,6 +116,6 @@ export function fetchCampaignsSummary(
 ): Promise<CampaignsSummaryResponse> {
   const params = new URLSearchParams({ from, to });
   return apiFetch<CampaignsSummaryResponse>(
-    `/api/stats/campaigns-summary?${params.toString()}`
+    `/api/v1/stats/overview?${params.toString()}`
   );
 }

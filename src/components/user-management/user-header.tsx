@@ -1,11 +1,14 @@
 import { Plus, Users } from "lucide-react";
 import { Link } from "react-router";
+import { useAuth } from "@/lib/auth/auth-context";
 
 type UserHeaderProps = {
   total: number;
 };
 
 export function UserHeader({ total }: UserHeaderProps) {
+  const { isAdmin } = useAuth();
+
   return (
     <header className="glass-card mb-5 flex flex-col gap-4 p-4 sm:p-5 xl:flex-row xl:items-center xl:justify-between">
       <div className="min-w-0">
@@ -21,16 +24,20 @@ export function UserHeader({ total }: UserHeaderProps) {
             {total} người dùng
           </span>
         </div>
-        <p className="mt-2 text-sm text-muted-foreground sm:text-base">Thêm, sửa, xoá tài khoản và phân quyền nhân viên.</p>
+        <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+          {isAdmin ? "Thêm, sửa, xoá tài khoản và phân quyền nhân viên." : "Xem danh sách nhân viên."}
+        </p>
       </div>
 
-      <Link
-        className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-brand px-4 text-sm font-bold text-brand-foreground shadow-lg transition hover:-translate-y-0.5 hover:bg-brand/80"
-        to="/users/new"
-      >
-        <Plus className="size-4" />
-        Thêm nhân viên
-      </Link>
+      {isAdmin && (
+        <Link
+          className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-brand px-4 text-sm font-bold text-brand-foreground shadow-lg transition hover:-translate-y-0.5 hover:bg-brand/80"
+          to="/users/new"
+        >
+          <Plus className="size-4" />
+          Thêm nhân viên
+        </Link>
+      )}
     </header>
   );
 }

@@ -30,6 +30,15 @@ export type CampaignApi = {
   assignedTo: string | null;
   assignedToName: string | null;
   isOwner: boolean;
+  lockDisplayed?: number;
+  unlockClicked?: number;
+  targetClicked?: number;
+  passAttempted?: number;
+  passValid?: number;
+  passInvalid?: number;
+  unlocked?: number;
+  abandoned?: number;
+  conversionRate?: number;
 };
 
 type ListResponse = CampaignApi[] | { value: CampaignApi[]; Count: number };
@@ -67,8 +76,7 @@ export type CreateFullCampaignDto = {
     contentJson?: object;
   };
   settings: {
-    notifyLowUsers: boolean;
-    lowUsersThreshold?: number | null;
+    notifyTargetReached: boolean;
     notifyCampaignPaused: boolean;
     autoReactivateNextDay: boolean;
     limitWrongPass: boolean;
@@ -139,4 +147,9 @@ export async function assignCampaign(id: string, assignedTo: string | null): Pro
     method: "PATCH",
     body: JSON.stringify({ assignedTo }),
   });
+}
+
+export function fetchCampaignsWithMetrics(from: string, to: string): Promise<CampaignApi[]> {
+  const params = new URLSearchParams({ from, to });
+  return apiFetch<CampaignApi[]>(`/api/v1/stats/campaigns?${params.toString()}`);
 }
