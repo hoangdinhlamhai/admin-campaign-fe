@@ -153,3 +153,21 @@ export function fetchCampaignsWithMetrics(from: string, to: string): Promise<Cam
   const params = new URLSearchParams({ from, to });
   return apiFetch<CampaignApi[]>(`/api/v1/stats/campaigns?${params.toString()}`);
 }
+
+export type CampaignLockStats = {
+  id: string;
+  dailyUserTarget: number;
+  lockDisplayed: number;
+  unlockClicked: number;
+  passValid: number;
+  passInvalid: number;
+  unlocked: number;
+  conversionRate: number;
+};
+
+// Live content-lock metrics for a single campaign within [from, to] (inclusive).
+// Source: lock_sessions + lock_events (same as dashboard/overview).
+export function fetchCampaignLockStats(id: string, from: string, to: string): Promise<CampaignLockStats> {
+  const params = new URLSearchParams({ from, to });
+  return apiFetch<CampaignLockStats>(`/api/v1/stats/campaigns/${id}?${params.toString()}`);
+}

@@ -23,7 +23,15 @@ export function OverviewDashboardPage() {
 
   return (
     <AdminShell activeLabel="Tổng quan">
-      <OverviewHeader value={dateRange} onChange={setDateRange} />
+      <OverviewHeader
+        value={dateRange}
+        onChange={setDateRange}
+        onRefresh={() => {
+          stats.refetch();
+          table.refetch();
+        }}
+        loading={stats.loading || table.loading}
+      />
       <OverviewMetricCards data={stats.data} loading={stats.loading} error={stats.error} />
       <PerformanceTable
         items={table.items}

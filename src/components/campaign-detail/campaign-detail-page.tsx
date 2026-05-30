@@ -100,7 +100,7 @@ export function CampaignDetailPage() {
               onReassignClick={() => setReassignOpen(true)}
               isAdmin={isAdmin}
             />
-            <CampaignDetailStats campaignId={id} dailyTarget={data.dailyUserTarget} />
+            <CampaignDetailStats campaignId={id} dailyTarget={data.dailyUserTarget} createdAt={data.createdAt} />
             <div className="grid gap-5 xl:grid-cols-2">
               <CampaignDetailInfo campaign={data} />
               <CampaignDetailSettings settings={data.settings} />

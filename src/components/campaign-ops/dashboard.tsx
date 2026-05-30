@@ -27,10 +27,15 @@ export function CampaignOpsDashboard() {
   const dateTo = dateToISO(dateRange.to);
 
   const [dateFilter] = useState<string>(dateFrom);
-  const { campaigns, loading, error, publishCampaign, pauseCampaign, deleteCampaign } = useCampaignsApi(dateFilter, dateFrom, dateTo);
+  const { campaigns, loading, error, publishCampaign, pauseCampaign, deleteCampaign, refetch } = useCampaignsApi(dateFilter, dateFrom, dateTo);
 
   const [statsRefetchTrigger, setStatsRefetchTrigger] = useState(0);
   const bumpStats = useCallback(() => setStatsRefetchTrigger((n) => n + 1), []);
+
+  const handleRefresh = useCallback(() => {
+    refetch();
+    bumpStats();
+  }, [refetch, bumpStats]);
 
   const [toast, setToast] = useState<string | null>(null);
 
@@ -91,6 +96,8 @@ export function CampaignOpsDashboard() {
               onPause={handlePause}
               onPublish={handlePublish}
               onViewDetail={handleViewDetail}
+              onRefresh={handleRefresh}
+              refreshing={loading}
             />
           </>
         )}

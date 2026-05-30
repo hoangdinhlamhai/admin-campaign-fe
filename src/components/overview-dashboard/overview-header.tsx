@@ -2,15 +2,18 @@ import {
   DateRangePicker,
   type DateRangeValue,
 } from "@/components/common/date-range-picker";
+import { RefreshButton } from "@/components/common/refresh-button";
 
 type Props = {
   value: DateRangeValue;
   onChange: (range: DateRangeValue) => void;
+  onRefresh: () => void;
+  loading?: boolean;
 };
 
-export function OverviewHeader({ value, onChange }: Props) {
+export function OverviewHeader({ value, onChange, onRefresh, loading }: Props) {
   return (
-    <header className="glass-card mb-5 flex flex-col gap-4 p-4 sm:p-5 xl:flex-row xl:items-center xl:justify-between">
+    <header className="glass-card relative z-30 mb-5 flex flex-col gap-4 p-4 sm:p-5 xl:flex-row xl:items-center xl:justify-between">
       <div>
         <div className="mb-2 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
           <span className="font-medium text-brand">Tổng quan</span>
@@ -19,7 +22,10 @@ export function OverviewHeader({ value, onChange }: Props) {
         <p className="mt-2 text-sm text-muted-foreground sm:text-base">Theo dõi hiệu suất quảng cáo, quiz và nhiệm vụ trong toàn hệ thống.</p>
       </div>
 
-      <DateRangePicker value={value} onChange={onChange} />
+      <div className="flex items-center gap-2">
+        <RefreshButton onRefresh={onRefresh} loading={loading} />
+        <DateRangePicker value={value} onChange={onChange} />
+      </div>
     </header>
   );
 }

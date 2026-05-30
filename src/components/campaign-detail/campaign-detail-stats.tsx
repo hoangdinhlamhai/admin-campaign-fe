@@ -1,53 +1,60 @@
 import { useEffect, useState } from "react";
 import { Activity, AlertTriangle, ShieldCheck, TrendingDown } from "lucide-react";
-import { fetchCampaigns, type CampaignApi } from "@/lib/api/campaigns-api";
+import { fetchCampaignLockStats } from "@/lib/api/campaigns-api";
 
 type Props = {
   campaignId: string;
   dailyTarget: number;
+  createdAt: string;
 };
 
 type StatsBundle = {
   completed: number;
-  missing: number;
   wrong: number;
   valid: number;
 };
 
-const EMPTY: StatsBundle = { completed: 0, missing: 0, wrong: 0, valid: 0 };
+const EMPTY: StatsBundle = { completed: 0, wrong: 0, valid: 0 };
 
-async function loadStats(campaignId: string, date: string): Promise<StatsBundle> {
-  const res = await fetchCampaigns(date);
-  const items = Array.isArray(res) ? res : (res.value ?? []);
-  const found = items.find((c: CampaignApi) => c.id === campaignId);
-  if (!found) return EMPTY;
+async function loadStats(campaignId: string, from: string, to: string): Promise<StatsBundle> {
+  const res = await fetchCampaignLockStats(campaignId, from, to);
   return {
-    completed: found.completedCount ?? 0,
-    missing: found.missingCount ?? 0,
-    wrong: found.wrongEntryCount ?? 0,
-    valid: found.validEntryCount ?? 0,
+    completed: res.unlocked ?? 0,
+    wrong: res.passInvalid ?? 0,
+    valid: res.passValid ?? 0,
   };
 }
 
-export function CampaignDetailStats({ campaignId, dailyTarget }: Props) {
+function diffDays(from: string, to: string): number {
+  const ms = new Date(`${to}T00:00:00Z`).getTime() - new Date(`${from}T00:00:00Z`).getTime();
+  return Math.round(ms / 86400000) + 1;
+}
+
+export function CampaignDetailStats({ campaignId, dailyTarget, createdAt }: Props) {
   const today = new Date().toISOString().slice(0, 10);
   const [filter, setFilter] = useState<"today" | "all" | "custom">("today");
   const [customDate, setCustomDate] = useState(today);
   const [stats, setStats] = useState<StatsBundle>(EMPTY);
   const [loading, setLoading] = useState(true);
 
-  const date = filter === "today" ? today : filter === "all" ? "all" : customDate;
+  const createdDay = createdAt.slice(0, 10);
+  const from = filter === "today" ? today : filter === "all" ? createdDay : customDate;
+  const to = filter === "today" ? today : filter === "all" ? today : customDate;
+  const days = diffDays(from, to);
 
   useEffect(() => {
     setLoading(true);
-    loadStats(campaignId, date)
+    loadStats(campaignId, from, to)
       .then(setStats)
+      .catch(() => setStats(EMPTY))
       .finally(() => setLoading(false));
-  }, [campaignId, date]);
+  }, [campaignId, from, to]);
 
-  const total = stats.wrong + stats.valid;
-  const wrongRate = total > 0 ? (stats.wrong / total) * 100 : 0;
-  const progress = dailyTarget > 0 ? Math.min(100, Math.round((stats.completed / dailyTarget) * 100)) : 0;
+  const periodTarget = dailyTarget * days;
+  const missing = periodTarget > 0 ? Math.max(0, periodTarget - stats.completed) : 0;
+  const passTotal = stats.wrong + stats.valid;
+  const wrongRate = passTotal > 0 ? (stats.wrong / passTotal) * 100 : 0;
+  const progress = periodTarget > 0 ? Math.min(100, Math.round((stats.completed / periodTarget) * 100)) : 0;
 
   return (
     <section className="glass-card p-4 sm:p-5">
@@ -72,7 +79,7 @@ export function CampaignDetailStats({ campaignId, dailyTarget }: Props) {
         <StatCard
           icon={<Activity className="size-4" />}
           label="Mục tiêu"
-          value={dailyTarget}
+          value={periodTarget}
           meta={`${progress}% tiến độ`}
           tone="brand"
           loading={loading}
@@ -88,8 +95,8 @@ export function CampaignDetailStats({ campaignId, dailyTarget }: Props) {
         <StatCard
           icon={<AlertTriangle className="size-4" />}
           label="Còn thiếu"
-          value={stats.missing}
-          meta="user/ngày"
+          value={missing}
+          meta={days > 1 ? `user (${days} ngày)` : "user/ngày"}
           tone="warning"
           loading={loading}
         />

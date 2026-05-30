@@ -91,7 +91,7 @@ export function CategoryTable({
           <thead>
             <tr className="border-b border-border text-left text-xs uppercase tracking-[0.12em] text-muted-foreground">
               <HeaderCell className="w-12">#</HeaderCell>
-              <HeaderCell className="w-72">Danh mục (Website)</HeaderCell>
+              <HeaderCell className="w-72">Danh mục</HeaderCell>
               {mode === "child" && <HeaderCell className="w-44">Danh mục cha</HeaderCell>}
               {mode === "parent" && <HeaderCell className="w-28 text-center">Số DM con</HeaderCell>}
               <HeaderCell className="w-32 text-center">Số chiến dịch</HeaderCell>

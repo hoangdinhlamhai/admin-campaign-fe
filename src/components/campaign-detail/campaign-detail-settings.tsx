@@ -1,8 +1,7 @@
 import { Check, X } from "lucide-react";
 
 type SettingsShape = {
-  notifyLowUsers?: boolean;
-  lowUsersThreshold?: number | null;
+  notifyTargetReached?: boolean;
   notifyCampaignPaused?: boolean;
   autoReactivateNextDay?: boolean;
   limitWrongPass?: boolean;
@@ -21,9 +20,8 @@ export function CampaignDetailSettings({ settings }: Props) {
       <h3 className="mb-4 text-lg font-semibold text-foreground">Cài đặt nâng cao</h3>
       <ul className="space-y-3 text-sm">
         <Toggle
-          enabled={Boolean(s.notifyLowUsers)}
-          label="Cảnh báo khi user/ngày thấp"
-          meta={s.lowUsersThreshold ? `Ngưỡng: ${s.lowUsersThreshold}` : undefined}
+          enabled={Boolean(s.notifyTargetReached)}
+          label="Khi chiến dịch đạt target trong ngày thì tạm dừng"
         />
         <Toggle enabled={Boolean(s.notifyCampaignPaused)} label="Cảnh báo khi chiến dịch tạm dừng" />
         <Toggle enabled={Boolean(s.autoReactivateNextDay)} label="Tự kích hoạt lại ngày hôm sau" />

@@ -25,7 +25,7 @@ export function DashboardHeader({ dateRange, onDateRangeChange }: DashboardHeade
   const { isAdmin } = useAuth();
 
   return (
-    <header className="glass-card mb-5 flex flex-col gap-4 p-4 sm:p-5 xl:flex-row xl:items-center xl:justify-between">
+    <header className="glass-card relative z-30 mb-5 flex flex-col gap-4 p-4 sm:p-5 xl:flex-row xl:items-center xl:justify-between">
       <div className="min-w-0">
         <div className="mb-2 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
           <span className="font-medium text-brand">Chiến dịch</span>

@@ -18,6 +18,7 @@ import { useParentCategoriesApi } from "@/components/campaign-categories/use-par
 import { useChildCategoriesApi } from "@/components/campaign-categories/use-child-categories-api";
 import { Tooltip } from "@/components/common/tooltip";
 import { AssigneeCell } from "@/components/common/assignee-cell";
+import { RefreshButton } from "@/components/common/refresh-button";
 import { exportCampaignsCsv } from "./export-campaigns-csv";
 
 type CampaignTableProps = {
@@ -30,6 +31,8 @@ type CampaignTableProps = {
   onViewDetail: (id: string) => void;
   dateFrom: string;
   dateTo: string;
+  onRefresh: () => void;
+  refreshing?: boolean;
 };
 
 const STATUS_LABELS: Record<CampaignStatus, string> = {
@@ -67,6 +70,8 @@ export function CampaignTable({
   onViewDetail,
   dateFrom,
   dateTo,
+  onRefresh,
+  refreshing,
 }: CampaignTableProps) {
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | CampaignStatus>("all");
@@ -115,6 +120,7 @@ export function CampaignTable({
               Lịch sử hoạt động
             </button> */}
           </div>
+          <RefreshButton onRefresh={onRefresh} loading={refreshing} />
         </div>
 
         {activeTab === "campaigns" && (
