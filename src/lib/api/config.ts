@@ -1,6 +1,9 @@
 import { getToken, clearAuth } from "@/lib/auth/auth-storage";
 
-export const API_BASE_URL = "http://localhost:8787";
+// Base URL is injected at build time via Vite env.
+// Local dev: defaults to http://localhost:8787 (no .env needed).
+// Production: set VITE_API_URL in `.env.production` before `pnpm build`.
+export const API_BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8787";
 
 export async function apiFetch<T>(
   path: string,

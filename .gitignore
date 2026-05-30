@@ -15,6 +15,12 @@ dist-ssr
 .next/
 next-env.d.ts
 
+# Local env files (build-time injection — keep .env.example in repo)
+.env
+.env.local
+.env.production
+.env.development
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
