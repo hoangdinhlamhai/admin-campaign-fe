@@ -36,14 +36,14 @@ export function CampaignBasicForm({ categories, form, onChange, onGeneratePass, 
           </select>
         </label>
 
-        <div className="block">
+        <div className="flex flex-col">
           <span className="text-sm font-medium text-foreground">Trạng thái</span>
           <button
             className="mt-2 inline-flex h-11 items-center gap-3 rounded-xl border border-border bg-background px-3 text-sm font-semibold text-foreground"
             onClick={() => onChange({ ...form, active: !form.active })}
             type="button"
           >
-            <span className={`relative h-6 w-11 rounded-full transition ${form.active ? "bg-brand" : "bg-surface-2"}`}>
+            <span className={`relative h-6 w-11 shrink-0 rounded-full transition ${form.active ? "bg-brand" : "bg-surface-2"}`}>
               <span className={`absolute top-1 size-4 rounded-full bg-white transition ${form.active ? "left-6" : "left-1"}`} />
             </span>
             {form.active ? "Hoạt động" : "Tạm dừng"}
